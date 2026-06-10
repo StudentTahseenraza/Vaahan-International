@@ -1,5 +1,4 @@
-// src/components/FeatureCard.jsx
-import React from 'react'
+
 import { motion } from 'framer-motion'
 
 const FeatureCard = ({ icon, title, value, delay = 0 }) => {

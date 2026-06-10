@@ -1,3 +1,4 @@
+// src/components/Navbar.jsx (with Image Logo - Professional)
 import { useState, useEffect } from 'react'
 import { Link, NavLink, useLocation } from 'react-router-dom'
 import { motion } from 'framer-motion'
@@ -29,26 +30,25 @@ const Navbar = () => {
   return (
     <nav
       className={`fixed top-0 w-full z-50 transition-all duration-300 ${
-        isScrolled ? 'bg-white shadow-lg py-2' : 'bg-white/95 backdrop-blur-sm py-4'
+        isScrolled ? 'bg-white shadow-md py-2' : 'bg-white py-3'
       }`}
     >
-      <div className="container-custom">
+      <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-7xl">
         <div className="flex justify-between items-center">
-          {/* Logo */}
-          <Link to="/" className="flex items-center space-x-2">
-            <motion.div
-              initial={{ rotate: -10, scale: 0.9 }}
-              animate={{ rotate: 0, scale: 1 }}
-              transition={{ duration: 0.5 }}
-              className="text-3xl"
-            >
-              🚗
-            </motion.div>
-            <div>
-              <span className="text-xl font-bold text-gradient">Vaahan</span>
-              <span className="text-xl font-bold text-dark"> International</span>
-            </div>
-          </Link>
+          {/* Logo with better visibility */}
+<Link to="/" className="flex items-center group">
+  <div className="flex items-center space-x-2">
+    <img 
+      src="/Vaahan_International_Logo.jpg" 
+      alt="Vaahan International"
+      className="h-12 md:h-14 w-auto object-contain"
+      style={{ 
+        filter: 'drop-shadow(0 2px 4px rgba(0,0,0,0.1))',
+        backgroundColor: 'transparent'
+      }}
+    />
+  </div>
+</Link>
 
           {/* Desktop Navigation */}
           <div className="hidden md:flex items-center space-x-8">
@@ -59,15 +59,18 @@ const Navbar = () => {
                 className={({ isActive }) =>
                   `font-medium transition-colors duration-200 ${
                     isActive
-                      ? 'text-primary-600 border-b-2 border-primary-600'
-                      : 'text-dark-600 hover:text-primary-600'
+                      ? 'text-orange-500'
+                      : 'text-gray-700 hover:text-orange-500'
                   }`
                 }
               >
                 {link.name}
               </NavLink>
             ))}
-            <Link to="/contact" className="btn-primary text-sm py-2 px-5">
+            <Link 
+              to="/contact" 
+              className="bg-orange-500 hover:bg-orange-600 text-white font-semibold py-2.5 px-6 rounded-lg transition-all duration-300 transform hover:scale-105 shadow-md hover:shadow-lg"
+            >
               Get Started
             </Link>
           </div>
@@ -80,17 +83,17 @@ const Navbar = () => {
           >
             <div className="w-6 h-5 flex flex-col justify-between">
               <span
-                className={`w-full h-0.5 bg-dark-800 transition-all duration-300 ${
+                className={`w-full h-0.5 bg-gray-800 transition-all duration-300 ${
                   isOpen ? 'rotate-45 translate-y-2' : ''
                 }`}
               ></span>
               <span
-                className={`w-full h-0.5 bg-dark-800 transition-all duration-300 ${
+                className={`w-full h-0.5 bg-gray-800 transition-all duration-300 ${
                   isOpen ? 'opacity-0' : ''
                 }`}
               ></span>
               <span
-                className={`w-full h-0.5 bg-dark-800 transition-all duration-300 ${
+                className={`w-full h-0.5 bg-gray-800 transition-all duration-300 ${
                   isOpen ? '-rotate-45 -translate-y-2' : ''
                 }`}
               ></span>
@@ -112,14 +115,17 @@ const Navbar = () => {
                 to={link.path}
                 className={({ isActive }) =>
                   `block py-2 font-medium transition-colors ${
-                    isActive ? 'text-primary-600' : 'text-dark-600 hover:text-primary-600'
+                    isActive ? 'text-orange-500' : 'text-gray-700 hover:text-orange-500'
                   }`
                 }
               >
                 {link.name}
               </NavLink>
             ))}
-            <Link to="/contact" className="btn-primary block text-center text-sm py-2">
+            <Link 
+              to="/contact" 
+              className="bg-orange-500 hover:bg-orange-600 text-white font-semibold py-2.5 px-6 rounded-lg block text-center"
+            >
               Get Started
             </Link>
           </div>
