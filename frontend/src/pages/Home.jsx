@@ -35,66 +35,66 @@ class HomePage extends BasePage {
   }
 
   // Hero Section Component (Inline)
-  renderHero() {
-    return (
-        <section className="relative min-h-[85vh] flex items-center overflow-hidden pt-0 mt-0">
-        <div className="absolute inset-0 w-full h-full z-0">
-          <video
-            autoPlay
-            loop
-            muted
-            playsInline
-            className="w-full h-full object-cover"
-            style={{
-              position: 'absolute',
-              top: '50%',
-              left: '50%',
-              transform: 'translate(-50%, -50%)',
-              minWidth: '100%',
-              minHeight: '100%',
-            }}
-          >
-            <source src="/car_Video1.mp4" type="video/mp4" />
-          </video>
-        </div>
-        
-        <div className="absolute inset-0 bg-black/50 z-0"></div>
+renderHero() {
+  return (
+    <section className="relative min-h-[85vh] flex items-center overflow-hidden pt-18 sm:pt-20 md:pt-24 lg:pt-28">
+      <div className="absolute inset-0 w-full h-full z-0">
+        <video
+          autoPlay
+          loop
+          muted
+          playsInline
+          className="w-full h-full object-cover"
+          style={{
+            position: 'absolute',
+            top: '50%',
+            left: '50%',
+            transform: 'translate(-50%, -50%)',
+            minWidth: '100%',
+            minHeight: '100%',
+          }}
+        >
+          <source src="/car_Video1.mp4" type="video/mp4" />
+        </video>
+      </div>
+      
+      <div className="absolute inset-0 bg-black/50 z-0"></div>
 
-        <div className="container-custom relative z-10 py-20">
-          <div className="max-w-2xl">
-            <motion.div initial={{ opacity: 0, x: -30 }} animate={{ opacity: 1, x: 0 }} transition={{ duration: 0.6, ease: 'easeOut' }}>
-              <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.2, duration: 0.5 }} className="inline-block px-4 py-1.5 bg-yellow-500 rounded-full text-gray-900 text-sm font-semibold mb-6">
-                🚗 Trusted by 10,000+ Indian Car Buyers
-              </motion.div>
-              <motion.h1 initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.3, duration: 0.5 }} className="text-4xl sm:text-5xl lg:text-6xl font-bold leading-tight mb-6 text-white">
-                Modern Car Features{' '}
-                <span className="bg-gradient-to-r from-yellow-400 to-orange-500 bg-clip-text text-transparent">Explained Simply</span>
-              </motion.h1>
-              <motion.p initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.4, duration: 0.5 }} className="text-xl text-gray-200 mb-4">
-                Helping Indian car buyers understand automotive technology before making a purchase decision.
-              </motion.p>
-              <motion.p initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.5, duration: 0.5 }} className="text-gray-300 mb-8">
-                From safety features like ABS and Airbags to advanced technologies such as ADAS, Connected Cars, and Electric Vehicles, Vaahan International simplifies complex automotive concepts into easy-to-understand guides.
-              </motion.p>
-              <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.6, duration: 0.5 }} className="flex flex-wrap gap-4">
-                <Link to="/articles" className="bg-gradient-to-r from-yellow-500 to-orange-500 hover:from-yellow-600 hover:to-orange-600 text-white font-semibold py-3 px-8 rounded-lg transition-all duration-300 transform hover:scale-105 shadow-lg">
-                  Browse Articles →
-                </Link>
-                <Link to="/about" className="bg-white text-gray-800 hover:bg-gray-100 font-semibold py-3 px-8 rounded-lg transition-all duration-300 transform hover:scale-105 shadow-lg border border-gray-200">
-                  Learn More
-                </Link>
-              </motion.div>
-              <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.7, duration: 0.5 }} className="flex flex-wrap gap-8 mt-12 pt-8 border-t border-white/20">
-                <div><div className="text-3xl font-bold text-yellow-400">100+</div><div className="text-gray-300 text-sm">Articles</div></div>
-                <div><div className="text-3xl font-bold text-yellow-400">10K+</div><div className="text-gray-300 text-sm">Readers</div></div>
-                <div><div className="text-3xl font-bold text-yellow-400">4+</div><div className="text-gray-300 text-sm">Categories</div></div>
-              </motion.div>
+      <div className="container-custom relative z-10 py-10 sm:py-16 md:py-20">
+        <div className="max-w-2xl">
+          <motion.div initial={{ opacity: 0, x: -30 }} animate={{ opacity: 1, x: 0 }} transition={{ duration: 0.6, ease: 'easeOut' }}>
+            <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.2, duration: 0.5 }} className="inline-block px-4 py-1.5 bg-yellow-500 rounded-full text-gray-900 text-sm font-semibold mb-6">
+              🚗 Trusted by 10,000+ Indian Car Buyers
             </motion.div>
-          </div>
+            <motion.h1 initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.3, duration: 0.5 }} className="text-4xl sm:text-5xl lg:text-6xl font-bold leading-tight mb-6 text-white">
+              Modern Car Features{' '}
+              <span className="bg-gradient-to-r from-yellow-400 to-orange-500 bg-clip-text text-transparent">Explained Simply</span>
+            </motion.h1>
+            <motion.p initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.4, duration: 0.5 }} className="text-xl text-gray-200 mb-4">
+              Helping Indian car buyers understand automotive technology before making a purchase decision.
+            </motion.p>
+            <motion.p initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.5, duration: 0.5 }} className="text-gray-300 mb-8">
+              From safety features like ABS and Airbags to advanced technologies such as ADAS, Connected Cars, and Electric Vehicles, Vaahan International simplifies complex automotive concepts into easy-to-understand guides.
+            </motion.p>
+            <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.6, duration: 0.5 }} className="flex flex-wrap gap-4">
+              <Link to="/articles" className="bg-gradient-to-r from-yellow-500 to-orange-500 hover:from-yellow-600 hover:to-orange-600 text-white font-semibold py-3 px-8 rounded-lg transition-all duration-300 transform hover:scale-105 shadow-lg">
+                Browse Articles →
+              </Link>
+              <Link to="/about" className="bg-white text-gray-800 hover:bg-gray-100 font-semibold py-3 px-8 rounded-lg transition-all duration-300 transform hover:scale-105 shadow-lg border border-gray-200">
+                Learn More
+              </Link>
+            </motion.div>
+            <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.7, duration: 0.5 }} className="flex flex-wrap gap-8 mt-12 pt-8 border-t border-white/20">
+              <div><div className="text-3xl font-bold text-yellow-400">100+</div><div className="text-gray-300 text-sm">Articles</div></div>
+              <div><div className="text-3xl font-bold text-yellow-400">10K+</div><div className="text-gray-300 text-sm">Readers</div></div>
+              <div><div className="text-3xl font-bold text-yellow-400">4+</div><div className="text-gray-300 text-sm">Categories</div></div>
+            </motion.div>
+          </motion.div>
         </div>
-      </section>
-    )
-  }
+      </div>
+    </section>
+  )
+}
 
   // Search Section - Professional placement like CarDekho/ZigWheels
   renderSearchSection() {
@@ -118,10 +118,10 @@ class HomePage extends BasePage {
                 </p>
               </motion.div>
             </div>
-            
+
             <SearchBar />
-            
-            <motion.div 
+
+            <motion.div
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5, delay: 0.2 }}
@@ -129,7 +129,7 @@ class HomePage extends BasePage {
               className="flex flex-wrap justify-center gap-2 mt-5"
             >
               <span className="text-xs text-gray-400">Popular searches:</span>
-              <button 
+              <button
                 onClick={() => {
                   const searchInput = document.querySelector('input[placeholder*="Search automotive"]')
                   if (searchInput) {
@@ -142,7 +142,7 @@ class HomePage extends BasePage {
                 #AWD vs FWD
               </button>
               <span className="text-gray-300">•</span>
-              <button 
+              <button
                 onClick={() => {
                   const searchInput = document.querySelector('input[placeholder*="Search automotive"]')
                   if (searchInput) {
@@ -155,7 +155,7 @@ class HomePage extends BasePage {
                 #ADAS
               </button>
               <span className="text-gray-300">•</span>
-              <button 
+              <button
                 onClick={() => {
                   const searchInput = document.querySelector('input[placeholder*="Search automotive"]')
                   if (searchInput) {
@@ -168,7 +168,7 @@ class HomePage extends BasePage {
                 #Spiti Winter
               </button>
               <span className="text-gray-300">•</span>
-              <button 
+              <button
                 onClick={() => {
                   const searchInput = document.querySelector('input[placeholder*="Search automotive"]')
                   if (searchInput) {
@@ -181,7 +181,7 @@ class HomePage extends BasePage {
                 #Best Tyres
               </button>
               <span className="text-gray-300">•</span>
-              <button 
+              <button
                 onClick={() => {
                   const searchInput = document.querySelector('input[placeholder*="Search automotive"]')
                   if (searchInput) {
@@ -244,7 +244,7 @@ class HomePage extends BasePage {
     const categories = [
       { title: 'Safety Features', description: 'Modern vehicles come equipped with advanced safety systems that protect passengers.', image: 'https://images.unsplash.com/photo-1625047509168-a7026f36de04?w=600&h=400&fit=crop', stats: ['ABS', 'Airbags', 'ESC', 'Traction Control'], link: '/category#safety' },
       { title: 'ADAS Technology', description: 'Advanced Driver Assistance Systems are revolutionizing how we drive.', image: 'https://images.unsplash.com/photo-1603584173870-7f23fdae1b7a?w=600&h=400&fit=crop', stats: ['Lane Assist', 'Adaptive Cruise', 'Auto Braking'], link: '/category#adas' },
-      { title: 'Connected Cars', description: 'Your vehicle is now smarter than ever with real-time connectivity.', image: 'https://images.unsplash.com/photo-1550989460-0adf9ea622e2?w=600&h=400&fit=crop', stats: ['Remote Start', 'GPS Tracking', 'Mobile Apps'], link: '/category#connected' },
+      { title: 'Connected Cars', description: 'Your vehicle is now smarter than ever with real-time connectivity.', image: 'https://s19538.pcdn.co/wp-content/uploads/2024/01/connected-vehicles.jpg', stats: ['Remote Start', 'GPS Tracking', 'Mobile Apps'], link: '/category#connected' },
       { title: 'Electric Vehicles', description: 'The future of mobility is electric. Understand battery tech and charging.', image: 'https://images.unsplash.com/photo-1593941707882-a5bba14938c7?w=600&h=400&fit=crop', stats: ['Battery Tech', 'Fast Charging', 'Range'], link: '/category#ev' }
     ]
 
@@ -258,7 +258,7 @@ class HomePage extends BasePage {
     return (
       <>
         {this.renderHero()}
-        
+
         {/* Stats Section */}
         <section className="relative -mt-16 pb-20">
           <div className="container-custom">
@@ -341,7 +341,7 @@ class HomePage extends BasePage {
                   { quote: "As a first-time car buyer, I was overwhelmed by all the technical jargon. Vaahan made it clear.", name: "Amit Sharma", role: "First Time Buyer" }
                 ].map((testimonial, idx) => (
                   <motion.div key={idx} variants={this.scaleUp} initial="hidden" whileInView="visible" viewport={{ once: true }} transition={{ delay: idx * 0.1 }} className="bg-white rounded-xl p-6 text-left border border-gray-100 shadow-md">
-                    <div className="flex text-yellow-400 mb-4">{[...Array(5)].map((_, i) => (<svg key={i} className="w-5 h-5 fill-current" viewBox="0 0 24 24"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>))}</div>
+                    <div className="flex text-yellow-400 mb-4">{[...Array(5)].map((_, i) => (<svg key={i} className="w-5 h-5 fill-current" viewBox="0 0 24 24"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z" /></svg>))}</div>
                     <p className="text-gray-600 italic mb-4 leading-relaxed">"{testimonial.quote}"</p>
                     <div><p className="font-semibold text-gray-900">{testimonial.name}</p><p className="text-gray-400 text-sm">{testimonial.role}</p></div>
                   </motion.div>

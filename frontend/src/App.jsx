@@ -4,7 +4,7 @@
 File Name : App.jsx
 Author : Tahseen Raza
 Created Date : 2025-01-15
-Description : Main application component with scroll to top functionality
+Description : Main application component
 Company : Vaahan International
 Copyright : (c) 2025 Vaahan International. All rights reserved.
 ================================================================================
@@ -17,19 +17,16 @@ import About from './pages/About'
 import Contact from './pages/Contact'
 import Articles from './pages/Articles'
 import ArticleDetail from './pages/ArticleDetail'
+import CompareCars from './pages/CompareCars'
 import CommonHeader from './components/CommonHeader'
 import CommonFooter from './components/CommonFooter'
 
-// ScrollToTop component - resets scroll position on route change
-function ScrollToTop() {
+// ScrollToTop component
+const ScrollToTop = () => {
   const { pathname } = useLocation()
 
   useEffect(() => {
-    window.scrollTo({
-      top: 0,
-      left: 0,
-      behavior: 'instant' // Use 'smooth' for smooth scrolling, 'instant' for immediate
-    })
+    window.scrollTo({ top: 0, left: 0, behavior: 'instant' })
   }, [pathname])
 
   return null
@@ -48,6 +45,7 @@ function App() {
             <Route path="/contact" element={<Contact />} />
             <Route path="/articles" element={<Articles />} />
             <Route path="/article/:slug" element={<ArticleDetail />} />
+            <Route path="/compare-cars" element={<CompareCars />} />
           </Routes>
         </main>
         <CommonFooter />

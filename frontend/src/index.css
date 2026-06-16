@@ -160,3 +160,28 @@ html {
 .prose {
   max-width: 100%;
 }
+
+/* src/index.css - Add these styles */
+
+/* Fix for fixed header */
+.fixed {
+  position: fixed;
+}
+
+/* Ensure main content starts below header */
+main {
+  margin-top: 0;
+  padding-top: 0;
+}
+
+/* For mobile devices */
+@media (max-width: 768px) {
+  main {
+    margin-top: 0;
+  }
+}
+
+/* Hero section should start from top */
+section.relative.min-h-screen {
+  margin-top: 0;
+}
