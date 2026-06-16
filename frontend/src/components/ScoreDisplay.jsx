@@ -4,7 +4,7 @@
 File Name : ScoreDisplay.jsx
 Author : Tahseen Raza
 Created Date : 2025-01-16
-Description : Professional score display component for car comparison
+Description : Professional score display component showing user-friendly ratings
 Company : Vaahan International
 Copyright : (c) 2026 Vaahan International. All rights reserved.
 ================================================================================
@@ -12,26 +12,17 @@ Copyright : (c) 2026 Vaahan International. All rights reserved.
 
 import { motion } from 'framer-motion'
 
-const ScoreDisplay = ({ scores, carName }) => {
-  // Debug: Log what we're receiving
-  console.log('ScoreDisplay received:', { 
-    scores, 
-    carName, 
-    scoresType: typeof scores,
-    scoresKeys: scores ? Object.keys(scores) : 'no scores'
-  })
-
+const ScoreDisplay = ({ scores, carName, overallScore }) => {
   // If scores is undefined or null, show placeholder
   if (!scores || typeof scores !== 'object') {
     return (
       <div className="bg-white rounded-xl shadow-lg overflow-hidden">
         <div className="bg-gradient-to-r from-gray-800 to-gray-900 px-6 py-4">
-          <h3 className="text-xl font-bold text-white">{carName || 'Car'} - Real-World Scores</h3>
+          <h3 className="text-xl font-bold text-white">{carName || 'Car'} - Ratings</h3>
         </div>
         <div className="p-6 text-center">
           <div className="text-gray-400 text-lg mb-2">📊</div>
-          <p className="text-gray-500">Score data not available for this variant</p>
-          <p className="text-xs text-gray-400 mt-2">Please select a different variant</p>
+          <p className="text-gray-500">Rating data not available for this variant</p>
         </div>
       </div>
     )
@@ -44,28 +35,28 @@ const ScoreDisplay = ({ scores, carName }) => {
     return (
       <div className="bg-white rounded-xl shadow-lg overflow-hidden">
         <div className="bg-gradient-to-r from-gray-800 to-gray-900 px-6 py-4">
-          <h3 className="text-xl font-bold text-white">{carName || 'Car'} - Real-World Scores</h3>
+          <h3 className="text-xl font-bold text-white">{carName || 'Car'} - Ratings</h3>
         </div>
         <div className="p-6 text-center">
           <div className="text-gray-400 text-lg mb-2">📊</div>
-          <p className="text-gray-500">Score data not available for this variant</p>
-          <p className="text-xs text-gray-400 mt-2">Please select a different variant</p>
-          <p className="text-xs text-gray-300 mt-2">Available scores: {Object.keys(scores).join(', ')}</p>
+          <p className="text-gray-500">Rating data not available for this variant</p>
         </div>
       </div>
     )
   }
 
   const scoreCategories = [
-    { key: 'highway', label: 'Highway', icon: '🛣️', description: 'Long-distance highway comfort' },
-    { key: 'city', label: 'City', icon: '🏙️', description: 'Urban driving ease' },
-    { key: 'mountains', label: 'Mountains', icon: '⛰️', description: 'Hill road performance' },
-    { key: 'family', label: 'Family', icon: '👨‍👩‍👧‍👦', description: 'Family-friendly comfort' },
-    { key: 'features', label: 'Features', icon: '🎯', description: 'Technology & convenience' },
-    { key: 'safety', label: 'Safety', icon: '🛡️', description: 'Protection & assistance' },
-    { key: 'comfort', label: 'Comfort', icon: '🛋️', description: 'Ride & passenger comfort' },
-    { key: 'ownership', label: 'Ownership', icon: '🔧', description: 'Long-term ownership' },
-    { key: 'valueForMoney', label: 'Value for Money', icon: '💰', description: 'Value proposition' }
+    { key: 'safetyScore', label: 'Safety', icon: '🛡️', description: 'Protection & assistance systems' },
+    { key: 'performanceScore', label: 'Performance', icon: '⚡', description: 'Engine & driving dynamics' },
+    { key: 'drivingExperienceScore', label: 'Driving Experience', icon: '🚗', description: 'Overall driving feel' },
+    { key: 'suspensionScore', label: 'Suspension', icon: '🔧', description: 'Ride quality & handling' },
+    { key: 'comfortScore', label: 'Comfort', icon: '🛋️', description: 'Passenger comfort & ride' },
+    { key: 'featuresScore', label: 'Features', icon: '🎯', description: 'Technology & convenience' },
+    { key: 'valueForMoneyScore', label: 'Value for Money', icon: '💰', description: 'Price vs features' },
+    { key: 'cityDrivingScore', label: 'City Driving', icon: '🏙️', description: 'Urban driving ease' },
+    { key: 'highwayDrivingScore', label: 'Highway Driving', icon: '🛣️', description: 'Highway comfort' },
+    { key: 'familyScore', label: 'Family', icon: '👨‍👩‍👧‍👦', description: 'Family-friendly features' },
+    { key: 'maintenanceScore', label: 'Maintenance', icon: '🔧', description: 'Service & reliability' }
   ]
 
   const getScoreColor = (score) => {
@@ -79,29 +70,24 @@ const ScoreDisplay = ({ scores, carName }) => {
   return (
     <div className="bg-white rounded-xl shadow-lg overflow-hidden">
       <div className="bg-gradient-to-r from-gray-800 to-gray-900 px-6 py-4">
-        <h3 className="text-xl font-bold text-white">{carName || 'Car'} - Real-World Scores</h3>
-        <p className="text-gray-400 text-sm">Based on expert evaluation and real-world testing</p>
+        <div className="flex justify-between items-center">
+          <div>
+            <h3 className="text-xl font-bold text-white">{carName || 'Car'} - Ratings</h3>
+            <p className="text-gray-400 text-sm">Based on expert evaluation</p>
+          </div>
+          {overallScore && (
+            <div className="text-center bg-yellow-500/20 px-4 py-2 rounded-lg">
+              <span className="text-sm text-gray-300">Overall</span>
+              <div className="text-2xl font-bold text-yellow-400">{overallScore.toFixed(1)}</div>
+            </div>
+          )}
+        </div>
       </div>
       <div className="p-6">
         <div className="space-y-4">
           {scoreCategories.map((category, idx) => {
-            // Try to get score from various possible locations
             let score = scores[category.key]
             
-            // If score is undefined, try alternative key names
-            if (score === undefined || score === null) {
-              // Try with different casing
-              const altKey = category.key.charAt(0).toUpperCase() + category.key.slice(1)
-              score = scores[altKey]
-            }
-            
-            // If still undefined, try with spaces
-            if (score === undefined || score === null) {
-              const spacedKey = category.key.replace(/([A-Z])/g, ' $1').trim()
-              score = scores[spacedKey]
-            }
-            
-            // If score is not a number, show N/A
             if (typeof score !== 'number' || isNaN(score)) {
               return (
                 <div key={category.key} className="group hover:bg-gray-50 rounded-lg p-3 transition-colors">
@@ -162,7 +148,7 @@ const ScoreDisplay = ({ scores, carName }) => {
         </div>
         
         <div className="mt-6 p-4 bg-gray-50 rounded-lg border border-gray-200">
-          <h4 className="font-semibold text-gray-800 mb-2">Score Guide</h4>
+          <h4 className="font-semibold text-gray-800 mb-2">Rating Guide</h4>
           <div className="grid grid-cols-2 md:grid-cols-3 gap-2 text-xs">
             <div className="flex items-center gap-2">
               <div className="w-3 h-3 bg-green-500 rounded-full"></div>

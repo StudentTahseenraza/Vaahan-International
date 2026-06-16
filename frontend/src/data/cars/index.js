@@ -1,14 +1,4 @@
-// src/data/cars/index.js
-/*
-================================================================================
-File Name : index.js
-Author : Tahseen Raza
-Created Date : 2025-01-16
-Description : Central car data loader - imports all brand-specific JSON files
-Company : Vaahan International
-Copyright : (c) 2025 Vaahan International. All rights reserved.
-================================================================================
-*/
+// src/data/cars/index.js - Updated to include factorScores
 
 import hyundaiData from './hyundai.json'
 import kiaData from './kia.json'
@@ -33,7 +23,9 @@ export const getAllCars = () => {
           slug: model.slug,
           image: model.image,
           price: variant.price,
-          comparisonData: variant.comparisonData
+          overallScore: variant.overallScore || 0,
+          scores: variant.scores || null,
+          factorScores: variant.factorScores || null // <- ADD THIS
         })
       })
     })
@@ -62,7 +54,9 @@ export const getVariantsByBrandAndModel = (brandName, modelName) => {
   return model.variants.map(variant => ({
     name: variant.name,
     price: variant.price,
-    comparisonData: variant.comparisonData
+    overallScore: variant.overallScore || 0,
+    scores: variant.scores || null,
+    factorScores: variant.factorScores || null // <- ADD THIS
   }))
 }
 
@@ -83,11 +77,13 @@ export const getCarByBrandModelVariant = (brandName, modelName, variantName) => 
     slug: model.slug,
     image: model.image,
     price: variant.price,
-    comparisonData: variant.comparisonData
+    overallScore: variant.overallScore || 0,
+    scores: variant.scores || null,
+    factorScores: variant.factorScores || null // <- ADD THIS
   }
 }
 
-// Search cars by brand, model, or variant
+// Search cars
 export const searchCars = (query) => {
   if (!query || query.trim() === '') return []
   const searchTerm = query.toLowerCase().trim()
@@ -99,7 +95,7 @@ export const searchCars = (query) => {
   )
 }
 
-// Get popular comparisons
+// Popular comparisons
 export const popularComparisons = [
   {
     id: 1,

@@ -1,10 +1,10 @@
-// src/pages/CompareCars.jsx
+// src/pages/CompareCars.jsx - Updated with Expandable Detailed Ratings
 /*
 ================================================================================
 File Name : CompareCars.jsx
 Author : Tahseen Raza
 Created Date : 2025-01-16
-Description : Professional car comparison with three-layer selection and scores
+Description : Professional car comparison with expandable detailed ratings
 Company : Vaahan International
 Copyright : (c) 2026 Vaahan International. All rights reserved.
 ================================================================================
@@ -13,15 +13,14 @@ Copyright : (c) 2026 Vaahan International. All rights reserved.
 import { useState } from 'react'
 import { Link } from 'react-router-dom'
 import { motion, AnimatePresence } from 'framer-motion'
-import {
-  getAllBrands,
-  getAllCars,
-  getModelsByBrand,
+import { 
+  getAllBrands, 
+  getModelsByBrand, 
   getVariantsByBrandAndModel,
   getCarByBrandModelVariant,
-  popularComparisons
+  popularComparisons,
+  getAllCars 
 } from '../data/cars/index'
-import ScoreDisplay from '../components/ScoreDisplay'
 
 const CompareCars = () => {
   // Car selection state - Three layer
@@ -31,20 +30,29 @@ const CompareCars = () => {
   const [brand2, setBrand2] = useState('')
   const [model2, setModel2] = useState('')
   const [variant2, setVariant2] = useState('')
-
+  
   const [car1Id, setCar1Id] = useState(null)
   const [car2Id, setCar2Id] = useState(null)
   const [showComparison, setShowComparison] = useState(false)
   const [showLoadingModal, setShowLoadingModal] = useState(false)
   const [isLoading, setIsLoading] = useState(false)
   const [highlightDifferences, setHighlightDifferences] = useState(true)
-  const [activeSection, setActiveSection] = useState('basic')
+  const [activeSection, setActiveSection] = useState('overview')
   const [isComparing, setIsComparing] = useState(false)
-
+  const [expandedCategories, setExpandedCategories] = useState({})
+  
   const brands = getAllBrands()
 
   const car1 = car1Id ? getCarByBrandModelVariant(brand1, model1, variant1) : null
   const car2 = car2Id ? getCarByBrandModelVariant(brand2, model2, variant2) : null
+
+  // Toggle expand/collapse for a category
+  const toggleCategory = (categoryKey) => {
+    setExpandedCategories(prev => ({
+      ...prev,
+      [categoryKey]: !prev[categoryKey]
+    }))
+  }
 
   // Get models for selected brand
   const getModels = (brand) => {
@@ -67,6 +75,7 @@ const CompareCars = () => {
       setCar1Id(null)
       setShowComparison(false)
       setIsComparing(false)
+      setExpandedCategories({})
     } else {
       setBrand2(brand)
       setModel2('')
@@ -74,6 +83,7 @@ const CompareCars = () => {
       setCar2Id(null)
       setShowComparison(false)
       setIsComparing(false)
+      setExpandedCategories({})
     }
   }
 
@@ -85,12 +95,14 @@ const CompareCars = () => {
       setCar1Id(null)
       setShowComparison(false)
       setIsComparing(false)
+      setExpandedCategories({})
     } else {
       setModel2(model)
       setVariant2('')
       setCar2Id(null)
       setShowComparison(false)
       setIsComparing(false)
+      setExpandedCategories({})
     }
   }
 
@@ -103,6 +115,7 @@ const CompareCars = () => {
         setCar1Id(car.id)
         setShowComparison(false)
         setIsComparing(false)
+        setExpandedCategories({})
       }
     } else {
       setVariant2(variant)
@@ -111,6 +124,7 @@ const CompareCars = () => {
         setCar2Id(car.id)
         setShowComparison(false)
         setIsComparing(false)
+        setExpandedCategories({})
       }
     }
   }
@@ -121,7 +135,8 @@ const CompareCars = () => {
       setIsComparing(true)
       setShowLoadingModal(true)
       setIsLoading(true)
-
+      setExpandedCategories({})
+      
       setTimeout(() => {
         setShowComparison(true)
         setIsLoading(false)
@@ -138,11 +153,10 @@ const CompareCars = () => {
 
   // Handle popular comparison click
   const handlePopularCompare = (id1, id2) => {
-    // Find cars by ID
     const allCars = getAllCars()
     const car1Data = allCars.find(c => c.id === id1)
     const car2Data = allCars.find(c => c.id === id2)
-
+    
     if (car1Data && car2Data) {
       setBrand1(car1Data.brand)
       setModel1(car1Data.model)
@@ -155,7 +169,8 @@ const CompareCars = () => {
       setIsComparing(true)
       setShowLoadingModal(true)
       setIsLoading(true)
-
+      setExpandedCategories({})
+      
       setTimeout(() => {
         setShowComparison(true)
         setIsLoading(false)
@@ -184,54 +199,212 @@ const CompareCars = () => {
     setIsComparing(false)
     setShowLoadingModal(false)
     setIsLoading(false)
-    setActiveSection('basic')
+    setActiveSection('overview')
+    setExpandedCategories({})
     window.scrollTo({ top: 0, behavior: 'smooth' })
   }
 
-  // Section tabs configuration
+  // Sections
   const sections = [
-    { id: 'basic', label: 'Basic Information', icon: '📋' },
-    { id: 'engine', label: 'Engine & Performance', icon: '⚡' },
-    { id: 'safety', label: 'Safety Features', icon: '🛡️' },
-    { id: 'features', label: 'Comfort & Features', icon: '🎯' },
-    { id: 'scores', label: 'Scores', icon: '⭐' },
-    { id: 'warranty', label: 'Warranty & Service', icon: '🔧' }
+    { id: 'overview', label: 'Overview', icon: '📊' },
+    { id: 'detailed', label: 'Detailed Ratings', icon: '⭐' }
   ]
 
-  // Get section data
-  const getSectionData = (sectionId) => {
+  // Get score data for table
+  const getScoreData = () => {
     if (!car1 || !car2) return []
+    
+    const scoreCategories = [
+      { key: 'safetyScore', label: 'Safety', icon: '🛡️' },
+      { key: 'performanceScore', label: 'Performance', icon: '⚡' },
+      { key: 'drivingExperienceScore', label: 'Driving Experience', icon: '🚗' },
+      { key: 'suspensionScore', label: 'Suspension', icon: '🔧' },
+      { key: 'comfortScore', label: 'Comfort', icon: '🛋️' },
+      { key: 'featuresScore', label: 'Features', icon: '🎯' },
+      { key: 'valueForMoneyScore', label: 'Value for Money', icon: '💰' },
+      { key: 'cityDrivingScore', label: 'City Driving', icon: '🏙️' },
+      { key: 'highwayDrivingScore', label: 'Highway Driving', icon: '🛣️' },
+      { key: 'familyScore', label: 'Family', icon: '👨‍👩‍👧‍👦' },
+      { key: 'maintenanceScore', label: 'Maintenance', icon: '🔧' }
+    ]
 
-    const sectionMap = {
-      basic: ['engine', 'transmission', 'power', 'torque', 'mileage', 'seating', 'bootSpace', 'fuelType', 'displacement'],
-      engine: ['engine', 'transmission', 'power', 'torque', 'mileage', 'topSpeed', 'acceleration', 'braking', 'turningRadius', 'groundClearance'],
-      safety: ['safety', 'abs', 'esc', 'tractionControl', 'hillAssist', 'rearCamera', 'parkingSensors', 'tyrePressureMonitor', 'isofix', 'adas'],
-      features: ['sunroof', 'infotainment', 'display', 'speakers', 'ac', 'ventilatedSeats', 'poweredSeats', 'cruiseControl', 'pushStart', 'ambientLighting'],
-      scores: ['scores'],
-      warranty: ['warranty', 'extendedWarranty', 'roadsideAssistance']
-    }
+    return scoreCategories.map(cat => ({
+      ...cat,
+      score1: car1.scores?.[cat.key] || null,
+      score2: car2.scores?.[cat.key] || null
+    }))
+  }
 
-    const keys = sectionMap[sectionId] || []
-    if (sectionId === 'scores') {
-      return [
-        {
-          key: 'scores',
-          label: 'Real-World Scores',
-          value1: car1.scores || null,
-          value2: car2.scores || null,
-          isScores: true
-        }
-      ]
-    }
-    return keys
-      .filter(key => car1.comparisonData[key] || car2.comparisonData[key])
-      .map(key => ({
-        key,
-        label: key.replace(/([A-Z])/g, ' $1').trim(),
-        value1: car1.comparisonData[key] || 'N/A',
-        value2: car2.comparisonData[key] || 'N/A',
-        isScores: false
-      }))
+  const scoreData = getScoreData()
+
+  // Get detailed score data with factors
+  const getDetailedScoreData = () => {
+    if (!car1 || !car2) return []
+    
+    const detailedCategories = [
+      {
+        key: 'safetyScore',
+        label: 'Safety',
+        icon: '🛡️',
+        factors: [
+          { name: 'Airbags', key: 'airbags' },
+          { name: 'ADAS Features', key: 'adas' },
+          { name: 'NCAP Rating', key: 'ncapRating' },
+          { name: 'Braking Performance', key: 'braking' },
+          { name: 'Structural Safety', key: 'structuralSafety' }
+        ]
+      },
+      {
+        key: 'performanceScore',
+        label: 'Performance',
+        icon: '⚡',
+        factors: [
+          { name: 'Engine Power', key: 'enginePower' },
+          { name: 'Torque Output', key: 'torque' },
+          { name: 'Acceleration', key: 'acceleration' },
+          { name: 'Highway Performance', key: 'highwayPerformance' },
+          { name: 'Gearbox Response', key: 'gearboxResponse' }
+        ]
+      },
+      {
+        key: 'drivingExperienceScore',
+        label: 'Driving Experience',
+        icon: '🚗',
+        factors: [
+          { name: 'Steering Feedback', key: 'steeringFeedback' },
+          { name: 'Handling', key: 'handling' },
+          { name: 'Stability', key: 'stability' },
+          { name: 'Ride Quality', key: 'rideQuality' },
+          { name: 'Driver Confidence', key: 'driverConfidence' }
+        ]
+      },
+      {
+        key: 'suspensionScore',
+        label: 'Suspension',
+        icon: '🔧',
+        factors: [
+          { name: 'Ride Comfort', key: 'rideComfort' },
+          { name: 'Pothole Absorption', key: 'potholeAbsorption' },
+          { name: 'Highway Stability', key: 'highwayStability' },
+          { name: 'Cornering Support', key: 'corneringSupport' }
+        ]
+      },
+      {
+        key: 'comfortScore',
+        label: 'Comfort',
+        icon: '🛋️',
+        factors: [
+          { name: 'Seat Quality', key: 'seatQuality' },
+          { name: 'Cabin Insulation', key: 'cabinInsulation' },
+          { name: 'AC Effectiveness', key: 'acEffectiveness' },
+          { name: 'Rear Seat Comfort', key: 'rearSeatComfort' },
+          { name: 'Ride Smoothness', key: 'rideSmoothness' }
+        ]
+      },
+      {
+        key: 'featuresScore',
+        label: 'Features',
+        icon: '🎯',
+        factors: [
+          { name: 'Infotainment System', key: 'infotainment' },
+          { name: 'Connected Car', key: 'connectedCar' },
+          { name: 'Panoramic Sunroof', key: 'sunroof' },
+          { name: 'Ventilated Seats', key: 'ventilatedSeats' },
+          { name: 'Ambient Lighting', key: 'ambientLighting' }
+        ]
+      },
+      {
+        key: 'valueForMoneyScore',
+        label: 'Value for Money',
+        icon: '💰',
+        factors: [
+          { name: 'Price vs Features', key: 'priceVsFeatures' },
+          { name: 'Safety Package', key: 'safetyPackage' },
+          { name: 'Performance Value', key: 'performanceValue' },
+          { name: 'Resale Value', key: 'resaleValue' },
+          { name: 'Overall Package', key: 'overallPackage' }
+        ]
+      },
+      {
+        key: 'cityDrivingScore',
+        label: 'City Driving',
+        icon: '🏙️',
+        factors: [
+          { name: 'Steering Responsiveness', key: 'steeringResponsiveness' },
+          { name: 'Turning Radius', key: 'turningRadius' },
+          { name: 'Visibility', key: 'visibility' },
+          { name: 'Ease of Parking', key: 'easeOfParking' },
+          { name: 'Traffic Maneuverability', key: 'trafficManeuverability' }
+        ]
+      },
+      {
+        key: 'highwayDrivingScore',
+        label: 'Highway Driving',
+        icon: '🛣️',
+        factors: [
+          { name: 'High Speed Stability', key: 'highSpeedStability' },
+          { name: 'Cruise Control', key: 'cruiseControl' },
+          { name: 'Overtaking Ability', key: 'overtakingAbility' },
+          { name: 'Fuel Efficiency', key: 'fuelEfficiency' },
+          { name: 'Cabin Noise', key: 'cabinNoise' }
+        ]
+      },
+      {
+        key: 'familyScore',
+        label: 'Family',
+        icon: '👨‍👩‍👧‍👦',
+        factors: [
+          { name: 'Rear Seat Space', key: 'rearSeatSpace' },
+          { name: 'Boot Capacity', key: 'bootCapacity' },
+          { name: 'Child Safety', key: 'childSafety' },
+          { name: 'Ease of Entry', key: 'easeOfEntry' },
+          { name: 'Family Features', key: 'familyFeatures' }
+        ]
+      },
+      {
+        key: 'maintenanceScore',
+        label: 'Maintenance',
+        icon: '🔧',
+        factors: [
+          { name: 'Service Cost', key: 'serviceCost' },
+          { name: 'Spare Parts', key: 'spareParts' },
+          { name: 'Service Network', key: 'serviceNetwork' },
+          { name: 'Reliability', key: 'reliability' },
+          { name: 'Warranty', key: 'warranty' }
+        ]
+      }
+    ]
+
+    return detailedCategories.map(cat => ({
+      ...cat,
+      score1: car1.scores?.[cat.key] || null,
+      score2: car2.scores?.[cat.key] || null,
+      factorScores1: car1.factorScores?.[cat.key] || {},
+      factorScores2: car2.factorScores?.[cat.key] || {},
+      winner: car1.scores?.[cat.key] > car2.scores?.[cat.key] ? 'car1' :
+               car2.scores?.[cat.key] > car1.scores?.[cat.key] ? 'car2' : 'tie'
+    }))
+  }
+
+  const detailedScoreData = getDetailedScoreData()
+
+  // Get color for score
+  const getScoreColor = (score) => {
+    if (score === null || score === undefined) return 'text-gray-400'
+    if (score >= 9) return 'text-green-600'
+    if (score >= 8) return 'text-green-500'
+    if (score >= 7) return 'text-yellow-600'
+    if (score >= 6) return 'text-orange-500'
+    return 'text-red-500'
+  }
+
+  const getScoreBg = (score) => {
+    if (score === null || score === undefined) return 'bg-gray-200'
+    if (score >= 9) return 'bg-green-500'
+    if (score >= 8) return 'bg-green-400'
+    if (score >= 7) return 'bg-yellow-500'
+    if (score >= 6) return 'bg-orange-500'
+    return 'bg-red-500'
   }
 
   // Loading Modal
@@ -266,33 +439,208 @@ const CompareCars = () => {
     )
   }
 
+  // Render expandable detailed rating card
+  const renderDetailedRatingCard = (car, carNumber, scores, factorScores) => {
+    const isCar1 = carNumber === 1
+    const carLabel = `${car.brand} ${car.model}`
+    const carVariant = car.variant
+
+    return (
+      <div className="bg-gray-50 rounded-xl p-6">
+        <div className="flex items-center gap-3 mb-6 pb-4 border-b border-gray-200">
+          <img src={car.image} alt={car.model} className="w-12 h-12 object-cover rounded-lg" />
+          <div>
+            <h3 className="text-xl font-bold text-gray-800">{carLabel}</h3>
+            <p className="text-sm text-gray-500">{carVariant}</p>
+          </div>
+          {car.overallScore && (
+            <div className="ml-auto text-center bg-yellow-500/10 px-3 py-1 rounded-lg">
+              <span className="text-xs text-gray-500">Overall</span>
+              <div className="text-lg font-bold text-yellow-600">{car.overallScore.toFixed(1)}</div>
+            </div>
+          )}
+        </div>
+        
+        <div className="space-y-3">
+          {detailedScoreData.map((item) => {
+            const score = isCar1 ? item.score1 : item.score2
+            const factors = isCar1 ? item.factorScores1 : item.factorScores2
+            const isExpanded = expandedCategories[`${carNumber}-${item.key}`]
+            const isWinner = isCar1 ? item.winner === 'car1' : item.winner === 'car2'
+            
+            return (
+              <div 
+                key={item.key} 
+                className="bg-white rounded-lg border border-gray-200 overflow-hidden shadow-sm hover:shadow-md transition-shadow"
+              >
+                {/* Category Header - Clickable */}
+                <button
+                  onClick={() => toggleCategory(`${carNumber}-${item.key}`)}
+                  className="w-full px-4 py-3 flex items-center justify-between hover:bg-gray-50 transition-colors"
+                >
+                  <div className="flex items-center gap-3">
+                    <span className="text-xl">{item.icon}</span>
+                    <span className="font-semibold text-gray-800">{item.label}</span>
+                    {isWinner && (
+                      <span className="text-yellow-500 text-sm font-bold">🏆 Winner</span>
+                    )}
+                  </div>
+                  <div className="flex items-center gap-3">
+                    <span className={`text-xl font-bold ${getScoreColor(score)}`}>
+                      {score !== null ? score.toFixed(1) : 'N/A'}
+                    </span>
+                    <span className="text-sm text-gray-400">/ 10</span>
+                    <svg 
+                      className={`w-5 h-5 text-gray-400 transition-transform duration-300 ${isExpanded ? 'rotate-180' : ''}`}
+                      fill="none" stroke="currentColor" viewBox="0 0 24 24"
+                    >
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                    </svg>
+                  </div>
+                </button>
+                
+                {/* Expanded Content */}
+                <AnimatePresence>
+                  {isExpanded && (
+                    <motion.div
+                      initial={{ height: 0, opacity: 0 }}
+                      animate={{ height: 'auto', opacity: 1 }}
+                      exit={{ height: 0, opacity: 0 }}
+                      transition={{ duration: 0.3 }}
+                      className="overflow-hidden"
+                    >
+                      <div className="px-4 pb-4 pt-2 border-t border-gray-100">
+                        <div className="mb-3">
+                          <div className="flex items-center justify-between mb-1">
+                            <span className="text-sm font-medium text-gray-600">Overall {item.label} Score</span>
+                            <span className={`text-lg font-bold ${getScoreColor(score)}`}>
+                              {score !== null ? score.toFixed(1) : 'N/A'} / 10
+                            </span>
+                          </div>
+                          <div className="w-full h-2 bg-gray-200 rounded-full overflow-hidden">
+                            <div 
+                              className={`h-full ${getScoreBg(score)} rounded-full transition-all duration-1000`}
+                              style={{ width: score !== null ? `${(score / 10) * 100}%` : '0%' }}
+                            ></div>
+                          </div>
+                        </div>
+                        
+                        <div className="space-y-2">
+                          <p className="text-xs font-medium text-gray-500">Contributing Factors:</p>
+                          {item.factors.map((factor, idx) => {
+                            const factorScore = factors[factor.key] || null
+                            return (
+                              <div key={idx} className="flex items-center justify-between pl-2">
+                                <div className="flex items-center gap-2">
+                                  <span className="text-green-500 text-sm">✓</span>
+                                  <span className="text-sm text-gray-700">{factor.name}</span>
+                                </div>
+                                <div className="flex items-center gap-3">
+                                  <div className="w-32 h-1.5 bg-gray-200 rounded-full overflow-hidden">
+                                    <div 
+                                      className={`h-full ${getScoreBg(factorScore)} rounded-full transition-all duration-1000`}
+                                      style={{ width: factorScore !== null ? `${(factorScore / 10) * 100}%` : '0%' }}
+                                    ></div>
+                                  </div>
+                                  <span className={`text-sm font-semibold ${getScoreColor(factorScore)}`}>
+                                    {factorScore !== null ? factorScore.toFixed(1) : 'N/A'}
+                                  </span>
+                                </div>
+                              </div>
+                            )
+                          })}
+                        </div>
+                      </div>
+                    </motion.div>
+                  )}
+                </AnimatePresence>
+              </div>
+            )
+          })}
+        </div>
+      </div>
+    )
+  }
+
   return (
     <>
-      {/* Hero Section */}
-      <section className="relative pt-32 pb-16 bg-gradient-to-r from-gray-900 to-gray-800 text-white">
-        <div className="container-custom text-center">
-          <motion.h1
-            initial={{ opacity: 0, y: 20 }}
+      {/* Hero Section with Image */}
+      <section className="relative pt-32 pb-20 bg-gradient-to-r from-gray-900 to-gray-800 text-white overflow-hidden">
+        {/* Background Image */}
+        <div className="absolute inset-0 z-0">
+          <img 
+            src="./imageCompare.png"
+            alt="Compare Cars"
+            className="w-full h-full object-cover opacity-30"
+          />
+          <div className="absolute inset-0 bg-gradient-to-r from-gray-900 via-gray-900/80 to-transparent"></div>
+        </div>
+        
+        <div className="container-custom relative z-10">
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5 }}
-            className="text-4xl md:text-5xl font-bold mb-4"
+            transition={{ duration: 0.6 }}
+            className="max-w-3xl"
           >
-            Compare Cars Side by Side
-          </motion.h1>
-          <motion.p
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: 0.1 }}
-            className="text-xl text-gray-300 max-w-2xl mx-auto"
-          >
-            Select Brand → Model → Variant to compare real-world scores and specifications
-          </motion.p>
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.2, duration: 0.5 }}
+              className="inline-block px-4 py-1.5 bg-yellow-500 rounded-full text-gray-900 text-sm font-semibold mb-6"
+            >
+              🚗 Car Comparison Tool
+            </motion.div>
+            
+            <motion.h1
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.3, duration: 0.5 }}
+              className="text-4xl sm:text-5xl lg:text-6xl font-bold leading-tight mb-6"
+            >
+              Compare Cars{' '}
+              <span className="bg-gradient-to-r from-yellow-400 to-orange-500 bg-clip-text text-transparent">Side by Side</span>
+            </motion.h1>
+            
+            <motion.p
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.4, duration: 0.5 }}
+              className="text-xl text-gray-300 mb-8"
+            >
+              Select Brand → Model → Variant to compare real-world scores and specifications
+            </motion.p>
+
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.6, duration: 0.5 }}
+              className="flex flex-wrap gap-8 pt-6 border-t border-white/20"
+            >
+              <div>
+                <div className="text-3xl font-bold text-yellow-400">5</div>
+                <div className="text-gray-300 text-sm">Brands</div>
+              </div>
+              <div>
+                <div className="text-3xl font-bold text-yellow-400">10+</div>
+                <div className="text-gray-300 text-sm">Models</div>
+              </div>
+              <div>
+                <div className="text-3xl font-bold text-yellow-400">14</div>
+                <div className="text-gray-300 text-sm">Variants</div>
+              </div>
+              <div>
+                <div className="text-3xl font-bold text-yellow-400">11</div>
+                <div className="text-gray-300 text-sm">Rating Categories</div>
+              </div>
+            </motion.div>
+          </motion.div>
         </div>
       </section>
 
-      {/* Three-Layer Selection */}
+      {/* Car Selector Section - Hidden after comparison */}
       {!isComparing && (
-        <section className="py-12 bg-gray-50 border-b border-gray-200 relative -mt-16">
+        <section className="py-12 bg-gray-50 border-b border-gray-200 relative -mt-6">
           <div className="container-custom">
             <div className="max-w-5xl mx-auto">
               <div className="text-center mb-8">
@@ -302,62 +650,43 @@ const CompareCars = () => {
 
               <div className="grid grid-cols-1 md:grid-cols-3 gap-6 items-start">
                 {/* Car 1 Selector */}
-                <div>
-                  <label className="block text-sm font-semibold text-gray-700 mb-2">Add Car 1</label>
-
-                  {/* Brand Select */}
+                <div className="bg-white p-4 rounded-xl shadow-sm border border-gray-200">
+                  <label className="block text-sm font-semibold text-gray-700 mb-3">Add Car 1</label>
+                  
                   <select
                     value={brand1}
                     onChange={(e) => handleBrandSelect(1, e.target.value)}
-                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-yellow-500 bg-white mb-2"
+                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-yellow-500 bg-white mb-2 text-gray-700"
                   >
                     <option value="">Select Brand</option>
                     {brands.map(brand => (
                       <option key={brand} value={brand}>{brand}</option>
                     ))}
                   </select>
-
-                  {/* Model Select */}
+                  
                   <select
                     value={model1}
                     onChange={(e) => handleModelSelect(1, e.target.value)}
                     disabled={!brand1}
-                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-yellow-500 bg-white mb-2"
+                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-yellow-500 bg-white mb-2 text-gray-700 disabled:bg-gray-100 disabled:cursor-not-allowed"
                   >
                     <option value="">Select Model</option>
                     {getModels(brand1).map(model => (
                       <option key={model} value={model}>{model}</option>
                     ))}
                   </select>
-
-                  {/* Variant Select */}
+                  
                   <select
                     value={variant1}
                     onChange={(e) => handleVariantSelect(1, e.target.value)}
                     disabled={!model1}
-                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-yellow-500 bg-white"
+                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-yellow-500 bg-white text-gray-700 disabled:bg-gray-100 disabled:cursor-not-allowed"
                   >
                     <option value="">Select Variant</option>
                     {getVariants(brand1, model1).map(variant => (
                       <option key={variant} value={variant}>{variant}</option>
                     ))}
                   </select>
-
-                  {/* Selected Car Display */}
-                  {car1 && (
-                    <motion.div
-                      initial={{ opacity: 0, scale: 0.95 }}
-                      animate={{ opacity: 1, scale: 1 }}
-                      className="mt-3 p-3 bg-yellow-50 rounded-lg border border-yellow-200 flex items-center gap-3"
-                    >
-                      <img src={car1.image} alt={car1.model} className="w-16 h-16 object-cover rounded" />
-                      <div>
-                        <div className="font-semibold text-gray-800">{car1.brand} {car1.model}</div>
-                        <div className="text-sm text-gray-500">{car1.variant}</div>
-                        <div className="text-sm text-gray-500">{car1.price}</div>
-                      </div>
-                    </motion.div>
-                  )}
                 </div>
 
                 {/* VS Divider */}
@@ -368,62 +697,43 @@ const CompareCars = () => {
                 </div>
 
                 {/* Car 2 Selector */}
-                <div>
-                  <label className="block text-sm font-semibold text-gray-700 mb-2">Add Car 2</label>
-
-                  {/* Brand Select */}
+                <div className="bg-white p-4 rounded-xl shadow-sm border border-gray-200">
+                  <label className="block text-sm font-semibold text-gray-700 mb-3">Add Car 2</label>
+                  
                   <select
                     value={brand2}
                     onChange={(e) => handleBrandSelect(2, e.target.value)}
-                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-yellow-500 bg-white mb-2"
+                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-yellow-500 bg-white mb-2 text-gray-700"
                   >
                     <option value="">Select Brand</option>
                     {brands.map(brand => (
                       <option key={brand} value={brand}>{brand}</option>
                     ))}
                   </select>
-
-                  {/* Model Select */}
+                  
                   <select
                     value={model2}
                     onChange={(e) => handleModelSelect(2, e.target.value)}
                     disabled={!brand2}
-                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-yellow-500 bg-white mb-2"
+                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-yellow-500 bg-white mb-2 text-gray-700 disabled:bg-gray-100 disabled:cursor-not-allowed"
                   >
                     <option value="">Select Model</option>
                     {getModels(brand2).map(model => (
                       <option key={model} value={model}>{model}</option>
                     ))}
                   </select>
-
-                  {/* Variant Select */}
+                  
                   <select
                     value={variant2}
                     onChange={(e) => handleVariantSelect(2, e.target.value)}
                     disabled={!model2}
-                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-yellow-500 bg-white"
+                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-yellow-500 bg-white text-gray-700 disabled:bg-gray-100 disabled:cursor-not-allowed"
                   >
                     <option value="">Select Variant</option>
                     {getVariants(brand2, model2).map(variant => (
                       <option key={variant} value={variant}>{variant}</option>
                     ))}
                   </select>
-
-                  {/* Selected Car Display */}
-                  {car2 && (
-                    <motion.div
-                      initial={{ opacity: 0, scale: 0.95 }}
-                      animate={{ opacity: 1, scale: 1 }}
-                      className="mt-3 p-3 bg-yellow-50 rounded-lg border border-yellow-200 flex items-center gap-3"
-                    >
-                      <img src={car2.image} alt={car2.model} className="w-16 h-16 object-cover rounded" />
-                      <div>
-                        <div className="font-semibold text-gray-800">{car2.brand} {car2.model}</div>
-                        <div className="text-sm text-gray-500">{car2.variant}</div>
-                        <div className="text-sm text-gray-500">{car2.price}</div>
-                      </div>
-                    </motion.div>
-                  )}
                 </div>
               </div>
 
@@ -432,12 +742,13 @@ const CompareCars = () => {
                 <button
                   onClick={handleCompare}
                   disabled={!car1Id || !car2Id}
-                  className={`px-12 py-3.5 rounded-xl font-semibold text-lg transition-all duration-300 ${car1Id && car2Id
-                    ? 'bg-yellow-500 hover:bg-yellow-600 text-gray-900 shadow-lg hover:scale-105 hover:shadow-xl'
-                    : 'bg-gray-300 text-gray-500 cursor-not-allowed'
-                    }`}
+                  className={`px-12 py-3.5 rounded-xl font-semibold text-lg transition-all duration-300 ${
+                    car1Id && car2Id
+                      ? 'bg-gradient-to-r from-yellow-500 to-orange-500 hover:from-yellow-600 hover:to-orange-600 text-gray-900 shadow-lg hover:scale-105 hover:shadow-xl'
+                      : 'bg-gray-300 text-gray-500 cursor-not-allowed'
+                  }`}
                 >
-                  {car1Id && car2Id ? 'Compare Now' : 'Select both cars to compare'}
+                  {car1Id && car2Id ? '🚀 Compare Now' : 'Select both cars to compare'}
                 </button>
                 {(car1Id || car2Id) && (
                   <button
@@ -461,7 +772,7 @@ const CompareCars = () => {
 
       {/* Comparison Results */}
       {isComparing && showComparison && car1 && car2 && (
-        <section id="comparison-results" className="py-16 bg-white">
+        <section id="comparison-results" className="py-16 bg-gray-50">
           <div className="container-custom">
             <div className="max-w-6xl mx-auto">
               {/* Header */}
@@ -500,40 +811,55 @@ const CompareCars = () => {
               </div>
 
               {/* Car Headers */}
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-6 bg-gradient-to-r from-gray-50 to-gray-100 rounded-xl p-8 mb-8">
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-6 bg-white rounded-xl shadow-lg p-8 mb-8">
                 {/* <div className="text-center flex items-center justify-center">
                   <h3 className="font-semibold text-gray-500 text-sm">Comparison</h3>
                 </div> */}
                 <div className="text-center">
-                  <div className="bg-white rounded-xl p-6 shadow-lg">
+                  <div className="bg-gray-50 rounded-xl p-6">
                     <img src={car1.image} alt={car1.model} className="w-80 h-80 object-cover rounded-lg mx-auto mb-4 shadow-md" />
                     <h3 className="font-bold text-gray-800 text-xl">{car1.brand}</h3>
                     <p className="text-2xl font-bold text-gray-900">{car1.model}</p>
                     <p className="text-sm text-gray-500 mt-1">{car1.variant}</p>
                     <p className="text-sm text-gray-500">{car1.price}</p>
+                    {car1.overallScore && (
+                      <div className="mt-3 inline-flex items-center gap-2 px-4 py-2 bg-yellow-500/10 rounded-full">
+                        <span className="text-sm text-gray-600">Overall</span>
+                        <span className="text-xl font-bold text-yellow-600">{car1.overallScore.toFixed(1)}</span>
+                        <span className="text-sm text-gray-400">/ 10</span>
+                      </div>
+                    )}
                   </div>
                 </div>
                 <div className="text-center">
-                  <div className="bg-white rounded-xl p-6 shadow-lg">
+                  <div className="bg-gray-50 rounded-xl p-6">
                     <img src={car2.image} alt={car2.model} className="w-80 h-80 object-cover rounded-lg mx-auto mb-4 shadow-md" />
                     <h3 className="font-bold text-gray-800 text-xl">{car2.brand}</h3>
                     <p className="text-2xl font-bold text-gray-900">{car2.model}</p>
                     <p className="text-sm text-gray-500 mt-1">{car2.variant}</p>
                     <p className="text-sm text-gray-500">{car2.price}</p>
+                    {car2.overallScore && (
+                      <div className="mt-3 inline-flex items-center gap-2 px-4 py-2 bg-yellow-500/10 rounded-full">
+                        <span className="text-sm text-gray-600">Overall</span>
+                        <span className="text-xl font-bold text-yellow-600">{car2.overallScore.toFixed(1)}</span>
+                        <span className="text-sm text-gray-400">/ 10</span>
+                      </div>
+                    )}
                   </div>
                 </div>
               </div>
 
               {/* Section Tabs */}
-              <div className="flex flex-wrap gap-2 mb-8 border-b border-gray-200 pb-0">
+              <div className="flex flex-wrap gap-2 mb-8 bg-white rounded-xl shadow-lg p-2">
                 {sections.map((section) => (
                   <button
                     key={section.id}
                     onClick={() => setActiveSection(section.id)}
-                    className={`px-6 py-3 rounded-t-lg font-semibold transition-all duration-300 flex items-center gap-2 ${activeSection === section.id
-                      ? 'bg-yellow-500 text-gray-900 shadow-md'
-                      : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
-                      }`}
+                    className={`px-6 py-3 rounded-lg font-semibold transition-all duration-300 flex items-center gap-2 ${
+                      activeSection === section.id
+                        ? 'bg-yellow-500 text-gray-900 shadow-md'
+                        : 'bg-transparent text-gray-600 hover:bg-gray-100'
+                    }`}
                   >
                     <span>{section.icon}</span>
                     {section.label}
@@ -542,47 +868,11 @@ const CompareCars = () => {
               </div>
 
               {/* Section Content */}
-              <div className="bg-white rounded-xl shadow-lg overflow-hidden border border-gray-200">
+              <div className="bg-white rounded-xl shadow-lg overflow-hidden">
                 <AnimatePresence mode="wait">
                   {sections.map((section) => {
                     if (activeSection !== section.id) return null
-                    const sectionData = getSectionData(section.id)
-
-                    if (section.id === 'scores') {
-                      // Get scores safely - ensure they are passed as objects
-                      const scores1 = car1?.scores && typeof car1.scores === 'object' ? car1.scores : null
-                      const scores2 = car2?.scores && typeof car2.scores === 'object' ? car2.scores : null
-
-                      console.log('Scores data:', {
-                        car1Scores: scores1,
-                        car2Scores: scores2,
-                        car1Name: `${car1.brand} ${car1.model}`,
-                        car2Name: `${car2.brand} ${car2.model}`
-                      })
-
-                      return (
-                        <motion.div
-                          key={section.id}
-                          initial={{ opacity: 0, y: 10 }}
-                          animate={{ opacity: 1, y: 0 }}
-                          exit={{ opacity: 0, y: -10 }}
-                          transition={{ duration: 0.3 }}
-                          className="p-6"
-                        >
-                          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                            <ScoreDisplay
-                              scores={scores1}
-                              carName={`${car1.brand} ${car1.model} - ${car1.variant}`}
-                            />
-                            <ScoreDisplay
-                              scores={scores2}
-                              carName={`${car2.brand} ${car2.model} - ${car2.variant}`}
-                            />
-                          </div>
-                        </motion.div>
-                      )
-                    }
-
+                    
                     return (
                       <motion.div
                         key={section.id}
@@ -591,36 +881,129 @@ const CompareCars = () => {
                         exit={{ opacity: 0, y: -10 }}
                         transition={{ duration: 0.3 }}
                       >
-                        <div className="bg-gray-50 px-6 py-4 border-b border-gray-200">
-                          <h3 className="font-bold text-gray-800 text-lg flex items-center gap-2">
-                            <span>{section.icon}</span>
-                            {section.label}
-                          </h3>
-                        </div>
+                        {/* Overview Section - Table Format */}
+                        {section.id === 'overview' && (
+                          <div className="p-6">
+                            {/* Score Table */}
+                            <div className="overflow-x-auto">
+                              <table className="w-full">
+                                <thead>
+                                  <tr className="bg-gradient-to-r from-gray-50 to-gray-100 rounded-lg">
+                                    <th className="px-6 py-4 text-left font-semibold text-gray-600 text-sm">Category</th>
+                                    <th className="px-6 py-4 text-center font-semibold text-gray-600 text-sm">
+                                      {car1.brand} {car1.model}
+                                    </th>
+                                    <th className="px-6 py-4 text-center font-semibold text-gray-600 text-sm">
+                                      {car2.brand} {car2.model}
+                                    </th>
+                                    <th className="px-6 py-4 text-center font-semibold text-gray-600 text-sm">Winner</th>
+                                  </tr>
+                                </thead>
+                                <tbody>
+                                  {scoreData.map((item, idx) => {
+                                    const isDifferent = item.score1 !== item.score2
+                                    const winner = item.score1 > item.score2 ? car1.model : 
+                                                  item.score2 > item.score1 ? car2.model : 'Tie'
+                                    const winnerColor = item.score1 > item.score2 ? 'text-green-600' :
+                                                       item.score2 > item.score1 ? 'text-green-600' : 'text-gray-400'
+                                    
+                                    return (
+                                      <tr key={item.key} className={`${idx % 2 === 0 ? 'bg-white' : 'bg-gray-50'} hover:bg-yellow-50 transition-colors`}>
+                                        <td className="px-6 py-4 font-medium text-gray-700">
+                                          <span className="mr-2">{item.icon}</span>
+                                          {item.label}
+                                        </td>
+                                        <td className="px-6 py-4 text-center">
+                                          {item.score1 !== null ? (
+                                            <div className="flex items-center justify-center gap-2">
+                                              <span className={`text-lg font-bold ${getScoreColor(item.score1)}`}>
+                                                {item.score1.toFixed(1)}
+                                              </span>
+                                              <div className="w-16 h-1.5 bg-gray-200 rounded-full overflow-hidden">
+                                                <div 
+                                                  className={`h-full ${getScoreBg(item.score1)} rounded-full`}
+                                                  style={{ width: `${(item.score1 / 10) * 100}%` }}
+                                                ></div>
+                                              </div>
+                                            </div>
+                                          ) : (
+                                            <span className="text-gray-400">N/A</span>
+                                          )}
+                                        </td>
+                                        <td className="px-6 py-4 text-center">
+                                          {item.score2 !== null ? (
+                                            <div className="flex items-center justify-center gap-2">
+                                              <span className={`text-lg font-bold ${getScoreColor(item.score2)}`}>
+                                                {item.score2.toFixed(1)}
+                                              </span>
+                                              <div className="w-16 h-1.5 bg-gray-200 rounded-full overflow-hidden">
+                                                <div 
+                                                  className={`h-full ${getScoreBg(item.score2)} rounded-full`}
+                                                  style={{ width: `${(item.score2 / 10) * 100}%` }}
+                                                ></div>
+                                              </div>
+                                            </div>
+                                          ) : (
+                                            <span className="text-gray-400">N/A</span>
+                                          )}
+                                        </td>
+                                        <td className="px-6 py-4 text-center">
+                                          {highlightDifferences && isDifferent ? (
+                                            <span className={`font-bold ${winnerColor}`}>
+                                              {winner !== 'Tie' ? `🏆 ${winner}` : 'Tie'}
+                                            </span>
+                                          ) : (
+                                            <span className="text-gray-400">—</span>
+                                          )}
+                                        </td>
+                                      </tr>
+                                    )
+                                  })}
+                                </tbody>
+                              </table>
+                            </div>
 
-                        <table className="w-full">
-                          <tbody>
-                            {sectionData.map((param, index) => {
-                              if (param.isScores) return null
-                              const isDifferent = highlightDifferences && param.value1 !== param.value2
-                              return (
-                                <tr key={param.key} className={`${index % 2 === 0 ? 'bg-white' : 'bg-gray-50'} hover:bg-yellow-50 transition-colors`}>
-                                  <td className="px-6 py-4 font-semibold text-gray-700 capitalize border-b border-gray-100 w-1/3">
-                                    {param.label}
-                                  </td>
-                                  <td className={`px-6 py-4 border-b border-gray-100 w-1/3 ${isDifferent ? 'text-green-700 font-bold' : 'text-gray-700'}`}>
-                                    {param.value1}
-                                    {isDifferent && <span className="ml-2 text-xs text-green-500">✓</span>}
-                                  </td>
-                                  <td className={`px-6 py-4 border-b border-gray-100 w-1/3 ${isDifferent ? 'text-green-700 font-bold' : 'text-gray-700'}`}>
-                                    {param.value2}
-                                    {isDifferent && <span className="ml-2 text-xs text-green-500">✓</span>}
-                                  </td>
-                                </tr>
-                              )
-                            })}
-                          </tbody>
-                        </table>
+                            {/* Score Guide */}
+                            <div className="mt-6 p-4 bg-gray-50 rounded-lg border border-gray-200">
+                              <h4 className="font-semibold text-gray-800 mb-2">Rating Guide</h4>
+                              <div className="grid grid-cols-2 md:grid-cols-5 gap-2 text-xs">
+                                <div className="flex items-center gap-2">
+                                  <div className="w-3 h-3 bg-green-500 rounded-full"></div>
+                                  <span className="text-gray-600">9-10: Excellent</span>
+                                </div>
+                                <div className="flex items-center gap-2">
+                                  <div className="w-3 h-3 bg-green-400 rounded-full"></div>
+                                  <span className="text-gray-600">8-9: Very Good</span>
+                                </div>
+                                <div className="flex items-center gap-2">
+                                  <div className="w-3 h-3 bg-yellow-500 rounded-full"></div>
+                                  <span className="text-gray-600">7-8: Good</span>
+                                </div>
+                                <div className="flex items-center gap-2">
+                                  <div className="w-3 h-3 bg-orange-500 rounded-full"></div>
+                                  <span className="text-gray-600">6-7: Average</span>
+                                </div>
+                                <div className="flex items-center gap-2">
+                                  <div className="w-3 h-3 bg-red-500 rounded-full"></div>
+                                  <span className="text-gray-600">Below 6: Needs Improvement</span>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        )}
+
+                        {/* Detailed Section - Expandable Cards */}
+                        {section.id === 'detailed' && (
+                          <div className="p-6">
+                            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                              {/* Car 1 Detailed Ratings */}
+                              {renderDetailedRatingCard(car1, 1, car1.scores, car1.factorScores)}
+                              
+                              {/* Car 2 Detailed Ratings */}
+                              {renderDetailedRatingCard(car2, 2, car2.scores, car2.factorScores)}
+                            </div>
+                          </div>
+                        )}
                       </motion.div>
                     )
                   })}
@@ -630,31 +1013,54 @@ const CompareCars = () => {
               {/* Quick Summary Cards */}
               <div className="mt-8 grid grid-cols-1 md:grid-cols-3 gap-4">
                 <div className="p-4 bg-green-50 rounded-xl border border-green-200">
-                  <h4 className="font-bold text-gray-800 mb-2">🏆 Price Winner</h4>
-                  <p className="text-sm text-gray-600">
-                    {parseInt(car1.price.replace(/[^0-9]/g, '')) < parseInt(car2.price.replace(/[^0-9]/g, ''))
+                  <h4 className="font-bold text-gray-800 mb-2">🏆 Overall Winner</h4>
+                  <p className="text-lg font-bold text-green-600">
+                    {car1.overallScore > car2.overallScore 
                       ? `${car1.brand} ${car1.model}`
-                      : `${car2.brand} ${car2.model}`}
+                      : car2.overallScore > car1.overallScore
+                      ? `${car2.brand} ${car2.model}`
+                      : 'Tie'}
+                  </p>
+                  <p className="text-sm text-gray-500">
+                    {car1.overallScore > car2.overallScore 
+                      ? `Score: ${car1.overallScore.toFixed(1)}/10`
+                      : car2.overallScore > car1.overallScore
+                      ? `Score: ${car2.overallScore.toFixed(1)}/10`
+                      : `Both: ${car1.overallScore.toFixed(1)}/10`}
                   </p>
                 </div>
                 <div className="p-4 bg-blue-50 rounded-xl border border-blue-200">
-                  <h4 className="font-bold text-gray-800 mb-2">⭐ Overall Score Winner</h4>
-                  <p className="text-sm text-gray-600">
-                    {car1.scores && car2.scores &&
-                      (Object.values(car1.scores).reduce((a, b) => a + b, 0) > Object.values(car2.scores).reduce((a, b) => a + b, 0)
-                        ? `${car1.brand} ${car1.model}`
-                        : `${car2.brand} ${car2.model}`)}
+                  <h4 className="font-bold text-gray-800 mb-2">🛡️ Safety Winner</h4>
+                  <p className="text-lg font-bold text-blue-600">
+                    {car1.scores?.safetyScore > car2.scores?.safetyScore 
+                      ? `${car1.brand} ${car1.model}`
+                      : car2.scores?.safetyScore > car1.scores?.safetyScore
+                      ? `${car2.brand} ${car2.model}`
+                      : 'Similar Safety'}
+                  </p>
+                  <p className="text-sm text-gray-500">
+                    {car1.scores?.safetyScore > car2.scores?.safetyScore 
+                      ? `Score: ${car1.scores.safetyScore.toFixed(1)}/10`
+                      : car2.scores?.safetyScore > car1.scores?.safetyScore
+                      ? `Score: ${car2.scores.safetyScore.toFixed(1)}/10`
+                      : `Both: ${car1.scores?.safetyScore?.toFixed(1) || 'N/A'}/10`}
                   </p>
                 </div>
                 <div className="p-4 bg-purple-50 rounded-xl border border-purple-200">
-                  <h4 className="font-bold text-gray-800 mb-2">🛡️ Safety Winner</h4>
-                  <p className="text-sm text-gray-600">
-                    {car1.scores && car2.scores &&
-                      (car1.scores.safety > car2.scores.safety
-                        ? `${car1.brand} ${car1.model}`
-                        : car2.scores.safety > car1.scores.safety
-                          ? `${car2.brand} ${car2.model}`
-                          : 'Both have similar safety scores')}
+                  <h4 className="font-bold text-gray-800 mb-2">💰 Value for Money</h4>
+                  <p className="text-lg font-bold text-purple-600">
+                    {car1.scores?.valueForMoneyScore > car2.scores?.valueForMoneyScore 
+                      ? `${car1.brand} ${car1.model}`
+                      : car2.scores?.valueForMoneyScore > car1.scores?.valueForMoneyScore
+                      ? `${car2.brand} ${car2.model}`
+                      : 'Similar Value'}
+                  </p>
+                  <p className="text-sm text-gray-500">
+                    {car1.scores?.valueForMoneyScore > car2.scores?.valueForMoneyScore 
+                      ? `Score: ${car1.scores.valueForMoneyScore.toFixed(1)}/10`
+                      : car2.scores?.valueForMoneyScore > car1.scores?.valueForMoneyScore
+                      ? `Score: ${car2.scores.valueForMoneyScore.toFixed(1)}/10`
+                      : `Both: ${car1.scores?.valueForMoneyScore?.toFixed(1) || 'N/A'}/10`}
                   </p>
                 </div>
               </div>
@@ -663,7 +1069,6 @@ const CompareCars = () => {
               <div className="mt-8 flex flex-wrap gap-4 justify-center">
                 <button
                   onClick={() => {
-                    // Refresh comparison
                     setShowComparison(false)
                     setShowLoadingModal(true)
                     setTimeout(() => {
