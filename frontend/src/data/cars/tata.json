@@ -4,7 +4,7 @@
     {
       "name": "Nexon",
       "slug": "tata-nexon",
-      "image": "https://images.unsplash.com/photo-1533473359331-0135ef1b58bf?w=400&h=300&fit=crop",
+      "image": "/images/Tata Nexon Fearless Plus 1.5 Diesel.png",
       "variants": [
         {
           "name": "Fearless Plus 1.5 Diesel",
@@ -203,7 +203,7 @@
     {
       "name": "Harrier",
       "slug": "tata-harrier",
-      "image": "https://images.unsplash.com/photo-1533473359331-0135ef1b58bf?w=400&h=300&fit=crop",
+      "image": "/images/Tata Harrier XZA+ 2.0 Diesel AT.png",
       "variants": [
         {
           "name": "XZA+ 2.0 Diesel AT",

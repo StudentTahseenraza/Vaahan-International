@@ -4,14 +4,15 @@
 File Name : App.jsx
 Author : Tahseen Raza
 Created Date : 2025-01-15
-Description : Main application component
+Description : Main application component with theme support
 Company : Vaahan International
-Copyright : (c) 2025 Vaahan International. All rights reserved.
+Copyright : (c) 2026 Vaahan International. All rights reserved.
 ================================================================================
 */
 
 import { useEffect } from 'react'
 import { BrowserRouter, Routes, Route, useLocation } from 'react-router-dom'
+import { ThemeProvider } from './context/ThemeContext'
 import Home from './pages/Home'
 import About from './pages/About'
 import Contact from './pages/Contact'
@@ -34,23 +35,25 @@ const ScrollToTop = () => {
 
 function App() {
   return (
-    <BrowserRouter>
-      <div className="flex flex-col min-h-screen">
-        <CommonHeader />
-        <main className="flex-grow">
-          <ScrollToTop />
-          <Routes>
-            <Route path="/" element={<Home />} />
-            <Route path="/about" element={<About />} />
-            <Route path="/contact" element={<Contact />} />
-            <Route path="/articles" element={<Articles />} />
-            <Route path="/article/:slug" element={<ArticleDetail />} />
-            <Route path="/compare-cars" element={<CompareCars />} />
-          </Routes>
-        </main>
-        <CommonFooter />
-      </div>
-    </BrowserRouter>
+    <ThemeProvider>
+      <BrowserRouter>
+        <div className="flex flex-col min-h-screen bg-white dark:bg-dark-950 transition-colors duration-300">
+          <CommonHeader />
+          <main className="flex-grow pt-0">
+            <ScrollToTop />
+            <Routes>
+              <Route path="/" element={<Home />} />
+              <Route path="/about" element={<About />} />
+              <Route path="/contact" element={<Contact />} />
+              <Route path="/articles" element={<Articles />} />
+              <Route path="/article/:slug" element={<ArticleDetail />} />
+              <Route path="/compare-cars" element={<CompareCars />} />
+            </Routes>
+          </main>
+          <CommonFooter />
+        </div>
+      </BrowserRouter>
+    </ThemeProvider>
   )
 }
 

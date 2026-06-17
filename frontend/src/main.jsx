@@ -3,10 +3,10 @@
 ================================================================================
 File Name : main.jsx
 Author : Tahseen Raza
-Created Date : 2025-01-15
+Created Date : 2025-06-17
 Description : Entry point for the React application
 Company : Vaahan International
-Copyright : (c) 2025 Vaahan International. All rights reserved.
+Copyright : (c) 2026 Vaahan International. All rights reserved.
 ================================================================================
 */
 

@@ -4,9 +4,9 @@
 File Name : CommonHeader.jsx
 Author : Tahseen Raza
 Created Date : 2025-01-15
-Description : Reusable header component with professional styling
+Description : Reusable header component with theme support
 Company : Vaahan International
-Copyright : (c) 2025 Vaahan International. All rights reserved.
+Copyright : (c) 2026 Vaahan International. All rights reserved.
 ================================================================================
 */
 
@@ -14,12 +14,19 @@ import { useState, useEffect } from 'react'
 import { Link, NavLink, useLocation } from 'react-router-dom'
 import { motion, AnimatePresence } from 'framer-motion'
 import CategoriesDropdown from './CategoriesDropdown'
+import ThemeToggle from './ThemeToggle'
+import { useTheme } from '../context/ThemeContext'
 
 const CommonHeader = () => {
   const [isOpen, setIsOpen] = useState(false)
   const [isScrolled, setIsScrolled] = useState(false)
   const location = useLocation()
-  const brandYellow = '#CFB32B'
+  const { isDark } = useTheme()
+
+  // Brand color with dark mode support
+  const brandColor = isDark ? '#0f172a' : '#CFB32B'
+  const textColor = isDark ? 'text-white' : 'text-gray-900'
+  const textHoverColor = isDark ? 'hover:text-yellow-400' : 'hover:text-black'
 
   useEffect(() => {
     const handleScroll = () => {
@@ -45,8 +52,8 @@ const CommonHeader = () => {
         isScrolled ? 'py-2 shadow-xl' : 'py-3'
       }`}
       style={{
-        backgroundColor: brandYellow,
-        borderBottom: '1px solid rgba(0,0,0,0.08)',
+        backgroundColor: brandColor,
+        borderBottom: `1px solid ${isDark ? 'rgba(255,255,255,0.08)' : 'rgba(0,0,0,0.08)'}`,
       }}
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -61,45 +68,48 @@ const CommonHeader = () => {
           </Link>
 
           {/* Desktop Navigation */}
-          <div className="hidden md:flex items-center space-x-8">
-            {navLinks.map((link) => (
-              <NavLink
-                key={link.path}
-                to={link.path}
-                className={({ isActive }) =>
-                  `font-semibold text-[16px] tracking-wide transition-all duration-300 ${
-                    isActive
-                      ? 'text-black border-b-2 border-black pb-1'
-                      : 'text-gray-900 hover:text-black'
-                  }`
-                }
-              >
-                {link.name}
-              </NavLink>
-            ))}
-            
-            {/* Categories Dropdown */}
-            <CategoriesDropdown />
-            
-            <Link
-              to="/contact"
-              className="
-                bg-[#0B1F3A]
-                hover:bg-[#08172C]
-                text-white
-                font-semibold
-                py-2.5
-                px-6
-                rounded-xl
-                shadow-lg
-                transition-all
-                duration-300
-                hover:-translate-y-1
-              "
-            >
-              Get Started
-            </Link>
-          </div>
+<div className="hidden md:flex items-center space-x-8">
+  {navLinks.map((link) => (
+    <NavLink
+      key={link.path}
+      to={link.path}
+      className={({ isActive }) =>
+        `font-semibold text-[16px] tracking-wide transition-all duration-300 ${
+          isActive
+            ? 'text-yellow-500 border-b-2 border-yellow-500 pb-1'
+            : `${textColor} ${textHoverColor}`
+        }`
+      }
+    >
+      {link.name}
+    </NavLink>
+  ))}
+  
+  {/* Categories Dropdown - Now with theme support */}
+  <CategoriesDropdown />
+  
+  {/* Theme Toggle */}
+  <ThemeToggle />
+  
+  <Link
+    to="/contact"
+    className="
+      bg-[#0B1F3A]
+      hover:bg-[#08172C]
+      text-white
+      font-semibold
+      py-2.5
+      px-6
+      rounded-xl
+      shadow-lg
+      transition-all
+      duration-300
+      hover:-translate-y-1
+    "
+  >
+    Get Started
+  </Link>
+</div>
 
           {/* Mobile Menu Button */}
           <button
@@ -109,17 +119,17 @@ const CommonHeader = () => {
           >
             <div className="w-6 h-5 flex flex-col justify-between">
               <span
-                className={`h-0.5 w-full bg-black transition-all duration-300 ${
+                className={`h-0.5 w-full bg-current transition-all duration-300 ${
                   isOpen ? 'rotate-45 translate-y-2' : ''
                 }`}
               />
               <span
-                className={`h-0.5 w-full bg-black transition-all duration-300 ${
+                className={`h-0.5 w-full bg-current transition-all duration-300 ${
                   isOpen ? 'opacity-0' : ''
                 }`}
               />
               <span
-                className={`h-0.5 w-full bg-black transition-all duration-300 ${
+                className={`h-0.5 w-full bg-current transition-all duration-300 ${
                   isOpen ? '-rotate-45 -translate-y-2' : ''
                 }`}
               />
@@ -144,7 +154,7 @@ const CommonHeader = () => {
                     to={link.path}
                     className={({ isActive }) =>
                       `block py-2 font-medium text-lg ${
-                        isActive ? 'text-black' : 'text-gray-900 hover:text-black'
+                        isActive ? 'text-yellow-500' : `${textColor} ${textHoverColor}`
                       }`
                     }
                     onClick={() => setIsOpen(false)}
@@ -152,6 +162,10 @@ const CommonHeader = () => {
                     {link.name}
                   </NavLink>
                 ))}
+                <div className="flex items-center justify-between pt-2">
+                  <span className={`text-sm ${textColor}`}>Theme</span>
+                  <ThemeToggle />
+                </div>
                 <Link
                   to="/contact"
                   className="
