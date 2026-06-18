@@ -11,7 +11,7 @@ Copyright : (c) 2026 Vaahan International. All rights reserved.
 */
 
 import { useEffect } from 'react'
-import { BrowserRouter, Routes, Route, useLocation } from 'react-router-dom'
+import { Routes, Route, useLocation } from 'react-router-dom' // Remove BrowserRouter
 import { ThemeProvider } from './context/ThemeContext'
 import Home from './pages/Home'
 import About from './pages/About'
@@ -38,24 +38,23 @@ const ScrollToTop = () => {
 function App() {
   return (
     <ThemeProvider>
-      <BrowserRouter>
-        <div className="flex flex-col min-h-screen bg-white dark:bg-dark-950 transition-colors duration-300">
-          <CommonHeader />
-          <main className="flex-grow pt-0">
-            <ScrollToTop />
-            <Routes>
-              <Route path="/" element={<Home />} />
-              <Route path="/about" element={<About />} />
-              <Route path="/contact" element={<Contact />} />
-              <Route path="/articles" element={<Articles />} />
-              <Route path="/article/:slug" element={<ArticleDetail />} />
-              <Route path="/compare-cars" element={<CompareCars />} />
-              <Route path="/category/:categoryId" element={<CategoryArticle />} />              <Route path="/feature/:categoryId/:featureId" element={<FeatureDetail />} />
-            </Routes>
-          </main>
-          <CommonFooter />
-        </div>
-      </BrowserRouter>
+      <div className="flex flex-col min-h-screen bg-white dark:bg-dark-950 theme-transition">
+        <CommonHeader />
+        <main className="flex-grow pt-0">
+          <ScrollToTop />
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/about" element={<About />} />
+            <Route path="/contact" element={<Contact />} />
+            <Route path="/articles" element={<Articles />} />
+            <Route path="/article/:slug" element={<ArticleDetail />} />
+            <Route path="/compare-cars" element={<CompareCars />} />
+            <Route path="/category/:categoryId" element={<CategoryArticle />} />
+            <Route path="/feature/:categoryId/:featureId" element={<FeatureDetail />} />
+          </Routes>
+        </main>
+        <CommonFooter />
+      </div>
     </ThemeProvider>
   )
 }

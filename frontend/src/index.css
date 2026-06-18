@@ -1,5 +1,4 @@
 /* src/index.css */
-
 @import url('https://fonts.googleapis.com/css2?family=Inter:ital,wght@0,100..900;1,100..900&display=swap');
 
 @tailwind base;
@@ -22,6 +21,7 @@
   --border-primary: #e2e8f0;
   --shadow-color: rgba(0, 0, 0, 0.1);
   --hover-bg: #f1f5f9;
+  --footer-bg: #111827;
 }
 
 .dark {
@@ -37,10 +37,11 @@
   --border-primary: #334155;
   --shadow-color: rgba(0, 0, 0, 0.4);
   --hover-bg: #334155;
+  --footer-bg: #0f172a;
 }
 
 /* ========================================
-   Base Styles
+   Base Styles - Optimized for performance
    ======================================== */
 @layer base {
   html {
@@ -48,31 +49,31 @@
   }
 
   body {
-    @apply font-sans antialiased transition-colors duration-300;
-    background-color: var(--bg-primary);
-    color: var(--text-primary);
-  }
+  @apply font-sans antialiased;
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
+  /* Remove transition from body */
+}
+
+/* Theme transition class - only applied where needed */
+.theme-transition {
+  transition: background-color 0.12s ease, color 0.12s ease, border-color 0.12s ease;
+}
+
+/* For specific elements that need instant theme change */
+.no-transition {
+  transition: none !important;
+}
 
   h1, h2, h3, h4, h5, h6 {
     @apply font-bold tracking-tight;
     color: var(--text-primary);
   }
 
-  h1 {
-    @apply text-4xl md:text-5xl lg:text-6xl;
-  }
-
-  h2 {
-    @apply text-3xl md:text-4xl;
-  }
-
-  h3 {
-    @apply text-2xl md:text-3xl;
-  }
-
-  h4 {
-    @apply text-xl md:text-2xl;
-  }
+  h1 { @apply text-4xl md:text-5xl lg:text-6xl; }
+  h2 { @apply text-3xl md:text-4xl; }
+  h3 { @apply text-2xl md:text-3xl; }
+  h4 { @apply text-xl md:text-2xl; }
 
   ::selection {
     @apply bg-yellow-500 text-gray-900;
@@ -106,21 +107,21 @@
   }
 
   .btn-primary {
-    @apply bg-yellow-500 hover:bg-yellow-600 text-gray-900 font-semibold py-3 px-6 rounded-lg transition-all duration-300 transform hover:scale-105 hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-yellow-500 focus:ring-offset-2;
+    @apply bg-yellow-500 hover:bg-yellow-600 text-gray-900 font-semibold py-3 px-6 rounded-lg transition-all duration-150 transform hover:scale-105 hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-yellow-500 focus:ring-offset-2;
   }
 
   .btn-secondary {
-    @apply bg-white dark:bg-dark-800 border-2 border-yellow-500 text-yellow-600 hover:bg-yellow-50 dark:hover:bg-dark-700 font-semibold py-3 px-6 rounded-lg transition-all duration-300 transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-yellow-500;
+    @apply bg-white dark:bg-dark-800 border-2 border-yellow-500 text-yellow-600 hover:bg-yellow-50 dark:hover:bg-dark-700 font-semibold py-3 px-6 rounded-lg transition-all duration-150 transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-yellow-500;
   }
 
   .card {
     background-color: var(--bg-card);
-    @apply rounded-xl shadow-md hover:shadow-xl transition-all duration-300 overflow-hidden border;
+    @apply rounded-xl shadow-md hover:shadow-xl transition-shadow duration-150 overflow-hidden border;
     border-color: var(--border-primary);
   }
 
   .input-field {
-    @apply w-full px-4 py-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-yellow-500 focus:border-transparent transition-all duration-200;
+    @apply w-full px-4 py-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-yellow-500 focus:border-transparent transition-colors duration-150;
     background-color: var(--bg-input);
     color: var(--text-primary);
     border: 1px solid var(--border-primary);
@@ -137,43 +138,18 @@
   }
 
   /* Theme-aware backgrounds */
-  .bg-theme-primary {
-    background-color: var(--bg-primary);
-  }
-
-  .bg-theme-secondary {
-    background-color: var(--bg-secondary);
-  }
-
-  .bg-theme-tertiary {
-    background-color: var(--bg-tertiary);
-  }
-
-  .bg-theme-card {
-    background-color: var(--bg-card);
-  }
+  .bg-theme-primary { background-color: var(--bg-primary); }
+  .bg-theme-secondary { background-color: var(--bg-secondary); }
+  .bg-theme-tertiary { background-color: var(--bg-tertiary); }
+  .bg-theme-card { background-color: var(--bg-card); }
 
   /* Theme-aware text colors */
-  .text-theme-primary {
-    color: var(--text-primary);
-  }
-
-  .text-theme-secondary {
-    color: var(--text-secondary);
-  }
-
-  .text-theme-tertiary {
-    color: var(--text-tertiary);
-  }
+  .text-theme-primary { color: var(--text-primary); }
+  .text-theme-secondary { color: var(--text-secondary); }
+  .text-theme-tertiary { color: var(--text-tertiary); }
 
   /* Theme-aware borders */
-  .border-theme {
-    border-color: var(--border-primary);
-  }
-
-  .shadow-theme {
-    box-shadow: 0 4px 6px -1px var(--shadow-color), 0 2px 4px -1px var(--shadow-color);
-  }
+  .border-theme { border-color: var(--border-primary); }
 }
 
 /* ========================================
@@ -184,56 +160,57 @@
     @apply bg-gradient-to-r from-yellow-400 to-orange-500 bg-clip-text text-transparent;
   }
 
-  .bg-theme-primary {
-    background-color: var(--bg-primary);
+  /* Responsive text sizes */
+  .text-responsive-hero {
+    @apply text-3xl sm:text-4xl md:text-5xl lg:text-6xl;
+  }
+  .text-responsive-title {
+    @apply text-2xl sm:text-3xl md:text-4xl;
+  }
+  .text-responsive-subtitle {
+    @apply text-lg sm:text-xl md:text-2xl;
   }
 
-  .bg-theme-secondary {
-    background-color: var(--bg-secondary);
+  /* Responsive spacing */
+  .section-padding {
+    @apply py-12 sm:py-16 md:py-20 lg:py-24;
+  }
+  .section-padding-sm {
+    @apply py-8 sm:py-10 md:py-12;
   }
 
-  .text-theme-primary {
-    color: var(--text-primary);
+  /* Grid responsive */
+  .grid-responsive-2 {
+    @apply grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6;
   }
-
-  .text-theme-secondary {
-    color: var(--text-secondary);
+  .grid-responsive-3 {
+    @apply grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6;
   }
-
-  .border-theme {
-    border-color: var(--border-primary);
+  .grid-responsive-4 {
+    @apply grid grid-cols-2 sm:grid-cols-2 md:grid-cols-4 gap-3 sm:gap-4 md:gap-6;
   }
 }
 
 /* ========================================
    Layout & Structural Styles
    ======================================== */
-.fixed {
-  position: fixed;
-}
-
-main {
-  margin-top: 0;
-  padding-top: 0;
-}
+.fixed { position: fixed; }
+main { margin-top: 0; padding-top: 0; }
 
 @media (max-width: 768px) {
-  main {
-    margin-top: 0;
-  }
+  main { margin-top: 0; }
 }
 
-section.relative.min-h-screen {
-  margin-top: 0;
-}
+section.relative.min-h-screen { margin-top: 0; }
+section { scroll-margin-top: 80px; }
 
-section {
-  scroll-margin-top: 80px;
-}
-
-* {
-  transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease, background 0.3s ease;
-}
+/* ========================================
+   Footer Styles
+   ======================================== */
+footer { background-color: var(--footer-bg) !important; }
+footer .text-gray-400 { color: #9ca3af !important; }
+footer .text-gray-500 { color: #6b7280 !important; }
+footer .text-white { color: #ffffff !important; }
 
 /* ========================================
    Article Content Styles
@@ -288,13 +265,14 @@ section {
 .article-content a {
   color: #eab308;
   text-decoration: underline;
-  transition: color 0.2s ease;
+  transition: color 0.15s ease;
 }
 
 .article-content a:hover {
   color: #ca8a04;
 }
 
+/* Highlight Box */
 .highlight-box {
   background: #fef3c7;
   border-left: 4px solid #eab308;
@@ -325,6 +303,7 @@ section {
   color: #fde68a;
 }
 
+/* Verdict Box */
 .verdict-box {
   background: #f0fdf4;
   border-left: 4px solid #22c55e;
@@ -368,19 +347,32 @@ section {
   background-size: cover;
 }
 
+/* ========================================
+   Responsive Styles
+   ======================================== */
+/* Mobile menu improvements */
+@media (max-width: 1024px) {
+  .lg\:hidden {
+    display: flex !important;
+  }
+}
+
+/* Small screen adjustments */
 @media (max-width: 640px) {
+  .container-custom {
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
+
   .article-content h2 {
     font-size: 1.4rem;
   }
-
   .article-content h3 {
     font-size: 1.2rem;
   }
-
   .article-content p {
     font-size: 0.95rem;
   }
-
   .highlight-box,
   .verdict-box {
     padding: 0.75rem 1rem;
@@ -388,12 +380,19 @@ section {
   }
 }
 
+/* Touch-friendly dropdown for mobile */
 @media (max-width: 768px) {
+  .dropdown-touch {
+    cursor: pointer;
+  }
   .parallax {
     background-attachment: scroll;
   }
 }
 
+/* ========================================
+   Print Styles
+   ======================================== */
 @media print {
   .no-print {
     display: none !important;
@@ -411,117 +410,13 @@ section {
   }
 }
 
-/* src/index.css - Add responsive utilities */
-
-/* Mobile first responsive utilities */
-@layer utilities {
-  .container-custom {
-    @apply container mx-auto px-4 sm:px-6 lg:px-8 max-w-7xl;
-  }
-
-  /* Responsive text sizes */
-  .text-responsive-hero {
-    @apply text-3xl sm:text-4xl md:text-5xl lg:text-6xl;
-  }
-
-  .text-responsive-title {
-    @apply text-2xl sm:text-3xl md:text-4xl;
-  }
-
-  .text-responsive-subtitle {
-    @apply text-lg sm:text-xl md:text-2xl;
-  }
-
-  /* Responsive spacing */
-  .section-padding {
-    @apply py-12 sm:py-16 md:py-20 lg:py-24;
-  }
-
-  .section-padding-sm {
-    @apply py-8 sm:py-10 md:py-12;
-  }
-
-  /* Grid responsive */
-  .grid-responsive-2 {
-    @apply grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6;
-  }
-
-  .grid-responsive-3 {
-    @apply grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6;
-  }
-
-  .grid-responsive-4 {
-    @apply grid grid-cols-2 sm:grid-cols-2 md:grid-cols-4 gap-3 sm:gap-4 md:gap-6;
-  }
+/* ========================================
+   Scrollbar Hide Utility
+   ======================================== */
+.hide-scrollbar::-webkit-scrollbar {
+  display: none;
 }
-
-/* Mobile menu improvements */
-@media (max-width: 1024px) {
-  .lg\:hidden {
-    display: flex !important;
-  }
-}
-
-/* Small screen adjustments */
-@media (max-width: 640px) {
-  .container-custom {
-    padding-left: 1rem;
-    padding-right: 1rem;
-  }
-}
-
-/* Touch-friendly dropdown for mobile */
-@media (max-width: 768px) {
-  .dropdown-touch {
-    cursor: pointer;
-  }
-}
-
-/* src/index.css - Add article content styles */
-
-.article-content {
-  font-family: 'Inter', sans-serif;
-  line-height: 1.7;
-  color: var(--text-primary);
-}
-
-.article-content h2 {
-  font-size: 1.8rem;
-  font-weight: 700;
-  color: var(--text-primary);
-  margin-top: 2rem;
-  margin-bottom: 1rem;
-  border-left: 4px solid #eab308;
-  padding-left: 1rem;
-}
-
-.article-content h3 {
-  font-size: 1.4rem;
-  font-weight: 600;
-  color: var(--text-secondary);
-  margin-top: 1.5rem;
-  margin-bottom: 0.75rem;
-}
-
-.article-content p {
-  margin-bottom: 1rem;
-  font-size: 1rem;
-  line-height: 1.7;
-  color: var(--text-secondary);
-}
-
-.article-content ul,
-.article-content ol {
-  margin: 1rem 0;
-  padding-left: 1.5rem;
-}
-
-.article-content li {
-  margin-bottom: 0.5rem;
-  color: var(--text-secondary);
-}
-
-.article-content strong {
-  color: var(--text-primary);
-  font-weight: 600;
+.hide-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
 }

@@ -1,67 +1,62 @@
-// src/context/ThemeContext.jsx
-/*
-================================================================================
-File Name : ThemeContext.jsx
-Author : Tahseen Raza
-Created Date : 2025-06-17
-Description : Theme context provider for dark/light mode
-Company : Vaahan International
-Copyright : (c) 2026 Vaahan International. All rights reserved.
-================================================================================
-*/
+import {
+  createContext,
+  useState,
+  useEffect,
+  useContext,
+  useMemo,
+  useCallback,
+} from "react";
 
-import { createContext, useState, useEffect, useContext } from 'react'
-
-const ThemeContext = createContext()
+const ThemeContext = createContext();
 
 export const useTheme = () => {
-  const context = useContext(ThemeContext)
+  const context = useContext(ThemeContext);
+
   if (!context) {
-    throw new Error('useTheme must be used within a ThemeProvider')
+    throw new Error("useTheme must be used within a ThemeProvider");
   }
-  return context
-}
+
+  return context;
+};
 
 export const ThemeProvider = ({ children }) => {
-  const [isDark, setIsDark] = useState(false)
+  const [isDark, setIsDark] = useState(() => {
+    const saved = localStorage.getItem("theme");
+
+    if (saved) {
+      return saved === "dark";
+    }
+
+    return window.matchMedia("(prefers-color-scheme: dark)").matches;
+  });
 
   useEffect(() => {
-    const savedTheme = localStorage.getItem('theme')
-    if (savedTheme) {
-      setIsDark(savedTheme === 'dark')
-    } else {
-      const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches
-      setIsDark(prefersDark)
-    }
-  }, [])
+    const root = document.documentElement;
 
-  useEffect(() => {
-    const root = document.documentElement
-    if (isDark) {
-      root.classList.add('dark')
-      root.style.colorScheme = 'dark'
-    } else {
-      root.classList.remove('dark')
-      root.style.colorScheme = 'light'
-    }
-    localStorage.setItem('theme', isDark ? 'dark' : 'light')
-  }, [isDark])
+    root.classList.toggle("dark", isDark);
+    root.style.colorScheme = isDark ? "dark" : "light";
 
-  const toggleTheme = () => {
-    setIsDark(!isDark)
-  }
+    localStorage.setItem("theme", isDark ? "dark" : "light");
+  }, [isDark]);
 
-  const value = {
-    isDark,
-    toggleTheme,
-    theme: isDark ? 'dark' : 'light'
-  }
+  const toggleTheme = useCallback(() => {
+    setIsDark(prev => !prev);
+  }, []);
+
+  const value = useMemo(
+    () => ({
+      isDark,
+      toggleTheme,
+      theme: isDark ? "dark" : "light",
+    }),
+    [isDark, toggleTheme]
+  );
 
   return (
     <ThemeContext.Provider value={value}>
       {children}
     </ThemeContext.Provider>
-  )
-}
+  );
+};
 
-export default ThemeContext
+export default ThemeContext;
