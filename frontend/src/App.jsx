@@ -1,4 +1,4 @@
-// src/App.jsx
+// src/App.jsx - Optional: Clean version without separate auth pages
 /*
 ================================================================================
 File Name : App.jsx
@@ -38,7 +38,7 @@ const ScrollToTop = () => {
 function App() {
   return (
     <ThemeProvider>
-      <div className="flex flex-col min-h-screen bg-white dark:bg-dark-950">
+      <div className="flex flex-col min-h-screen bg-white dark:bg-dark-950 transition-colors duration-100">
         <CommonHeader />
         <main className="flex-grow pt-0">
           <ScrollToTop />

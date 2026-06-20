@@ -4,7 +4,7 @@
 File Name : Home.jsx
 Author : Tahseen Raza
 Created Date : 2026-06-10
-Description : Home page component with full theme support and optimized performance
+Description : Home page component with banner slider (no video)
 Company : Vaahan International
 Copyright : (c) 2026 Vaahan International. All rights reserved.
 ================================================================================
@@ -192,7 +192,7 @@ class HomePage extends BasePage {
     )
   }
 
-  // Hero Section with Banner Slider
+  // Hero Section with Banner Slider - NO VIDEO
   renderHero() {
     const [currentSlide, setCurrentSlide] = useState(0)
     const [isTransitioning, setIsTransitioning] = useState(false)
@@ -233,7 +233,7 @@ class HomePage extends BasePage {
 
     return (
       <section className="relative h-[85vh] min-h-[600px] flex items-center overflow-hidden pt-0 mt-0">
-        {/* Banner Slider - Full Height */}
+        {/* Banner Slider - Full Height - NO VIDEO */}
         <div className="absolute inset-0 w-full h-full z-0">
           {BANNERS.map((banner, index) => (
             <div
@@ -250,23 +250,6 @@ class HomePage extends BasePage {
               <div className="absolute inset-0 bg-gradient-to-r from-black/70 via-black/50 to-black/30"></div>
             </div>
           ))}
-          <video
-            autoPlay
-            loop
-            muted
-            playsInline
-            className="w-full h-full object-cover"
-            style={{
-              position: 'absolute',
-              top: '50%',
-              left: '50%',
-              transform: 'translate(-50%, -50%)',
-              minWidth: '100%',
-              minHeight: '100%',
-            }}
-          >
-            <source src="/Car_Video.mp4" type="video/mp4" />
-          </video>
         </div>
 
         {/* Navigation Arrows */}
