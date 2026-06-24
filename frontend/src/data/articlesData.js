@@ -1,16 +1,3 @@
-
-// src/data/articlesData.js
-/*
-================================================================================
-File Name : articlesData.js
-Author : Tahseen Raza
-Created Date : 2026-06-22
-Description : Article data service - Now fetches from backend API
-Company : Vaahan International
-Copyright : (c) 2026 Vaahan International. All rights reserved.
-================================================================================
-*/
-
 // src/data/articlesData.js
 /*
 ================================================================================

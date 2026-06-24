@@ -37,7 +37,7 @@ const VariantSchema = new mongoose.Schema({
   },
   transmission: {
     type: String,
-    enum: ['Manual', 'Automatic', 'AMT', 'CVT', 'DCT', 'EV', 'N/A'],
+    enum: ['Manual', 'Automatic', 'AMT', 'CVT', 'DCT', 'EV', 'N/A', 'IVT', 'AutoSHIFT+', 'DCA'],
     default: 'N/A',
   },
   power: {

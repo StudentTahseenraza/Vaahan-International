@@ -1757,10 +1757,11 @@ const SelectedCarCard = ({ car, onRemove, isDark }) => {
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
         </svg>
       </button>
+      {/* FIX: Increased width and changed to object-contain to show full image */}
       <img 
         src={car.image} 
         alt={car.model} 
-        className="w-20 h-20 object-cover rounded-lg mx-auto mb-2 shadow-md" 
+        className="w-32 h-20 object-contain rounded-lg mx-auto mb-2 shadow-md bg-gray-50 dark:bg-dark-700" 
       />
       <div className="flex items-center justify-center gap-1.5 mb-0.5">
         <span className="text-xs font-medium px-2 py-0.5 bg-yellow-500 text-gray-900 rounded-full">
@@ -2428,7 +2429,7 @@ const CompareCars = () => {
         brandsData={brandsData}
       />
 
-      {/* Comparison Results - UNCHANGED (Only uses car1 and car2 which now come from API) */}
+      {/* Comparison Results - FIXED IMAGE DISPLAY */}
       {isComparing && showComparison && car1 && car2 && (
         <section id="comparison-results" className={`py-16 transition-colors duration-300 ${isDark ? 'bg-dark-900' : 'bg-gray-50'}`}>
           <div className="container-custom">
@@ -2467,13 +2468,17 @@ const CompareCars = () => {
                 </div>
               </div>
 
-              {/* Car Headers */}
+              {/* Car Headers - FIXED: Increased image width, changed to object-contain */}
               <div className={`grid grid-cols-1 md:grid-cols-2 gap-6 rounded-xl shadow-lg p-6 md:p-8 mb-8 transition-colors duration-300 ${
                 isDark ? 'bg-dark-800' : 'bg-white'
               }`}>
                 <div className={`rounded-xl p-4 md:p-6 transition-colors duration-300 ${isDark ? 'bg-dark-700' : 'bg-gray-50'}`}>
                   <div className="flex flex-col items-center text-center">
-                    <img src={car1.image} alt={car1.model} className="w-48 h-48 md:w-64 md:h-64 lg:w-80 lg:h-80 object-cover rounded-lg mx-auto mb-4 shadow-md" />
+                    <img 
+                      src={car1.image} 
+                      alt={car1.model} 
+                      className="w-64 h-48 md:w-80 md:h-56 lg:w-96 lg:h-64 object-contain rounded-lg mx-auto mb-4 shadow-md bg-gray-100 dark:bg-dark-600" 
+                    />
                     <div className="flex items-center gap-2 mb-1">
                       <span className="text-xs font-medium px-2 py-0.5 bg-yellow-500 text-gray-900 rounded-full">{car1.brand}</span>
                     </div>
@@ -2492,7 +2497,11 @@ const CompareCars = () => {
 
                 <div className={`rounded-xl p-4 md:p-6 transition-colors duration-300 ${isDark ? 'bg-dark-700' : 'bg-gray-50'}`}>
                   <div className="flex flex-col items-center text-center">
-                    <img src={car2.image} alt={car2.model} className="w-48 h-48 md:w-64 md:h-64 lg:w-80 lg:h-80 object-cover rounded-lg mx-auto mb-4 shadow-md" />
+                    <img 
+                      src={car2.image} 
+                      alt={car2.model} 
+                      className="w-64 h-48 md:w-80 md:h-56 lg:w-96 lg:h-64 object-contain rounded-lg mx-auto mb-4 shadow-md bg-gray-100 dark:bg-dark-600" 
+                    />
                     <div className="flex items-center gap-2 mb-1">
                       <span className="text-xs font-medium px-2 py-0.5 bg-yellow-500 text-gray-900 rounded-full">{car2.brand}</span>
                     </div>
@@ -2510,7 +2519,7 @@ const CompareCars = () => {
                 </div>
               </div>
 
-              {/* Section Tabs */}
+              {/* Section Tabs - UNCHANGED */}
               <div className={`flex flex-wrap gap-2 mb-8 rounded-xl shadow-lg p-2 transition-colors duration-300 ${
                 isDark ? 'bg-dark-800' : 'bg-white'
               }`}>
@@ -2530,7 +2539,7 @@ const CompareCars = () => {
                 ))}
               </div>
 
-              {/* Section Content */}
+              {/* Section Content - UNCHANGED */}
               <div className={`rounded-xl shadow-lg overflow-hidden transition-colors duration-300 ${
                 isDark ? 'bg-dark-800' : 'bg-white'
               }`}>
@@ -2659,10 +2668,10 @@ const CompareCars = () => {
                         {section.id === 'detailed' && (
                           <div className="p-6">
                             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-                              {/* Car 1 Detailed Ratings */}
+                              {/* Car 1 Detailed Ratings - FIXED: Image in detailed view */}
                               <div className={`rounded-xl p-6 ${isDark ? 'bg-dark-800' : 'bg-gray-50'}`}>
                                 <div className={`flex items-center gap-3 mb-6 pb-4 border-b ${isDark ? 'border-dark-700' : 'border-gray-200'}`}>
-                                  <img src={car1.image} alt={car1.model} className="w-12 h-12 object-cover rounded-lg" />
+                                  <img src={car1.image} alt={car1.model} className="w-16 h-12 object-contain rounded-lg bg-gray-100 dark:bg-dark-600" />
                                   <div>
                                     <h3 className={`text-xl font-bold ${isDark ? 'text-white' : 'text-gray-800'}`}>{car1.brand} {car1.model}</h3>
                                     <p className={isDark ? 'text-gray-400' : 'text-gray-500'}>{car1.variant}</p>
@@ -2779,10 +2788,10 @@ const CompareCars = () => {
                                 </div>
                               </div>
 
-                              {/* Car 2 Detailed Ratings */}
+                              {/* Car 2 Detailed Ratings - FIXED: Image in detailed view */}
                               <div className={`rounded-xl p-6 ${isDark ? 'bg-dark-800' : 'bg-gray-50'}`}>
                                 <div className={`flex items-center gap-3 mb-6 pb-4 border-b ${isDark ? 'border-dark-700' : 'border-gray-200'}`}>
-                                  <img src={car2.image} alt={car2.model} className="w-12 h-12 object-cover rounded-lg" />
+                                  <img src={car2.image} alt={car2.model} className="w-16 h-12 object-contain rounded-lg bg-gray-100 dark:bg-dark-600" />
                                   <div>
                                     <h3 className={`text-xl font-bold ${isDark ? 'text-white' : 'text-gray-800'}`}>{car2.brand} {car2.model}</h3>
                                     <p className={isDark ? 'text-gray-400' : 'text-gray-500'}>{car2.variant}</p>
@@ -3046,7 +3055,7 @@ const CompareCars = () => {
                   <div className="flex items-center justify-between">
                     <div className="flex-1">
                       <div className="flex items-center gap-2">
-                        <img src={car1Data.image} alt={car1Data.model} className="w-8 h-8 md:w-10 md:h-10 object-cover rounded" />
+                        <img src={car1Data.image} alt={car1Data.model} className="w-10 h-8 object-contain rounded bg-gray-100 dark:bg-dark-600" />
                         <span className={`font-semibold text-xs md:text-sm ${isDark ? 'text-white' : 'text-gray-800'}`}>{car1Data.model}</span>
                       </div>
                     </div>
@@ -3054,7 +3063,7 @@ const CompareCars = () => {
                     <div className="flex-1 text-right">
                       <div className="flex items-center gap-2 justify-end">
                         <span className={`font-semibold text-xs md:text-sm ${isDark ? 'text-white' : 'text-gray-800'}`}>{car2Data.model}</span>
-                        <img src={car2Data.image} alt={car2Data.model} className="w-8 h-8 md:w-10 md:h-10 object-cover rounded" />
+                        <img src={car2Data.image} alt={car2Data.model} className="w-10 h-8 object-contain rounded bg-gray-100 dark:bg-dark-600" />
                       </div>
                     </div>
                   </div>
