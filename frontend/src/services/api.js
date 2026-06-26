@@ -180,7 +180,7 @@ export const api = {
   },
 
   // ========================================
-  // CAR API (NEW)
+  // CAR API
   // ========================================
 
   // Get all cars with full hierarchy (Brand → Model → Variant)
@@ -255,6 +255,24 @@ export const api = {
     }
   },
 
+  // Get car by ID
+  getCarById: async (id) => {
+    try {
+      const response = await fetch(`${API_URL}/cars/variants/${id}`, {
+        headers: {
+          'Accept': 'application/json',
+        },
+      });
+      return await handleResponse(response);
+    } catch (error) {
+      console.error('❌ Get car by ID error:', error);
+      return {
+        success: false,
+        message: 'Network error. Please check your connection.',
+      };
+    }
+  },
+
   // Search cars
   searchCars: async (query) => {
     try {
@@ -291,10 +309,50 @@ export const api = {
     }
   },
 
-  // Compare two cars
+  // Get cars by fuel type
+  getCarsByFuelType: async (fuelType) => {
+    try {
+      const response = await fetch(`${API_URL}/cars/fuel-type/${fuelType}`, {
+        headers: {
+          'Accept': 'application/json',
+        },
+      });
+      return await handleResponse(response);
+    } catch (error) {
+      console.error('❌ Get cars by fuel type error:', error);
+      return {
+        success: false,
+        message: 'Network error. Please check your connection.',
+      };
+    }
+  },
+
+  // Get cars by body type
+  getCarsByBodyType: async (bodyType) => {
+    try {
+      const response = await fetch(`${API_URL}/cars/body-type/${bodyType}`, {
+        headers: {
+          'Accept': 'application/json',
+        },
+      });
+      return await handleResponse(response);
+    } catch (error) {
+      console.error('❌ Get cars by body type error:', error);
+      return {
+        success: false,
+        message: 'Network error. Please check your connection.',
+      };
+    }
+  },
+
+  // ========================================
+  // COMPARISON API (NEW - Industry Benchmark Based)
+  // ========================================
+
+  // Compare two cars with industry benchmark ratings
   compareCars: async (car1Id, car2Id) => {
     try {
-      const response = await fetch(`${API_URL}/cars/compare`, {
+      const response = await fetch(`${API_URL}/compare/compare`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -312,8 +370,47 @@ export const api = {
     }
   },
 
+  // Get all benchmarks
+  getBenchmarks: async () => {
+    try {
+      const response = await fetch(`${API_URL}/compare/benchmarks`, {
+        headers: {
+          'Accept': 'application/json',
+        },
+      });
+      return await handleResponse(response);
+    } catch (error) {
+      console.error('❌ Get benchmarks error:', error);
+      return {
+        success: false,
+        message: 'Network error. Please check your connection.',
+      };
+    }
+  },
+
+  // Seed benchmarks (admin only)
+  seedBenchmarks: async (benchmarks) => {
+    try {
+      const response = await fetch(`${API_URL}/compare/benchmarks/seed`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json',
+        },
+        body: JSON.stringify({ benchmarks }),
+      });
+      return await handleResponse(response);
+    } catch (error) {
+      console.error('❌ Seed benchmarks error:', error);
+      return {
+        success: false,
+        message: 'Network error. Please check your connection.',
+      };
+    }
+  },
+
   // ========================================
-  // ARTICLES API (NEW)
+  // ARTICLES API
   // ========================================
 
   // Get all articles
@@ -388,3 +485,5 @@ export const api = {
     }
   },
 };
+
+export default api;

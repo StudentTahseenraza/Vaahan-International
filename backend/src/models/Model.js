@@ -24,10 +24,10 @@ const ModelSchema = new mongoose.Schema({
     required: true,
   },
   bodyType: {
-    type: String,
-    enum: ['SUV', 'Sedan', 'Hatchback', 'MUV', 'Coupe', 'Convertible'],
-    default: 'SUV',
-  },
+  type: String,
+  enum: ['SUV', 'Sedan', 'Hatchback', 'MUV', 'Coupe', 'Convertible', 'SUV-Coupé'],
+  default: 'SUV',
+},
   seatingCapacity: {
     type: Number,
     min: 2,

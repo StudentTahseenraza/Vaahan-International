@@ -29,6 +29,9 @@ exports.getFullCarHierarchy = async (req, res) => {
       const models = await Model.find({ brandId: brand._id }).sort({ name: 1 });
       const brandWithModels = {
         brand: brand.name,
+        brandSlug: brand.slug,
+        brandIcon: brand.icon,
+        brandDescription: brand.description,
         models: []
       };
       
@@ -38,12 +41,30 @@ exports.getFullCarHierarchy = async (req, res) => {
           name: model.name,
           slug: model.slug,
           image: model.image,
+          bodyType: model.bodyType,
+          seatingCapacity: model.seatingCapacity,
+          description: model.description,
           variants: variants.map(v => ({
+            _id: v._id.toString(),
             name: v.name,
             price: v.price,
+            exShowroomPrice: v.exShowroomPrice,
+            onRoadPrice: v.onRoadPrice,
+            engine: v.engine,
+            displacement: v.displacement,
+            fuelType: v.fuelType,
+            transmission: v.transmission,
+            power: v.power,
+            torque: v.torque,
+            mileage: v.mileage,
+            torqueNumeric: v.torqueNumeric,
+            powerNumeric: v.powerNumeric,
+            mileageNumeric: v.mileageNumeric,
             overallScore: v.overallScore,
-            scores: v.scores,
-            factorScores: v.factorScores,
+            // ✅ SEND SCORES AND FACTOR SCORES
+            scores: v.scores || null,
+            factorScores: v.factorScores || null,
+            specifications: v.specifications || {},
           }))
         });
       }

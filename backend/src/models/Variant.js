@@ -1,4 +1,5 @@
 // backend/src/models/Variant.js
+
 const mongoose = require('mongoose');
 
 const VariantSchema = new mongoose.Schema({
@@ -37,7 +38,21 @@ const VariantSchema = new mongoose.Schema({
   },
   transmission: {
     type: String,
-    enum: ['Manual', 'Automatic', 'AMT', 'CVT', 'DCT', 'EV', 'N/A', 'IVT', 'AutoSHIFT+', 'DCA'],
+    enum: [
+      'Manual', 
+      'Automatic', 
+      'AMT', 
+      'CVT', 
+      'DCT', 
+      'EV', 
+      'N/A', 
+      'IVT', 
+      'AutoSHIFT+', 
+      'DCA',
+      'Single Speed Reduction Gear',
+      'Single Speed Electric 2WD',
+      'Single Speed Electric ZWD'
+    ],
     default: 'N/A',
   },
   power: {
@@ -51,6 +66,19 @@ const VariantSchema = new mongoose.Schema({
   mileage: {
     type: String,
     trim: true,
+  },
+  // ✅ NEW: Numeric fields for benchmark calculation
+  torqueNumeric: {
+    type: Number,
+    default: null,
+  },
+  powerNumeric: {
+    type: Number,
+    default: null,
+  },
+  mileageNumeric: {
+    type: Number,
+    default: null,
   },
   overallScore: {
     type: Number,
@@ -149,9 +177,9 @@ const VariantSchema = new mongoose.Schema({
       warranty: { type: Number, min: 0, max: 10, default: 0 },
     },
   },
+  // ✅ FIX: Change from Map to Mixed
   specifications: {
-    type: Map,
-    of: String,
+    type: mongoose.Schema.Types.Mixed,
     default: {},
   },
   createdAt: {
@@ -161,6 +189,12 @@ const VariantSchema = new mongoose.Schema({
   updatedAt: {
     type: Date,
     default: Date.now,
+  },
+  customId: {
+    type: String,
+    unique: true,
+    sparse: true,
+    trim: true,
   },
 });
 

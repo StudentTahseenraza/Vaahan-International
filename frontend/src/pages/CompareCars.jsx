@@ -25,7 +25,7 @@
 
 // const CompareCars = () => {
 //   const { isDark } = useTheme()
-  
+
 //   // Car selection state - Three layer
 //   const [brand1, setBrand1] = useState('')
 //   const [model1, setModel1] = useState('')
@@ -33,7 +33,7 @@
 //   const [brand2, setBrand2] = useState('')
 //   const [model2, setModel2] = useState('')
 //   const [variant2, setVariant2] = useState('')
-  
+
 //   const [car1Id, setCar1Id] = useState(null)
 //   const [car2Id, setCar2Id] = useState(null)
 //   const [showComparison, setShowComparison] = useState(false)
@@ -43,7 +43,7 @@
 //   const [activeSection, setActiveSection] = useState('overview')
 //   const [isComparing, setIsComparing] = useState(false)
 //   const [expandedCategories, setExpandedCategories] = useState({})
-  
+
 //   const brands = getAllBrands()
 
 //   const car1 = car1Id ? getCarByBrandModelVariant(brand1, model1, variant1) : null
@@ -139,7 +139,7 @@
 //       setShowLoadingModal(true)
 //       setIsLoading(true)
 //       setExpandedCategories({})
-      
+
 //       setTimeout(() => {
 //         setShowComparison(true)
 //         setIsLoading(false)
@@ -159,7 +159,7 @@
 //     const allCars = getAllCars()
 //     const car1Data = allCars.find(c => c.id === id1)
 //     const car2Data = allCars.find(c => c.id === id2)
-    
+
 //     if (car1Data && car2Data) {
 //       setBrand1(car1Data.brand)
 //       setModel1(car1Data.model)
@@ -173,7 +173,7 @@
 //       setShowLoadingModal(true)
 //       setIsLoading(true)
 //       setExpandedCategories({})
-      
+
 //       setTimeout(() => {
 //         setShowComparison(true)
 //         setIsLoading(false)
@@ -216,7 +216,7 @@
 //   // Get score data for table
 //   const getScoreData = () => {
 //     if (!car1 || !car2) return []
-    
+
 //     const scoreCategories = [
 //       { key: 'safetyScore', label: 'Safety', icon: '🛡️' },
 //       { key: 'performanceScore', label: 'Performance', icon: '⚡' },
@@ -243,7 +243,7 @@
 //   // Get detailed score data with factors
 //   const getDetailedScoreData = () => {
 //     if (!car1 || !car2) return []
-    
+
 //     const detailedCategories = [
 //       {
 //         key: 'safetyScore',
@@ -463,14 +463,14 @@
 //             </div>
 //           )}
 //         </div>
-        
+
 //         <div className="space-y-3">
 //           {detailedScoreData.map((item) => {
 //             const score = isCar1 ? item.score1 : item.score2
 //             const factors = isCar1 ? item.factorScores1 : item.factorScores2
 //             const isExpanded = expandedCategories[`${carNumber}-${item.key}`]
 //             const isWinner = isCar1 ? item.winner === 'car1' : item.winner === 'car2'
-            
+
 //             return (
 //               <div 
 //                 key={item.key} 
@@ -505,7 +505,7 @@
 //                     </svg>
 //                   </div>
 //                 </button>
-                
+
 //                 {/* Expanded Content */}
 //                 <AnimatePresence>
 //                   {isExpanded && (
@@ -531,7 +531,7 @@
 //                             ></div>
 //                           </div>
 //                         </div>
-                        
+
 //                         <div className="space-y-2">
 //                           <p className={`text-xs font-medium ${isDark ? 'text-gray-500' : 'text-gray-500'}`}>Contributing Factors:</p>
 //                           {item.factors.map((factor, idx) => {
@@ -581,7 +581,7 @@
 //           />
 //           <div className="absolute inset-0 bg-gradient-to-r from-gray-900 via-gray-900/80 to-transparent"></div>
 //         </div>
-        
+
 //         <div className="container-custom relative z-10">
 //           <motion.div
 //             initial={{ opacity: 0, y: 30 }}
@@ -597,7 +597,7 @@
 //             >
 //               🚗 Car Comparison Tool
 //             </motion.div>
-            
+
 //             <motion.h1
 //               initial={{ opacity: 0, y: 20 }}
 //               animate={{ opacity: 1, y: 0 }}
@@ -607,7 +607,7 @@
 //               Compare Cars{' '}
 //               <span className="bg-gradient-to-r from-yellow-400 to-orange-500 bg-clip-text text-transparent">Side by Side</span>
 //             </motion.h1>
-            
+
 //             <motion.p
 //               initial={{ opacity: 0, y: 20 }}
 //               animate={{ opacity: 1, y: 0 }}
@@ -662,7 +662,7 @@
 //                   isDark ? 'bg-dark-800 border-dark-700' : 'bg-white border-gray-200'
 //                 }`}>
 //                   <label className={`block text-sm font-semibold mb-3 ${isDark ? 'text-gray-300' : 'text-gray-700'}`}>Add Car 1</label>
-                  
+
 //                   <select
 //                     value={brand1}
 //                     onChange={(e) => handleBrandSelect(1, e.target.value)}
@@ -677,7 +677,7 @@
 //                       <option key={brand} value={brand}>{brand}</option>
 //                     ))}
 //                   </select>
-                  
+
 //                   <select
 //                     value={model1}
 //                     onChange={(e) => handleModelSelect(1, e.target.value)}
@@ -693,7 +693,7 @@
 //                       <option key={model} value={model}>{model}</option>
 //                     ))}
 //                   </select>
-                  
+
 //                   <select
 //                     value={variant1}
 //                     onChange={(e) => handleVariantSelect(1, e.target.value)}
@@ -723,7 +723,7 @@
 //                   isDark ? 'bg-dark-800 border-dark-700' : 'bg-white border-gray-200'
 //                 }`}>
 //                   <label className={`block text-sm font-semibold mb-3 ${isDark ? 'text-gray-300' : 'text-gray-700'}`}>Add Car 2</label>
-                  
+
 //                   <select
 //                     value={brand2}
 //                     onChange={(e) => handleBrandSelect(2, e.target.value)}
@@ -738,7 +738,7 @@
 //                       <option key={brand} value={brand}>{brand}</option>
 //                     ))}
 //                   </select>
-                  
+
 //                   <select
 //                     value={model2}
 //                     onChange={(e) => handleModelSelect(2, e.target.value)}
@@ -754,7 +754,7 @@
 //                       <option key={model} value={model}>{model}</option>
 //                     ))}
 //                   </select>
-                  
+
 //                   <select
 //                     value={variant2}
 //                     onChange={(e) => handleVariantSelect(2, e.target.value)}
@@ -911,7 +911,7 @@
 //                 <AnimatePresence mode="wait">
 //                   {sections.map((section) => {
 //                     if (activeSection !== section.id) return null
-                    
+
 //                     return (
 //                       <motion.div
 //                         key={section.id}
@@ -944,7 +944,7 @@
 //                                                   item.score2 > item.score1 ? car2.model : 'Tie'
 //                                     const winnerColor = item.score1 > item.score2 ? 'text-green-600' :
 //                                                        item.score2 > item.score1 ? 'text-green-600' : 'text-gray-400'
-                                    
+
 //                                     return (
 //                                       <tr key={item.key} className={`${idx % 2 === 0 ? (isDark ? 'bg-dark-900' : 'bg-white') : (isDark ? 'bg-dark-800' : 'bg-gray-50')} hover:bg-yellow-50 transition-colors`}>
 //                                         <td className={`px-6 py-4 font-medium ${isDark ? 'text-gray-300' : 'text-gray-700'}`}>
@@ -1216,20 +1216,33 @@
 
 
 // src/pages/CompareCars.jsx
+/*
+================================================================================
+File Name : CompareCars.jsx
+Author : Tahseen Raza
+Created Date : 2026-01-16
+Updated Date : 2026-06-26
+Description : Professional car comparison with industry-benchmark ratings
+Company : Vaahan International
+Copyright : (c) 2026 Vaahan International. All rights reserved.
+================================================================================
+*/
+
 import { useState, useRef, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import { motion, AnimatePresence } from 'framer-motion'
 import { useTheme } from '../context/ThemeContext'
 import { api } from '../services/api'
+import ComparisonResults from '../components/compare/ComparisonResults'
 
 // ========================================
-// CarDekho Style Car Selection Popup - Clean list format
+// CarDekho Style Car Selection Popup
 // ========================================
-const CarSelectionPopup = ({ 
-  isOpen, 
-  onClose, 
-  onSelect, 
-  isDark, 
+const CarSelectionPopup = ({
+  isOpen,
+  onClose,
+  onSelect,
+  isDark,
   anchorRef,
   carsData,
   brandsData
@@ -1243,7 +1256,6 @@ const CarSelectionPopup = ({
   const popupRef = useRef(null)
   const searchInputRef = useRef(null)
 
-  // Get brands from props
   const brands = brandsData || []
 
   useEffect(() => {
@@ -1252,9 +1264,9 @@ const CarSelectionPopup = ({
       const viewportHeight = window.innerHeight
       const popupHeight = 400
       const gap = 8
-      
+
       let top, placement
-      
+
       if (rect.bottom + popupHeight + gap < viewportHeight) {
         top = rect.bottom + gap
         placement = 'bottom'
@@ -1263,15 +1275,15 @@ const CarSelectionPopup = ({
         placement = 'top'
         if (top < 10) top = 10
       }
-      
+
       const popupWidth = 340
       let left = rect.left + (rect.width / 2) - (popupWidth / 2)
-      
+
       if (left < 10) left = 10
       if (left + popupWidth > window.innerWidth - 10) {
         left = window.innerWidth - popupWidth - 10
       }
-      
+
       setPopupPosition({ top, left, placement })
     }
   }, [isOpen, anchorRef])
@@ -1282,13 +1294,11 @@ const CarSelectionPopup = ({
     }
   }, [isOpen, step])
 
-  // Get unique brands from cars data
   const getBrands = () => {
     if (!carsData) return []
     return [...new Set(carsData.map(c => c.brand))]
   }
 
-  // Get models for a brand
   const getModelsForBrand = (brand) => {
     if (!carsData) return []
     const models = carsData
@@ -1297,7 +1307,6 @@ const CarSelectionPopup = ({
     return [...new Set(models)]
   }
 
-  // Get variants for a brand and model
   const getVariantsForBrandModel = (brand, model) => {
     if (!carsData) return []
     return carsData
@@ -1322,12 +1331,13 @@ const CarSelectionPopup = ({
 
   const handleVariantSelect = (variant) => {
     setSelectedVariant(variant)
-    const car = carsData?.find(c => 
-      c.brand === selectedBrand && 
-      c.model === selectedModel && 
+    const car = carsData?.find(c =>
+      c.brand === selectedBrand &&
+      c.model === selectedModel &&
       c.variant === variant
     )
     if (car) {
+      console.log('✅ Selected car:', car.id, car.brand, car.model, car.variant)
       onSelect(car)
       onClose()
       resetSelection()
@@ -1369,29 +1379,24 @@ const CarSelectionPopup = ({
     return getVariantsForBrandModel(selectedBrand, selectedModel)
   }
 
-  // Filter brands by search query
-  const filteredBrands = searchQuery.trim() 
+  const filteredBrands = searchQuery.trim()
     ? getBrands().filter(b => b.toLowerCase().includes(searchQuery.toLowerCase()))
     : getBrands()
 
-  // Filter models by search query
-  const filteredModels = searchQuery.trim() 
+  const filteredModels = searchQuery.trim()
     ? getModels().filter(m => m.toLowerCase().includes(searchQuery.toLowerCase()))
     : getModels()
 
-  // Filter variants by search query
-  const filteredVariants = searchQuery.trim() 
+  const filteredVariants = searchQuery.trim()
     ? getVariants().filter(v => v.toLowerCase().includes(searchQuery.toLowerCase()))
     : getVariants()
 
-  // Render Step 1: Brand Selection - Clean list format
   const renderBrandStep = () => {
     return (
       <div>
-        {/* Search Bar */}
         <div className="mb-3">
           <div className="relative">
-            <svg 
+            <svg
               className={`absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 ${isDark ? 'text-gray-500' : 'text-gray-400'}`}
               fill="none" stroke="currentColor" viewBox="0 0 24 24"
             >
@@ -1403,16 +1408,14 @@ const CarSelectionPopup = ({
               placeholder="Search Brand..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className={`w-full pl-9 pr-3 py-3 rounded-xl border text-sm focus:ring-2 focus:ring-yellow-500 focus:border-yellow-500 transition-all outline-none ${
-                isDark 
-                  ? 'bg-dark-700 border-dark-600 text-white placeholder-gray-500' 
+              className={`w-full pl-9 pr-3 py-3 rounded-xl border text-sm focus:ring-2 focus:ring-yellow-500 focus:border-yellow-500 transition-all outline-none ${isDark
+                  ? 'bg-dark-700 border-dark-600 text-white placeholder-gray-500'
                   : 'bg-gray-50 border-gray-200 text-gray-900 placeholder-gray-400'
-              }`}
+                }`}
             />
           </div>
         </div>
 
-        {/* Brand List - Clean vertical list */}
         <div className="space-y-0.5 max-h-52 overflow-y-auto custom-scrollbar pr-1">
           {filteredBrands.map((brand) => {
             const hasModels = getModelsForBrand(brand).length > 0
@@ -1421,13 +1424,12 @@ const CarSelectionPopup = ({
                 key={brand}
                 onClick={() => hasModels && handleBrandSelect(brand)}
                 disabled={!hasModels}
-                className={`w-full px-3 py-3 text-left text-sm font-medium rounded-lg transition-all hover:scale-[1.01] flex items-center justify-between ${
-                  hasModels
-                    ? isDark 
-                      ? 'text-gray-200 hover:bg-dark-700 hover:text-white' 
+                className={`w-full px-3 py-3 text-left text-sm font-medium rounded-lg transition-all hover:scale-[1.01] flex items-center justify-between ${hasModels
+                    ? isDark
+                      ? 'text-gray-200 hover:bg-dark-700 hover:text-white'
                       : 'text-gray-800 hover:bg-gray-100'
                     : 'opacity-40 cursor-not-allowed'
-                }`}
+                  }`}
               >
                 <span>{brand}</span>
                 {hasModels && (
@@ -1448,11 +1450,9 @@ const CarSelectionPopup = ({
     )
   }
 
-  // Render Step 2: Model Selection - Clean list format
   const renderModelStep = () => {
     return (
       <div>
-        {/* Header with back */}
         <div className="mb-3 flex items-center gap-3">
           <button
             onClick={handleBack}
@@ -1472,10 +1472,9 @@ const CarSelectionPopup = ({
           </div>
         </div>
 
-        {/* Search Bar */}
         <div className="mb-3">
           <div className="relative">
-            <svg 
+            <svg
               className={`absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 ${isDark ? 'text-gray-500' : 'text-gray-400'}`}
               fill="none" stroke="currentColor" viewBox="0 0 24 24"
             >
@@ -1487,26 +1486,23 @@ const CarSelectionPopup = ({
               placeholder="Search Model..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className={`w-full pl-9 pr-3 py-3 rounded-xl border text-sm focus:ring-2 focus:ring-yellow-500 focus:border-yellow-500 transition-all outline-none ${
-                isDark 
-                  ? 'bg-dark-700 border-dark-600 text-white placeholder-gray-500' 
+              className={`w-full pl-9 pr-3 py-3 rounded-xl border text-sm focus:ring-2 focus:ring-yellow-500 focus:border-yellow-500 transition-all outline-none ${isDark
+                  ? 'bg-dark-700 border-dark-600 text-white placeholder-gray-500'
                   : 'bg-gray-50 border-gray-200 text-gray-900 placeholder-gray-400'
-              }`}
+                }`}
             />
           </div>
         </div>
 
-        {/* Models List - Clean vertical list */}
         <div className="space-y-0.5 max-h-52 overflow-y-auto custom-scrollbar pr-1">
           {filteredModels.map((model) => (
             <button
               key={model}
               onClick={() => handleModelSelect(model)}
-              className={`w-full px-3 py-3 text-left text-sm font-medium rounded-lg transition-all hover:scale-[1.01] ${
-                isDark 
-                  ? 'text-gray-200 hover:bg-dark-700 hover:text-white' 
+              className={`w-full px-3 py-3 text-left text-sm font-medium rounded-lg transition-all hover:scale-[1.01] ${isDark
+                  ? 'text-gray-200 hover:bg-dark-700 hover:text-white'
                   : 'text-gray-800 hover:bg-gray-100'
-              }`}
+                }`}
             >
               {model}
             </button>
@@ -1521,11 +1517,9 @@ const CarSelectionPopup = ({
     )
   }
 
-  // Render Step 3: Variant Selection - Clean list format
   const renderVariantStep = () => {
     return (
       <div>
-        {/* Header with back */}
         <div className="mb-3 flex items-center gap-3">
           <button
             onClick={handleBack}
@@ -1545,10 +1539,9 @@ const CarSelectionPopup = ({
           </div>
         </div>
 
-        {/* Search Bar */}
         <div className="mb-3">
           <div className="relative">
-            <svg 
+            <svg
               className={`absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 ${isDark ? 'text-gray-500' : 'text-gray-400'}`}
               fill="none" stroke="currentColor" viewBox="0 0 24 24"
             >
@@ -1560,32 +1553,29 @@ const CarSelectionPopup = ({
               placeholder="Search Variant..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className={`w-full pl-9 pr-3 py-3 rounded-xl border text-sm focus:ring-2 focus:ring-yellow-500 focus:border-yellow-500 transition-all outline-none ${
-                isDark 
-                  ? 'bg-dark-700 border-dark-600 text-white placeholder-gray-500' 
+              className={`w-full pl-9 pr-3 py-3 rounded-xl border text-sm focus:ring-2 focus:ring-yellow-500 focus:border-yellow-500 transition-all outline-none ${isDark
+                  ? 'bg-dark-700 border-dark-600 text-white placeholder-gray-500'
                   : 'bg-gray-50 border-gray-200 text-gray-900 placeholder-gray-400'
-              }`}
+                }`}
             />
           </div>
         </div>
 
-        {/* Variants List - Clean vertical list */}
         <div className="space-y-0.5 max-h-52 overflow-y-auto custom-scrollbar pr-1">
           {filteredVariants.map((variant) => {
-            const car = carsData?.find(c => 
-              c.brand === selectedBrand && 
-              c.model === selectedModel && 
+            const car = carsData?.find(c =>
+              c.brand === selectedBrand &&
+              c.model === selectedModel &&
               c.variant === variant
             )
             return (
               <button
                 key={variant}
                 onClick={() => handleVariantSelect(variant)}
-                className={`w-full px-3 py-3 text-left text-sm font-medium rounded-lg transition-all hover:scale-[1.01] flex items-center justify-between ${
-                  isDark 
-                    ? 'text-gray-200 hover:bg-dark-700 hover:text-white' 
+                className={`w-full px-3 py-3 text-left text-sm font-medium rounded-lg transition-all hover:scale-[1.01] flex items-center justify-between ${isDark
+                    ? 'text-gray-200 hover:bg-dark-700 hover:text-white'
                     : 'text-gray-800 hover:bg-gray-100'
-                }`}
+                  }`}
               >
                 <span>{variant}</span>
                 {car && (
@@ -1612,7 +1602,6 @@ const CarSelectionPopup = ({
     <AnimatePresence>
       {isOpen && (
         <>
-          {/* Backdrop */}
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
@@ -1621,8 +1610,7 @@ const CarSelectionPopup = ({
             className="fixed inset-0 z-40"
             onClick={handleClose}
           />
-          
-          {/* Popup */}
+
           <motion.div
             ref={popupRef}
             initial={{ opacity: 0, scale: 0.95, y: popupPosition.placement === 'bottom' ? -5 : 5 }}
@@ -1636,12 +1624,11 @@ const CarSelectionPopup = ({
               maxHeight: 'calc(100vh - 32px)',
             }}
           >
-            <div 
+            <div
               className={`rounded-2xl shadow-2xl p-4 overflow-y-auto ${isDark ? 'bg-dark-800 border border-dark-700' : 'bg-white border border-gray-100'}`}
               style={{ maxHeight: 'calc(100vh - 48px)' }}
             >
-              {/* Arrow indicator */}
-              <div 
+              <div
                 className={`absolute w-3 h-3 rotate-45 left-1/2 -translate-x-1/2 ${isDark ? 'bg-dark-800 border-dark-700' : 'bg-white border-gray-100'}`}
                 style={{
                   [popupPosition.placement === 'bottom' ? 'top' : 'bottom']: -6,
@@ -1651,7 +1638,6 @@ const CarSelectionPopup = ({
                 }}
               />
 
-              {/* Header */}
               <div className="flex items-center justify-between mb-3">
                 <div>
                   <h3 className={`text-base font-bold ${isDark ? 'text-white' : 'text-gray-900'}`}>
@@ -1675,17 +1661,15 @@ const CarSelectionPopup = ({
                 </button>
               </div>
 
-              {/* Progress Steps */}
               <div className="flex items-center gap-1 mb-3">
                 {[1, 2, 3].map((s) => (
                   <div key={s} className="flex items-center flex-1">
-                    <div className={`flex items-center gap-1.5 px-3 py-1 rounded-full text-[10px] font-medium transition-all ${
-                      step >= s 
-                        ? 'bg-yellow-500 text-gray-900' 
-                        : isDark 
-                          ? 'bg-dark-700 text-gray-500' 
+                    <div className={`flex items-center gap-1.5 px-3 py-1 rounded-full text-[10px] font-medium transition-all ${step >= s
+                        ? 'bg-yellow-500 text-gray-900'
+                        : isDark
+                          ? 'bg-dark-700 text-gray-500'
                           : 'bg-gray-200 text-gray-400'
-                    }`}>
+                      }`}>
                       {step > s ? '✓' : s}
                       <span className="hidden xs:inline">
                         {s === 1 && 'Brand'}
@@ -1700,14 +1684,12 @@ const CarSelectionPopup = ({
                 ))}
               </div>
 
-              {/* Content */}
               <div className="min-h-[150px]">
                 {step === 1 && renderBrandStep()}
                 {step === 2 && renderModelStep()}
                 {step === 3 && renderVariantStep()}
               </div>
 
-              {/* Footer */}
               <div className="mt-3 pt-2 border-t border-gray-200 dark:border-dark-700 flex items-center justify-between">
                 <span className={`text-[10px] ${isDark ? 'text-gray-500' : 'text-gray-400'}`}>
                   {step === 1 && 'Choose a brand'}
@@ -1717,11 +1699,10 @@ const CarSelectionPopup = ({
                 {step > 1 && (
                   <button
                     onClick={handleBack}
-                    className={`text-[10px] font-medium px-3 py-1 rounded-lg transition-colors ${
-                      isDark 
-                        ? 'text-gray-400 hover:text-white hover:bg-dark-700' 
+                    className={`text-[10px] font-medium px-3 py-1 rounded-lg transition-colors ${isDark
+                        ? 'text-gray-400 hover:text-white hover:bg-dark-700'
                         : 'text-gray-500 hover:text-gray-700 hover:bg-gray-100'
-                    }`}
+                      }`}
                   >
                     ← Back
                   </button>
@@ -1745,9 +1726,8 @@ const SelectedCarCard = ({ car, onRemove, isDark }) => {
       animate={{ opacity: 1, scale: 1 }}
       exit={{ opacity: 0, scale: 0.9 }}
       transition={{ duration: 0.3 }}
-      className={`relative p-4 rounded-xl text-center border-2 border-yellow-500 shadow-lg shadow-yellow-500/10 ${
-        isDark ? 'bg-dark-800' : 'bg-white'
-      }`}
+      className={`relative p-4 rounded-xl text-center border-2 border-yellow-500 shadow-lg shadow-yellow-500/10 ${isDark ? 'bg-dark-800' : 'bg-white'
+        }`}
     >
       <button
         onClick={onRemove}
@@ -1757,11 +1737,10 @@ const SelectedCarCard = ({ car, onRemove, isDark }) => {
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
         </svg>
       </button>
-      {/* FIX: Increased width and changed to object-contain to show full image */}
-      <img 
-        src={car.image} 
-        alt={car.model} 
-        className="w-32 h-20 object-contain rounded-lg mx-auto mb-2 shadow-md bg-gray-50 dark:bg-dark-700" 
+      <img
+        src={car.image}
+        alt={car.model}
+        className="w-32 h-20 object-contain rounded-lg mx-auto mb-2 shadow-md bg-gray-50 dark:bg-dark-700"
       />
       <div className="flex items-center justify-center gap-1.5 mb-0.5">
         <span className="text-xs font-medium px-2 py-0.5 bg-yellow-500 text-gray-900 rounded-full">
@@ -1778,9 +1757,8 @@ const SelectedCarCard = ({ car, onRemove, isDark }) => {
         {car.price}
       </p>
       {car.overallScore && (
-        <div className={`mt-2 inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full ${
-          isDark ? 'bg-yellow-500/20' : 'bg-yellow-500/10'
-        }`}>
+        <div className={`mt-2 inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full ${isDark ? 'bg-yellow-500/20' : 'bg-yellow-500/10'
+          }`}>
           <span className={`text-xs ${isDark ? 'text-gray-400' : 'text-gray-600'}`}>★</span>
           <span className="text-sm font-bold text-yellow-500">{car.overallScore.toFixed(1)}</span>
         </div>
@@ -1798,9 +1776,8 @@ const AddCarButton = ({ onClick, isDark }) => {
       whileHover={{ scale: 1.02 }}
       whileTap={{ scale: 0.98 }}
       onClick={onClick}
-      className={`w-full h-32 rounded-xl border-2 border-dashed flex flex-col items-center justify-center transition-all hover:border-yellow-500 hover:bg-yellow-50 dark:hover:bg-dark-700/50 group ${
-        isDark ? 'border-dark-600 text-gray-400' : 'border-gray-300 text-gray-500'
-      }`}
+      className={`w-full h-32 rounded-xl border-2 border-dashed flex flex-col items-center justify-center transition-all hover:border-yellow-500 hover:bg-yellow-50 dark:hover:bg-dark-700/50 group ${isDark ? 'border-dark-600 text-gray-400' : 'border-gray-300 text-gray-500'
+        }`}
     >
       <div className="w-14 h-14 rounded-full bg-yellow-500/10 group-hover:bg-yellow-500/20 flex items-center justify-center transition-all mb-2">
         <svg className="w-8 h-8 text-yellow-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -1817,24 +1794,22 @@ const AddCarButton = ({ onClick, isDark }) => {
 // ========================================
 const CompareCars = () => {
   const { isDark } = useTheme()
-  
+
   // State for car data from API
   const [carsData, setCarsData] = useState([])
   const [brandsData, setBrandsData] = useState([])
   const [loading, setLoading] = useState(true)
   const [dataError, setDataError] = useState(null)
-  
+
   const [car1Id, setCar1Id] = useState(null)
   const [car2Id, setCar2Id] = useState(null)
   const [showPopup1, setShowPopup1] = useState(false)
   const [showPopup2, setShowPopup2] = useState(false)
-  const [showComparison, setShowComparison] = useState(false)
-  const [showLoadingModal, setShowLoadingModal] = useState(false)
-  const [highlightDifferences, setHighlightDifferences] = useState(true)
-  const [activeSection, setActiveSection] = useState('overview')
+
+  const [comparisonData, setComparisonData] = useState(null)
   const [isComparing, setIsComparing] = useState(false)
-  const [expandedCategories, setExpandedCategories] = useState({})
-  
+  const [isLoading, setIsLoading] = useState(false)
+
   const addCarRef1 = useRef(null)
   const addCarRef2 = useRef(null)
 
@@ -1844,43 +1819,50 @@ const CompareCars = () => {
       try {
         setLoading(true)
         setDataError(null)
-        
-        // Get all cars
-        const carResult = await api.getAllCars()
-        if (carResult.success) {
-          // Flatten the data
-          const flattenedCars = []
-          carResult.data.forEach(brand => {
+
+        const response = await api.getAllCars()
+        console.log('📦 API Response:', response)
+
+        if (response.success) {
+          const flattened = []
+          response.data.forEach(brand => {
             brand.models.forEach(model => {
               model.variants.forEach(variant => {
-                flattenedCars.push({
-                  id: `${brand.brand}-${model.name}-${variant.name}`,
+                // ✅ FIX: Create ID from brand-model-variant if _id is missing
+                const variantId = variant._id || `${brand.brand}-${model.name}-${variant.name}`
+
+                flattened.push({
+                  id: variantId,  // ← Use the ID (MongoDB or fallback)
                   brand: brand.brand,
                   model: model.name,
                   variant: variant.name,
                   slug: model.slug,
                   image: model.image,
                   price: variant.price,
+                  exShowroomPrice: variant.exShowroomPrice,
+                  engine: variant.engine,
+                  torque: variant.torque,
+                  power: variant.power,
+                  mileage: variant.mileage,
+                  torqueNumeric: variant.torqueNumeric,
+                  powerNumeric: variant.powerNumeric,
+                  mileageNumeric: variant.mileageNumeric,
                   overallScore: variant.overallScore || 0,
                   scores: variant.scores || null,
                   factorScores: variant.factorScores || null,
+                  specifications: variant.specifications || {},
                 })
               })
             })
           })
-          setCarsData(flattenedCars)
-          
-          // Get brands
-          const brandResult = await api.getAllBrands()
-          if (brandResult.success) {
-            setBrandsData(brandResult.data.map(b => b.name))
-          } else {
-            // Extract brands from cars data as fallback
-            const uniqueBrands = [...new Set(flattenedCars.map(c => c.brand))]
-            setBrandsData(uniqueBrands)
-          }
+          setCarsData(flattened)
+          console.log('✅ Cars loaded:', flattened.length)
+          console.log('✅ First car sample:', flattened[0])
+
+          const uniqueBrands = [...new Set(flattened.map(c => c.brand))]
+          setBrandsData(uniqueBrands)
         } else {
-          setDataError(carResult.message || 'Failed to load car data')
+          setDataError(response.message || 'Failed to load car data')
         }
       } catch (error) {
         console.error('❌ Error fetching car data:', error)
@@ -1889,7 +1871,7 @@ const CompareCars = () => {
         setLoading(false)
       }
     }
-    
+
     fetchCarData()
   }, [])
 
@@ -1901,7 +1883,11 @@ const CompareCars = () => {
   const car1 = car1Id ? getCarById(car1Id) : null
   const car2 = car2Id ? getCarById(car2Id) : null
 
+  console.log('🔍 Car1:', car1Id, car1)
+  console.log('🔍 Car2:', car2Id, car2)
+
   const handleCarSelect = (position, car) => {
+    console.log('✅ Car selected:', position, car.id, car.brand, car.model, car.variant)
     if (position === 1) {
       setCar1Id(car.id)
     } else {
@@ -1919,60 +1905,69 @@ const CompareCars = () => {
     }
   }
 
-  const handleCompare = () => {
-    if (car1 && car2) {
-      setIsComparing(true)
-      setShowLoadingModal(true)
-      setExpandedCategories({})
-      
-      setTimeout(() => {
-        setShowComparison(true)
-        setShowLoadingModal(false)
+  const handleCompare = async () => {
+    if (!car1 || !car2) return
+
+    console.log('🚀 Comparing:', car1Id, car2Id)
+
+    setIsLoading(true)
+    setIsComparing(true)
+
+    try {
+      const response = await api.compareCars(car1Id, car2Id)
+      console.log('📊 Comparison response:', response)
+
+      if (response.success) {
+        setComparisonData(response.data)
         setTimeout(() => {
           document.getElementById('comparison-results')?.scrollIntoView({ behavior: 'smooth' })
-        }, 100)
-      }, 1500)
+        }, 200)
+      } else {
+        console.error('❌ Comparison failed:', response.message)
+        setIsComparing(false)
+      }
+    } catch (error) {
+      console.error('❌ Comparison error:', error)
+      setIsComparing(false)
+    } finally {
+      setIsLoading(false)
     }
   }
 
-  const clearAll = () => {
+  const clearComparison = () => {
     setCar1Id(null)
     setCar2Id(null)
-    setShowComparison(false)
+    setComparisonData(null)
     setIsComparing(false)
-    setShowLoadingModal(false)
-    setActiveSection('overview')
-    setExpandedCategories({})
     window.scrollTo({ top: 0, behavior: 'smooth' })
   }
 
-  const handlePopularCompare = (id1, id2) => {
-    const car1Data = getCarById(id1)
-    const car2Data = getCarById(id2)
-    
-    if (car1Data && car2Data) {
-      setCar1Id(id1)
-      setCar2Id(id2)
-      setIsComparing(true)
-      setShowLoadingModal(true)
-      setExpandedCategories({})
-      
-      setTimeout(() => {
-        setShowComparison(true)
-        setShowLoadingModal(false)
-        setTimeout(() => {
-          document.getElementById('comparison-results')?.scrollIntoView({ behavior: 'smooth' })
-        }, 100)
-      }, 1500)
-    }
+  // Helper function to get car ID by brand/model/variant
+  const getCarIdByDetails = (brand, model, variant) => {
+    const car = carsData.find(c =>
+      c.brand === brand &&
+      c.model === model &&
+      c.variant === variant
+    )
+    return car ? car.id : null
   }
 
-  // Popular comparisons with proper IDs from API data
+  // Popular comparisons
   const popularComparisons = [
     {
       id: 1,
-      car1Id: 'Hyundai-Creta-SX(O) 1.5 Diesel AT',
-      car2Id: 'Kia-Seltos-GTX+ 1.5 Diesel AT',
+      car1Id: getCarIdByDetails('Hyundai', 'Venue', 'HX2'),
+      car2Id: getCarIdByDetails('Kia', 'Seltos', 'HTE'),
+      title: "Venue vs Seltos",
+      car1Name: "Venue",
+      car2Name: "Seltos",
+      car1Brand: "Hyundai",
+      car2Brand: "Kia"
+    },
+    {
+      id: 2,
+      car1Id: getCarIdByDetails('Hyundai', 'Creta', 'Executive'),
+      car2Id: getCarIdByDetails('Kia', 'Seltos', 'HTX'),
       title: "Creta vs Seltos",
       car1Name: "Creta",
       car2Name: "Seltos",
@@ -1980,237 +1975,47 @@ const CompareCars = () => {
       car2Brand: "Kia"
     },
     {
-      id: 2,
-      car1Id: 'Hyundai-Creta-SX(O) 1.5 Diesel AT',
-      car2Id: 'Suzuki-Grand Vitara-Zeta+ Smart Hybrid',
-      title: "Creta vs Grand Vitara",
-      car1Name: "Creta",
-      car2Name: "Grand Vitara",
-      car1Brand: "Hyundai",
-      car2Brand: "Suzuki"
-    },
-    {
       id: 3,
-      car1Id: 'Tata-Nexon-Fearless Plus 1.5 Diesel',
-      car2Id: 'Suzuki-Brezza-ZXi+ 1.5 Petrol',
-      title: "Nexon vs Brezza",
-      car1Name: "Nexon",
-      car2Name: "Brezza",
-      car1Brand: "Tata",
-      car2Brand: "Suzuki"
+      car1Id: getCarIdByDetails('Hyundai', 'Venue', 'HX5'),
+      car2Id: getCarIdByDetails('Mahindra', 'XUV 3XO', 'MX2'),
+      title: "Venue vs XUV 3XO",
+      car1Name: "Venue",
+      car2Name: "XUV 3XO",
+      car1Brand: "Hyundai",
+      car2Brand: "Mahindra"
     },
     {
       id: 4,
-      car1Id: 'Mahindra-XUV700-AX7L 2.0 Diesel AT',
-      car2Id: 'Kia-Seltos-GTX+ 1.5 Diesel AT',
-      title: "XUV700 vs Seltos",
-      car1Name: "XUV700",
-      car2Name: "Seltos",
-      car1Brand: "Mahindra",
-      car2Brand: "Kia"
+      car1Id: getCarIdByDetails('Kia', 'Seltos', 'GTX'),
+      car2Id: getCarIdByDetails('Hyundai', 'Creta', 'Excellence'),
+      title: "Seltos vs Creta",
+      car1Name: "Seltos",
+      car2Name: "Creta",
+      car1Brand: "Kia",
+      car2Brand: "Hyundai"
     }
   ]
 
-  // Sections
-  const sections = [
-    { id: 'overview', label: 'Overview', icon: '📊' },
-    { id: 'detailed', label: 'Detailed Ratings', icon: '⭐' }
-  ]
+  // Handle popular comparison click
+  const handlePopularCompare = (id1, id2) => {
+    if (!id1 || !id2) {
+      console.error('❌ Invalid popular comparison IDs:', id1, id2)
+      return
+    }
 
-  // Get score data for table
-  const getScoreData = () => {
-    if (!car1 || !car2) return []
-    
-    const scoreCategories = [
-      { key: 'safetyScore', label: 'Safety', icon: '🛡️' },
-      { key: 'performanceScore', label: 'Performance', icon: '⚡' },
-      { key: 'drivingExperienceScore', label: 'Driving Experience', icon: '🚗' },
-      { key: 'suspensionScore', label: 'Suspension', icon: '🔧' },
-      { key: 'comfortScore', label: 'Comfort', icon: '🛋️' },
-      { key: 'featuresScore', label: 'Features', icon: '🎯' },
-      { key: 'valueForMoneyScore', label: 'Value for Money', icon: '💰' },
-      { key: 'cityDrivingScore', label: 'City Driving', icon: '🏙️' },
-      { key: 'highwayDrivingScore', label: 'Highway Driving', icon: '🛣️' },
-      { key: 'familyScore', label: 'Family', icon: '👨‍👩‍👧‍👦' },
-      { key: 'maintenanceScore', label: 'Maintenance', icon: '🔧' }
-    ]
+    const car1Data = getCarById(id1)
+    const car2Data = getCarById(id2)
 
-    return scoreCategories.map(cat => ({
-      ...cat,
-      score1: car1.scores?.[cat.key] || null,
-      score2: car2.scores?.[cat.key] || null
-    }))
-  }
+    if (car1Data && car2Data) {
+      setCar1Id(id1)
+      setCar2Id(id2)
 
-  const scoreData = getScoreData()
-
-  // Get detailed score data with factors
-  const getDetailedScoreData = () => {
-    if (!car1 || !car2) return []
-    
-    const detailedCategories = [
-      {
-        key: 'safetyScore',
-        label: 'Safety',
-        icon: '🛡️',
-        factors: [
-          { name: 'Airbags', key: 'airbags' },
-          { name: 'ADAS Features', key: 'adas' },
-          { name: 'NCAP Rating', key: 'ncapRating' },
-          { name: 'Braking Performance', key: 'braking' },
-          { name: 'Structural Safety', key: 'structuralSafety' }
-        ]
-      },
-      {
-        key: 'performanceScore',
-        label: 'Performance',
-        icon: '⚡',
-        factors: [
-          { name: 'Engine Power', key: 'enginePower' },
-          { name: 'Torque Output', key: 'torque' },
-          { name: 'Acceleration', key: 'acceleration' },
-          { name: 'Highway Performance', key: 'highwayPerformance' },
-          { name: 'Gearbox Response', key: 'gearboxResponse' }
-        ]
-      },
-      {
-        key: 'drivingExperienceScore',
-        label: 'Driving Experience',
-        icon: '🚗',
-        factors: [
-          { name: 'Steering Feedback', key: 'steeringFeedback' },
-          { name: 'Handling', key: 'handling' },
-          { name: 'Stability', key: 'stability' },
-          { name: 'Ride Quality', key: 'rideQuality' },
-          { name: 'Driver Confidence', key: 'driverConfidence' }
-        ]
-      },
-      {
-        key: 'suspensionScore',
-        label: 'Suspension',
-        icon: '🔧',
-        factors: [
-          { name: 'Ride Comfort', key: 'rideComfort' },
-          { name: 'Pothole Absorption', key: 'potholeAbsorption' },
-          { name: 'Highway Stability', key: 'highwayStability' },
-          { name: 'Cornering Support', key: 'corneringSupport' }
-        ]
-      },
-      {
-        key: 'comfortScore',
-        label: 'Comfort',
-        icon: '🛋️',
-        factors: [
-          { name: 'Seat Quality', key: 'seatQuality' },
-          { name: 'Cabin Insulation', key: 'cabinInsulation' },
-          { name: 'AC Effectiveness', key: 'acEffectiveness' },
-          { name: 'Rear Seat Comfort', key: 'rearSeatComfort' },
-          { name: 'Ride Smoothness', key: 'rideSmoothness' }
-        ]
-      },
-      {
-        key: 'featuresScore',
-        label: 'Features',
-        icon: '🎯',
-        factors: [
-          { name: 'Infotainment System', key: 'infotainment' },
-          { name: 'Connected Car', key: 'connectedCar' },
-          { name: 'Panoramic Sunroof', key: 'sunroof' },
-          { name: 'Ventilated Seats', key: 'ventilatedSeats' },
-          { name: 'Ambient Lighting', key: 'ambientLighting' }
-        ]
-      },
-      {
-        key: 'valueForMoneyScore',
-        label: 'Value for Money',
-        icon: '💰',
-        factors: [
-          { name: 'Price vs Features', key: 'priceVsFeatures' },
-          { name: 'Safety Package', key: 'safetyPackage' },
-          { name: 'Performance Value', key: 'performanceValue' },
-          { name: 'Resale Value', key: 'resaleValue' },
-          { name: 'Overall Package', key: 'overallPackage' }
-        ]
-      },
-      {
-        key: 'cityDrivingScore',
-        label: 'City Driving',
-        icon: '🏙️',
-        factors: [
-          { name: 'Steering Responsiveness', key: 'steeringResponsiveness' },
-          { name: 'Turning Radius', key: 'turningRadius' },
-          { name: 'Visibility', key: 'visibility' },
-          { name: 'Ease of Parking', key: 'easeOfParking' },
-          { name: 'Traffic Maneuverability', key: 'trafficManeuverability' }
-        ]
-      },
-      {
-        key: 'highwayDrivingScore',
-        label: 'Highway Driving',
-        icon: '🛣️',
-        factors: [
-          { name: 'High Speed Stability', key: 'highSpeedStability' },
-          { name: 'Cruise Control', key: 'cruiseControl' },
-          { name: 'Overtaking Ability', key: 'overtakingAbility' },
-          { name: 'Fuel Efficiency', key: 'fuelEfficiency' },
-          { name: 'Cabin Noise', key: 'cabinNoise' }
-        ]
-      },
-      {
-        key: 'familyScore',
-        label: 'Family',
-        icon: '👨‍👩‍👧‍👦',
-        factors: [
-          { name: 'Rear Seat Space', key: 'rearSeatSpace' },
-          { name: 'Boot Capacity', key: 'bootCapacity' },
-          { name: 'Child Safety', key: 'childSafety' },
-          { name: 'Ease of Entry', key: 'easeOfEntry' },
-          { name: 'Family Features', key: 'familyFeatures' }
-        ]
-      },
-      {
-        key: 'maintenanceScore',
-        label: 'Maintenance',
-        icon: '🔧',
-        factors: [
-          { name: 'Service Cost', key: 'serviceCost' },
-          { name: 'Spare Parts', key: 'spareParts' },
-          { name: 'Service Network', key: 'serviceNetwork' },
-          { name: 'Reliability', key: 'reliability' },
-          { name: 'Warranty', key: 'warranty' }
-        ]
-      }
-    ]
-
-    return detailedCategories.map(cat => ({
-      ...cat,
-      score1: car1.scores?.[cat.key] || null,
-      score2: car2.scores?.[cat.key] || null,
-      factorScores1: car1.factorScores?.[cat.key] || {},
-      factorScores2: car2.factorScores?.[cat.key] || {},
-      winner: car1.scores?.[cat.key] > car2.scores?.[cat.key] ? 'car1' :
-               car2.scores?.[cat.key] > car1.scores?.[cat.key] ? 'car2' : 'tie'
-    }))
-  }
-
-  const detailedScoreData = getDetailedScoreData()
-
-  const getScoreColor = (score) => {
-    if (score === null || score === undefined) return 'text-gray-400'
-    if (score >= 9) return 'text-green-600'
-    if (score >= 8) return 'text-green-500'
-    if (score >= 7) return 'text-yellow-600'
-    if (score >= 6) return 'text-orange-500'
-    return 'text-red-500'
-  }
-
-  const getScoreBg = (score) => {
-    if (score === null || score === undefined) return 'bg-gray-300 dark:bg-gray-600'
-    if (score >= 9) return 'bg-green-500'
-    if (score >= 8) return 'bg-green-400'
-    if (score >= 7) return 'bg-yellow-500'
-    if (score >= 6) return 'bg-orange-500'
-    return 'bg-red-500'
+      setTimeout(() => {
+        handleCompare()
+      }, 300)
+    } else {
+      console.error('❌ Car data not found for popular comparison')
+    }
   }
 
   // Loading state
@@ -2244,71 +2049,85 @@ const CompareCars = () => {
     )
   }
 
-  // Loading Modal
-  if (showLoadingModal) {
-    return (
-      <motion.div
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        exit={{ opacity: 0 }}
-        className="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 flex items-center justify-center"
-      >
-        <motion.div
-          initial={{ scale: 0.9, y: 20 }}
-          animate={{ scale: 1, y: 0 }}
-          exit={{ scale: 0.9, y: 20 }}
-          className={`rounded-2xl p-8 max-w-md w-full text-center shadow-2xl ${isDark ? 'bg-dark-800' : 'bg-white'}`}
-        >
-          <div className="relative w-24 h-24 mx-auto mb-6">
-            <div className={`absolute inset-0 border-4 rounded-full ${isDark ? 'border-dark-600' : 'border-gray-200'}`}></div>
-            <div className="absolute inset-0 border-4 border-yellow-500 rounded-full border-t-transparent animate-spin"></div>
-            <div className="absolute inset-0 flex items-center justify-center text-3xl">🚗</div>
-          </div>
-          <h3 className={`text-xl font-bold mb-2 ${isDark ? 'text-white' : 'text-gray-800'}`}>Comparing Cars</h3>
-          <p className={isDark ? 'text-gray-400' : 'text-gray-500'}>Analyzing features, specifications, and scores...</p>
-          <div className="flex items-center justify-center gap-4 text-sm text-gray-400 mt-4">
-            <span className="animate-pulse">●</span>
-            <span className="animate-pulse delay-150">●</span>
-            <span className="animate-pulse delay-300">●</span>
-          </div>
-        </motion.div>
-      </motion.div>
-    )
-  }
-
   return (
     <>
-      {/* Hero Section - UNCHANGED */}
+      {/* Hero Section */}
       <section className="relative pt-32 pb-20 bg-gradient-to-r from-gray-900 to-gray-800 text-white overflow-hidden">
         <div className="absolute inset-0 z-0">
-          <img 
+          <img
             src="./imageCompare.png"
             alt="Compare Cars"
             className="w-full h-full object-cover opacity-30"
           />
           <div className="absolute inset-0 bg-gradient-to-r from-gray-900 via-gray-900/80 to-transparent"></div>
         </div>
+
         <div className="container-custom relative z-10">
-          <motion.div initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }} className="max-w-3xl">
-            <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.2, duration: 0.5 }} className="inline-block px-4 py-1.5 bg-yellow-500 rounded-full text-gray-900 text-sm font-semibold mb-6">
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6 }}
+            className="max-w-3xl"
+          >
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.2, duration: 0.5 }}
+              className="inline-block px-4 py-1.5 bg-yellow-500 rounded-full text-gray-900 text-sm font-semibold mb-6"
+            >
               🚗 Car Comparison Tool
             </motion.div>
-            <motion.h1 initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.3, duration: 0.5 }} className="text-white text-4xl sm:text-5xl lg:text-6xl font-bold leading-tight mb-6">
+
+            <motion.h1
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.3, duration: 0.5 }}
+              className="text-white text-4xl sm:text-5xl lg:text-6xl font-bold leading-tight mb-6"
+            >
               Compare Cars{' '}
               <span className="bg-gradient-to-r from-yellow-400 to-orange-500 bg-clip-text text-transparent">Side by Side</span>
             </motion.h1>
-            <motion.p initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.4, duration: 0.5 }} className="text-xl text-gray-300 mb-8">
+
+            <motion.p
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.4, duration: 0.5 }}
+              className="text-xl text-gray-300 mb-8"
+            >
               Select two cars to compare their features, scores, and specifications
             </motion.p>
+
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.6, duration: 0.5 }}
+              className="flex flex-wrap gap-8 pt-6 border-t border-white/20"
+            >
+              <div>
+                <div className="text-3xl font-bold text-yellow-400">{brandsData.length}</div>
+                <div className="text-gray-300 text-sm">Brands</div>
+              </div>
+              <div>
+                <div className="text-3xl font-bold text-yellow-400">{new Set(carsData.map(c => c.model)).size}+</div>
+                <div className="text-gray-300 text-sm">Models</div>
+              </div>
+              <div>
+                <div className="text-3xl font-bold text-yellow-400">{carsData.length}</div>
+                <div className="text-gray-300 text-sm">Variants</div>
+              </div>
+              <div>
+                <div className="text-3xl font-bold text-yellow-400">7</div>
+                <div className="text-gray-300 text-sm">Rating Categories</div>
+              </div>
+            </motion.div>
           </motion.div>
         </div>
       </section>
 
-      {/* Car Selection - UNCHANGED */}
+      {/* Car Selection */}
       {!isComparing && (
-        <section className={`py-12 border-b transition-colors duration-300 relative -mt-6 ${
-          isDark ? 'bg-dark-900 border-dark-700' : 'bg-gray-50 border-gray-200'
-        }`}>
+        <section className={`py-12 border-b transition-colors duration-300 relative -mt-6 ${isDark ? 'bg-dark-900 border-dark-700' : 'bg-gray-50 border-gray-200'
+          }`}>
           <div className="container-custom">
             <div className="max-w-4xl mx-auto">
               <div className="text-center mb-8">
@@ -2345,7 +2164,7 @@ const CompareCars = () => {
 
                 {/* VS */}
                 <div className="flex justify-center">
-                  <motion.div 
+                  <motion.div
                     initial={{ scale: 0 }}
                     animate={{ scale: 1 }}
                     transition={{ delay: 0.2, type: 'spring', stiffness: 400, damping: 20 }}
@@ -2378,24 +2197,26 @@ const CompareCars = () => {
                 </div>
               </div>
 
-              {/* Compare Button - UNCHANGED */}
+              {/* Compare Button */}
               <div className="text-center mt-8">
                 <motion.button
                   whileHover={car1 && car2 ? { scale: 1.05 } : {}}
                   whileTap={car1 && car2 ? { scale: 0.95 } : {}}
                   onClick={handleCompare}
                   disabled={!car1 || !car2}
-                  className={`px-12 py-3.5 rounded-xl font-semibold text-lg transition-all duration-300 ${
-                    car1 && car2
+                  className={`px-12 py-3.5 rounded-xl font-semibold text-lg transition-all duration-300 ${car1 && car2
                       ? 'bg-gradient-to-r from-yellow-500 to-orange-500 hover:from-yellow-600 hover:to-orange-600 text-gray-900 shadow-lg hover:shadow-xl'
                       : 'bg-gray-300 text-gray-500 cursor-not-allowed'
-                  }`}
+                    }`}
                 >
                   {car1 && car2 ? 'Compare Now 🚀' : 'Add two cars to compare'}
                 </motion.button>
                 {(car1 || car2) && (
                   <button
-                    onClick={clearAll}
+                    onClick={() => {
+                      setCar1Id(null)
+                      setCar2Id(null)
+                    }}
                     className={`ml-4 text-sm transition-colors ${isDark ? 'text-gray-400 hover:text-gray-300' : 'text-gray-500 hover:text-gray-700'}`}
                   >
                     Clear All
@@ -2407,12 +2228,11 @@ const CompareCars = () => {
         </section>
       )}
 
-      {/* Popups - UNCHANGED */}
+      {/* Popups */}
       <CarSelectionPopup
         isOpen={showPopup1}
         onClose={() => setShowPopup1(false)}
         onSelect={(car) => handleCarSelect(1, car)}
-        position={1}
         isDark={isDark}
         anchorRef={addCarRef1}
         carsData={carsData}
@@ -2422,604 +2242,68 @@ const CompareCars = () => {
         isOpen={showPopup2}
         onClose={() => setShowPopup2(false)}
         onSelect={(car) => handleCarSelect(2, car)}
-        position={2}
         isDark={isDark}
         anchorRef={addCarRef2}
         carsData={carsData}
         brandsData={brandsData}
       />
 
-      {/* Comparison Results - FIXED IMAGE DISPLAY */}
-      {isComparing && showComparison && car1 && car2 && (
-        <section id="comparison-results" className={`py-16 transition-colors duration-300 ${isDark ? 'bg-dark-900' : 'bg-gray-50'}`}>
+      {/* Loading Modal */}
+      <AnimatePresence>
+        {isLoading && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 flex items-center justify-center"
+          >
+            <motion.div
+              initial={{ scale: 0.9, y: 20 }}
+              animate={{ scale: 1, y: 0 }}
+              exit={{ scale: 0.9, y: 20 }}
+              className={`rounded-2xl p-8 max-w-md w-full text-center shadow-2xl ${isDark ? 'bg-dark-800' : 'bg-white'
+                }`}
+            >
+              <div className="relative w-24 h-24 mx-auto mb-6">
+                <div className={`absolute inset-0 border-4 rounded-full ${isDark ? 'border-dark-600' : 'border-gray-200'}`} />
+                <div className="absolute inset-0 border-4 border-yellow-500 rounded-full border-t-transparent animate-spin" />
+                <div className="absolute inset-0 flex items-center justify-center text-3xl">🚗</div>
+              </div>
+              <h3 className={`text-xl font-bold mb-2 ${isDark ? 'text-white' : 'text-gray-800'}`}>
+                Comparing Cars
+              </h3>
+              <p className={isDark ? 'text-gray-400' : 'text-gray-500'}>
+                Analyzing features, specifications, and scores...
+              </p>
+              <div className="flex items-center justify-center gap-4 text-sm text-gray-400 mt-4">
+                <span className="animate-pulse">●</span>
+                <span className="animate-pulse delay-150">●</span>
+                <span className="animate-pulse delay-300">●</span>
+              </div>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
+      {/* Comparison Results */}
+      {isComparing && comparisonData && (
+        <section id="comparison-results" className={`py-12 ${isDark ? 'bg-dark-900' : 'bg-gray-50'}`}>
           <div className="container-custom">
             <div className="max-w-6xl mx-auto">
-              <div className="flex justify-between items-center mb-8 flex-wrap gap-4">
-                <div className="flex items-center gap-4 flex-wrap">
-                  <button
-                    onClick={clearAll}
-                    className={`transition-colors flex items-center gap-2 ${isDark ? 'text-gray-400 hover:text-gray-300' : 'text-gray-500 hover:text-gray-700'}`}
-                  >
-                    <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 19l-7-7m0 0l7-7m-7 7h18" />
-                    </svg>
-                    New Comparison
-                  </button>
-                  <h2 className={`text-2xl font-bold ${isDark ? 'text-white' : 'text-gray-900'}`}>
-                    {car1.brand} {car1.model} vs {car2.brand} {car2.model}
-                  </h2>
-                </div>
-                <div className="flex items-center gap-4 flex-wrap">
-                  <label className={`flex items-center gap-2 text-sm ${isDark ? 'text-gray-400' : 'text-gray-600'}`}>
-                    <input
-                      type="checkbox"
-                      checked={highlightDifferences}
-                      onChange={() => setHighlightDifferences(!highlightDifferences)}
-                      className="w-4 h-4 text-yellow-500 rounded"
-                    />
-                    Highlight Differences
-                  </label>
-                  <button
-                    onClick={clearAll}
-                    className={`transition-colors ${isDark ? 'text-gray-500 hover:text-gray-400' : 'text-gray-400 hover:text-gray-600'}`}
-                  >
-                    ✕ Close
-                  </button>
-                </div>
-              </div>
-
-              {/* Car Headers - FIXED: Increased image width, changed to object-contain */}
-              <div className={`grid grid-cols-1 md:grid-cols-2 gap-6 rounded-xl shadow-lg p-6 md:p-8 mb-8 transition-colors duration-300 ${
-                isDark ? 'bg-dark-800' : 'bg-white'
-              }`}>
-                <div className={`rounded-xl p-4 md:p-6 transition-colors duration-300 ${isDark ? 'bg-dark-700' : 'bg-gray-50'}`}>
-                  <div className="flex flex-col items-center text-center">
-                    <img 
-                      src={car1.image} 
-                      alt={car1.model} 
-                      className="w-64 h-48 md:w-80 md:h-56 lg:w-96 lg:h-64 object-contain rounded-lg mx-auto mb-4 shadow-md bg-gray-100 dark:bg-dark-600" 
-                    />
-                    <div className="flex items-center gap-2 mb-1">
-                      <span className="text-xs font-medium px-2 py-0.5 bg-yellow-500 text-gray-900 rounded-full">{car1.brand}</span>
-                    </div>
-                    <h3 className={`text-xl md:text-2xl font-bold ${isDark ? 'text-white' : 'text-gray-900'}`}>{car1.model}</h3>
-                    <p className={`text-sm mt-1 ${isDark ? 'text-gray-400' : 'text-gray-500'}`}>{car1.variant}</p>
-                    <p className={`text-sm font-semibold mt-1 ${isDark ? 'text-yellow-400' : 'text-yellow-600'}`}>{car1.price}</p>
-                    {car1.overallScore && (
-                      <div className={`mt-3 inline-flex items-center gap-2 px-3 py-1.5 rounded-full ${isDark ? 'bg-yellow-500/20' : 'bg-yellow-500/10'}`}>
-                        <span className={`text-xs ${isDark ? 'text-gray-400' : 'text-gray-600'}`}>Overall</span>
-                        <span className="text-lg font-bold text-yellow-500">{car1.overallScore.toFixed(1)}</span>
-                        <span className={`text-xs ${isDark ? 'text-gray-500' : 'text-gray-400'}`}>/ 10</span>
-                      </div>
-                    )}
-                  </div>
-                </div>
-
-                <div className={`rounded-xl p-4 md:p-6 transition-colors duration-300 ${isDark ? 'bg-dark-700' : 'bg-gray-50'}`}>
-                  <div className="flex flex-col items-center text-center">
-                    <img 
-                      src={car2.image} 
-                      alt={car2.model} 
-                      className="w-64 h-48 md:w-80 md:h-56 lg:w-96 lg:h-64 object-contain rounded-lg mx-auto mb-4 shadow-md bg-gray-100 dark:bg-dark-600" 
-                    />
-                    <div className="flex items-center gap-2 mb-1">
-                      <span className="text-xs font-medium px-2 py-0.5 bg-yellow-500 text-gray-900 rounded-full">{car2.brand}</span>
-                    </div>
-                    <h3 className={`text-xl md:text-2xl font-bold ${isDark ? 'text-white' : 'text-gray-900'}`}>{car2.model}</h3>
-                    <p className={`text-sm mt-1 ${isDark ? 'text-gray-400' : 'text-gray-500'}`}>{car2.variant}</p>
-                    <p className={`text-sm font-semibold mt-1 ${isDark ? 'text-yellow-400' : 'text-yellow-600'}`}>{car2.price}</p>
-                    {car2.overallScore && (
-                      <div className={`mt-3 inline-flex items-center gap-2 px-3 py-1.5 rounded-full ${isDark ? 'bg-yellow-500/20' : 'bg-yellow-500/10'}`}>
-                        <span className={`text-xs ${isDark ? 'text-gray-400' : 'text-gray-600'}`}>Overall</span>
-                        <span className="text-lg font-bold text-yellow-500">{car2.overallScore.toFixed(1)}</span>
-                        <span className={`text-xs ${isDark ? 'text-gray-500' : 'text-gray-400'}`}>/ 10</span>
-                      </div>
-                    )}
-                  </div>
-                </div>
-              </div>
-
-              {/* Section Tabs - UNCHANGED */}
-              <div className={`flex flex-wrap gap-2 mb-8 rounded-xl shadow-lg p-2 transition-colors duration-300 ${
-                isDark ? 'bg-dark-800' : 'bg-white'
-              }`}>
-                {sections.map((section) => (
-                  <button
-                    key={section.id}
-                    onClick={() => setActiveSection(section.id)}
-                    className={`px-4 md:px-6 py-2 md:py-3 rounded-lg font-semibold transition-all duration-300 flex items-center gap-2 text-sm md:text-base ${
-                      activeSection === section.id
-                        ? 'bg-yellow-500 text-gray-900 shadow-md'
-                        : isDark ? 'bg-transparent text-gray-400 hover:bg-dark-700' : 'bg-transparent text-gray-600 hover:bg-gray-100'
-                    }`}
-                  >
-                    <span>{section.icon}</span>
-                    {section.label}
-                  </button>
-                ))}
-              </div>
-
-              {/* Section Content - UNCHANGED */}
-              <div className={`rounded-xl shadow-lg overflow-hidden transition-colors duration-300 ${
-                isDark ? 'bg-dark-800' : 'bg-white'
-              }`}>
-                <AnimatePresence mode="wait">
-                  {sections.map((section) => {
-                    if (activeSection !== section.id) return null
-                    
-                    return (
-                      <motion.div
-                        key={section.id}
-                        initial={{ opacity: 0, y: 10 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        exit={{ opacity: 0, y: -10 }}
-                        transition={{ duration: 0.3 }}
-                      >
-                        {section.id === 'overview' && (
-                          <div className="p-4 md:p-6">
-                            <div className="overflow-x-auto">
-                              <table className="w-full">
-                                <thead>
-                                  <tr className={`rounded-lg ${isDark ? 'bg-dark-700' : 'bg-gradient-to-r from-gray-50 to-gray-100'}`}>
-                                    <th className={`px-4 md:px-6 py-3 md:py-4 text-left font-semibold text-xs md:text-sm ${isDark ? 'text-gray-400' : 'text-gray-600'}`}>Category</th>
-                                    <th className={`px-4 md:px-6 py-3 md:py-4 text-center font-semibold text-xs md:text-sm ${isDark ? 'text-gray-400' : 'text-gray-600'}`}>
-                                      {car1.brand} {car1.model}
-                                    </th>
-                                    <th className={`px-4 md:px-6 py-3 md:py-4 text-center font-semibold text-xs md:text-sm ${isDark ? 'text-gray-400' : 'text-gray-600'}`}>
-                                      {car2.brand} {car2.model}
-                                    </th>
-                                    <th className={`px-4 md:px-6 py-3 md:py-4 text-center font-semibold text-xs md:text-sm ${isDark ? 'text-gray-400' : 'text-gray-600'}`}>Winner</th>
-                                  </tr>
-                                </thead>
-                                <tbody>
-                                  {scoreData.map((item, idx) => {
-                                    const isDifferent = item.score1 !== item.score2
-                                    const winner = item.score1 > item.score2 ? car1.model : 
-                                                  item.score2 > item.score1 ? car2.model : 'Tie'
-                                    const winnerColor = item.score1 > item.score2 ? 'text-green-600 dark:text-green-400' :
-                                                       item.score2 > item.score1 ? 'text-green-600 dark:text-green-400' : 'text-gray-400 dark:text-gray-500'
-                                    
-                                    return (
-                                      <tr key={item.key} className={`${idx % 2 === 0 ? (isDark ? 'bg-dark-900' : 'bg-white') : (isDark ? 'bg-dark-800' : 'bg-gray-50')} transition-colors duration-200 hover:bg-yellow-50 dark:hover:bg-dark-700`}>
-                                        <td className={`px-4 md:px-6 py-3 md:py-4 font-medium text-xs md:text-sm ${isDark ? 'text-gray-300' : 'text-gray-700'}`}>
-                                          <span className="mr-2">{item.icon}</span>
-                                          {item.label}
-                                        </td>
-                                        <td className="px-4 md:px-6 py-3 md:py-4 text-center">
-                                          {item.score1 !== null ? (
-                                            <div className="flex items-center justify-center gap-2">
-                                              <span className={`text-base md:text-lg font-bold ${getScoreColor(item.score1)}`}>
-                                                {item.score1.toFixed(1)}
-                                              </span>
-                                              <div className={`w-12 md:w-16 h-1.5 rounded-full overflow-hidden ${isDark ? 'bg-dark-700' : 'bg-gray-200'}`}>
-                                                <div 
-                                                  className={`h-full ${getScoreBg(item.score1)} rounded-full`}
-                                                  style={{ width: `${(item.score1 / 10) * 100}%` }}
-                                                ></div>
-                                              </div>
-                                            </div>
-                                          ) : (
-                                            <span className={isDark ? 'text-gray-600' : 'text-gray-400'}>N/A</span>
-                                          )}
-                                        </td>
-                                        <td className="px-4 md:px-6 py-3 md:py-4 text-center">
-                                          {item.score2 !== null ? (
-                                            <div className="flex items-center justify-center gap-2">
-                                              <span className={`text-base md:text-lg font-bold ${getScoreColor(item.score2)}`}>
-                                                {item.score2.toFixed(1)}
-                                              </span>
-                                              <div className={`w-12 md:w-16 h-1.5 rounded-full overflow-hidden ${isDark ? 'bg-dark-700' : 'bg-gray-200'}`}>
-                                                <div 
-                                                  className={`h-full ${getScoreBg(item.score2)} rounded-full`}
-                                                  style={{ width: `${(item.score2 / 10) * 100}%` }}
-                                                ></div>
-                                              </div>
-                                            </div>
-                                          ) : (
-                                            <span className={isDark ? 'text-gray-600' : 'text-gray-400'}>N/A</span>
-                                          )}
-                                        </td>
-                                        <td className="px-4 md:px-6 py-3 md:py-4 text-center">
-                                          {highlightDifferences && isDifferent ? (
-                                            <span className={`font-bold ${winnerColor}`}>
-                                              {winner !== 'Tie' ? `🏆 ${winner}` : 'Tie'}
-                                            </span>
-                                          ) : (
-                                            <span className={isDark ? 'text-gray-600' : 'text-gray-400'}>—</span>
-                                          )}
-                                        </td>
-                                      </tr>
-                                    )
-                                  })}
-                                </tbody>
-                              </table>
-                            </div>
-
-                            <div className={`mt-6 p-4 rounded-lg border transition-colors duration-300 ${
-                              isDark ? 'bg-dark-700 border-dark-600' : 'bg-gray-50 border-gray-200'
-                            }`}>
-                              <h4 className={`font-semibold mb-2 text-sm ${isDark ? 'text-white' : 'text-gray-800'}`}>Rating Guide</h4>
-                              <div className="grid grid-cols-2 md:grid-cols-5 gap-2 text-xs">
-                                <div className="flex items-center gap-2">
-                                  <div className="w-3 h-3 bg-green-500 rounded-full"></div>
-                                  <span className={isDark ? 'text-gray-400' : 'text-gray-600'}>9-10: Excellent</span>
-                                </div>
-                                <div className="flex items-center gap-2">
-                                  <div className="w-3 h-3 bg-green-400 rounded-full"></div>
-                                  <span className={isDark ? 'text-gray-400' : 'text-gray-600'}>8-9: Very Good</span>
-                                </div>
-                                <div className="flex items-center gap-2">
-                                  <div className="w-3 h-3 bg-yellow-500 rounded-full"></div>
-                                  <span className={isDark ? 'text-gray-400' : 'text-gray-600'}>7-8: Good</span>
-                                </div>
-                                <div className="flex items-center gap-2">
-                                  <div className="w-3 h-3 bg-orange-500 rounded-full"></div>
-                                  <span className={isDark ? 'text-gray-400' : 'text-gray-600'}>6-7: Average</span>
-                                </div>
-                                <div className="flex items-center gap-2">
-                                  <div className="w-3 h-3 bg-red-500 rounded-full"></div>
-                                  <span className={isDark ? 'text-gray-400' : 'text-gray-600'}>Below 6: Needs Improvement</span>
-                                </div>
-                              </div>
-                            </div>
-                          </div>
-                        )}
-
-                        {section.id === 'detailed' && (
-                          <div className="p-6">
-                            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-                              {/* Car 1 Detailed Ratings - FIXED: Image in detailed view */}
-                              <div className={`rounded-xl p-6 ${isDark ? 'bg-dark-800' : 'bg-gray-50'}`}>
-                                <div className={`flex items-center gap-3 mb-6 pb-4 border-b ${isDark ? 'border-dark-700' : 'border-gray-200'}`}>
-                                  <img src={car1.image} alt={car1.model} className="w-16 h-12 object-contain rounded-lg bg-gray-100 dark:bg-dark-600" />
-                                  <div>
-                                    <h3 className={`text-xl font-bold ${isDark ? 'text-white' : 'text-gray-800'}`}>{car1.brand} {car1.model}</h3>
-                                    <p className={isDark ? 'text-gray-400' : 'text-gray-500'}>{car1.variant}</p>
-                                  </div>
-                                  {car1.overallScore && (
-                                    <div className={`ml-auto text-center px-3 py-1 rounded-lg ${isDark ? 'bg-yellow-500/20' : 'bg-yellow-500/10'}`}>
-                                      <span className={`text-xs ${isDark ? 'text-gray-400' : 'text-gray-500'}`}>Overall</span>
-                                      <div className="text-lg font-bold text-yellow-500">{car1.overallScore.toFixed(1)}</div>
-                                    </div>
-                                  )}
-                                </div>
-                                
-                                <div className="space-y-3">
-                                  {detailedScoreData.map((item) => {
-                                    const score = item.score1
-                                    const factors = item.factorScores1
-                                    const isExpanded = expandedCategories[`1-${item.key}`]
-                                    const isWinner = item.winner === 'car1'
-                                    
-                                    return (
-                                      <div 
-                                        key={item.key} 
-                                        className={`rounded-lg border overflow-hidden shadow-sm hover:shadow-md transition-shadow ${
-                                          isDark ? 'bg-dark-900 border-dark-700' : 'bg-white border-gray-200'
-                                        }`}
-                                      >
-                                        <button
-                                          onClick={() => setExpandedCategories(prev => ({
-                                            ...prev,
-                                            [`1-${item.key}`]: !prev[`1-${item.key}`]
-                                          }))}
-                                          className={`w-full px-4 py-3 flex items-center justify-between transition-colors ${
-                                            isDark ? 'hover:bg-dark-800' : 'hover:bg-gray-50'
-                                          }`}
-                                        >
-                                          <div className="flex items-center gap-3">
-                                            <span className="text-xl">{item.icon}</span>
-                                            <span className={`font-semibold ${isDark ? 'text-white' : 'text-gray-800'}`}>{item.label}</span>
-                                            {isWinner && (
-                                              <span className="text-yellow-500 text-sm font-bold">🏆 Winner</span>
-                                            )}
-                                          </div>
-                                          <div className="flex items-center gap-3">
-                                            <span className={`text-xl font-bold ${getScoreColor(score)}`}>
-                                              {score !== null ? score.toFixed(1) : 'N/A'}
-                                            </span>
-                                            <span className={isDark ? 'text-gray-500' : 'text-gray-400'}>/ 10</span>
-                                            <svg 
-                                              className={`w-5 h-5 transition-transform duration-300 ${isExpanded ? 'rotate-180' : ''} ${isDark ? 'text-gray-500' : 'text-gray-400'}`}
-                                              fill="none" stroke="currentColor" viewBox="0 0 24 24"
-                                            >
-                                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-                                            </svg>
-                                          </div>
-                                        </button>
-                                        
-                                        <AnimatePresence>
-                                          {isExpanded && (
-                                            <motion.div
-                                              initial={{ height: 0, opacity: 0 }}
-                                              animate={{ height: 'auto', opacity: 1 }}
-                                              exit={{ height: 0, opacity: 0 }}
-                                              transition={{ duration: 0.3 }}
-                                              className="overflow-hidden"
-                                            >
-                                              <div className={`px-4 pb-4 pt-2 border-t ${isDark ? 'border-dark-700' : 'border-gray-100'}`}>
-                                                <div className="mb-3">
-                                                  <div className="flex items-center justify-between mb-1">
-                                                    <span className={`text-sm font-medium ${isDark ? 'text-gray-400' : 'text-gray-600'}`}>Overall {item.label} Score</span>
-                                                    <span className={`text-lg font-bold ${getScoreColor(score)}`}>
-                                                      {score !== null ? score.toFixed(1) : 'N/A'} / 10
-                                                    </span>
-                                                  </div>
-                                                  <div className={`w-full h-2 rounded-full overflow-hidden ${isDark ? 'bg-dark-700' : 'bg-gray-200'}`}>
-                                                    <div 
-                                                      className={`h-full ${getScoreBg(score)} rounded-full transition-all duration-1000`}
-                                                      style={{ width: score !== null ? `${(score / 10) * 100}%` : '0%' }}
-                                                    ></div>
-                                                  </div>
-                                                </div>
-                                                
-                                                <div className="space-y-2">
-                                                  <p className={`text-xs font-medium ${isDark ? 'text-gray-500' : 'text-gray-500'}`}>Contributing Factors:</p>
-                                                  {item.factors.map((factor, idx) => {
-                                                    const factorScore = factors[factor.key] || null
-                                                    return (
-                                                      <div key={idx} className="flex items-center justify-between pl-2">
-                                                        <div className="flex items-center gap-2">
-                                                          <span className="text-green-500 text-sm">✓</span>
-                                                          <span className={`text-sm ${isDark ? 'text-gray-300' : 'text-gray-700'}`}>{factor.name}</span>
-                                                        </div>
-                                                        <div className="flex items-center gap-3">
-                                                          <div className={`w-32 h-1.5 rounded-full overflow-hidden ${isDark ? 'bg-dark-700' : 'bg-gray-200'}`}>
-                                                            <div 
-                                                              className={`h-full ${getScoreBg(factorScore)} rounded-full transition-all duration-1000`}
-                                                              style={{ width: factorScore !== null ? `${(factorScore / 10) * 100}%` : '0%' }}
-                                                            ></div>
-                                                          </div>
-                                                          <span className={`text-sm font-semibold ${getScoreColor(factorScore)}`}>
-                                                            {factorScore !== null ? factorScore.toFixed(1) : 'N/A'}
-                                                          </span>
-                                                        </div>
-                                                      </div>
-                                                    )
-                                                  })}
-                                                </div>
-                                              </div>
-                                            </motion.div>
-                                          )}
-                                        </AnimatePresence>
-                                      </div>
-                                    )
-                                  })}
-                                </div>
-                              </div>
-
-                              {/* Car 2 Detailed Ratings - FIXED: Image in detailed view */}
-                              <div className={`rounded-xl p-6 ${isDark ? 'bg-dark-800' : 'bg-gray-50'}`}>
-                                <div className={`flex items-center gap-3 mb-6 pb-4 border-b ${isDark ? 'border-dark-700' : 'border-gray-200'}`}>
-                                  <img src={car2.image} alt={car2.model} className="w-16 h-12 object-contain rounded-lg bg-gray-100 dark:bg-dark-600" />
-                                  <div>
-                                    <h3 className={`text-xl font-bold ${isDark ? 'text-white' : 'text-gray-800'}`}>{car2.brand} {car2.model}</h3>
-                                    <p className={isDark ? 'text-gray-400' : 'text-gray-500'}>{car2.variant}</p>
-                                  </div>
-                                  {car2.overallScore && (
-                                    <div className={`ml-auto text-center px-3 py-1 rounded-lg ${isDark ? 'bg-yellow-500/20' : 'bg-yellow-500/10'}`}>
-                                      <span className={`text-xs ${isDark ? 'text-gray-400' : 'text-gray-500'}`}>Overall</span>
-                                      <div className="text-lg font-bold text-yellow-500">{car2.overallScore.toFixed(1)}</div>
-                                    </div>
-                                  )}
-                                </div>
-                                
-                                <div className="space-y-3">
-                                  {detailedScoreData.map((item) => {
-                                    const score = item.score2
-                                    const factors = item.factorScores2
-                                    const isExpanded = expandedCategories[`2-${item.key}`]
-                                    const isWinner = item.winner === 'car2'
-                                    
-                                    return (
-                                      <div 
-                                        key={item.key} 
-                                        className={`rounded-lg border overflow-hidden shadow-sm hover:shadow-md transition-shadow ${
-                                          isDark ? 'bg-dark-900 border-dark-700' : 'bg-white border-gray-200'
-                                        }`}
-                                      >
-                                        <button
-                                          onClick={() => setExpandedCategories(prev => ({
-                                            ...prev,
-                                            [`2-${item.key}`]: !prev[`2-${item.key}`]
-                                          }))}
-                                          className={`w-full px-4 py-3 flex items-center justify-between transition-colors ${
-                                            isDark ? 'hover:bg-dark-800' : 'hover:bg-gray-50'
-                                          }`}
-                                        >
-                                          <div className="flex items-center gap-3">
-                                            <span className="text-xl">{item.icon}</span>
-                                            <span className={`font-semibold ${isDark ? 'text-white' : 'text-gray-800'}`}>{item.label}</span>
-                                            {isWinner && (
-                                              <span className="text-yellow-500 text-sm font-bold">🏆 Winner</span>
-                                            )}
-                                          </div>
-                                          <div className="flex items-center gap-3">
-                                            <span className={`text-xl font-bold ${getScoreColor(score)}`}>
-                                              {score !== null ? score.toFixed(1) : 'N/A'}
-                                            </span>
-                                            <span className={isDark ? 'text-gray-500' : 'text-gray-400'}>/ 10</span>
-                                            <svg 
-                                              className={`w-5 h-5 transition-transform duration-300 ${isExpanded ? 'rotate-180' : ''} ${isDark ? 'text-gray-500' : 'text-gray-400'}`}
-                                              fill="none" stroke="currentColor" viewBox="0 0 24 24"
-                                            >
-                                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-                                            </svg>
-                                          </div>
-                                        </button>
-                                        
-                                        <AnimatePresence>
-                                          {isExpanded && (
-                                            <motion.div
-                                              initial={{ height: 0, opacity: 0 }}
-                                              animate={{ height: 'auto', opacity: 1 }}
-                                              exit={{ height: 0, opacity: 0 }}
-                                              transition={{ duration: 0.3 }}
-                                              className="overflow-hidden"
-                                            >
-                                              <div className={`px-4 pb-4 pt-2 border-t ${isDark ? 'border-dark-700' : 'border-gray-100'}`}>
-                                                <div className="mb-3">
-                                                  <div className="flex items-center justify-between mb-1">
-                                                    <span className={`text-sm font-medium ${isDark ? 'text-gray-400' : 'text-gray-600'}`}>Overall {item.label} Score</span>
-                                                    <span className={`text-lg font-bold ${getScoreColor(score)}`}>
-                                                      {score !== null ? score.toFixed(1) : 'N/A'} / 10
-                                                    </span>
-                                                  </div>
-                                                  <div className={`w-full h-2 rounded-full overflow-hidden ${isDark ? 'bg-dark-700' : 'bg-gray-200'}`}>
-                                                    <div 
-                                                      className={`h-full ${getScoreBg(score)} rounded-full transition-all duration-1000`}
-                                                      style={{ width: score !== null ? `${(score / 10) * 100}%` : '0%' }}
-                                                    ></div>
-                                                  </div>
-                                                </div>
-                                                
-                                                <div className="space-y-2">
-                                                  <p className={`text-xs font-medium ${isDark ? 'text-gray-500' : 'text-gray-500'}`}>Contributing Factors:</p>
-                                                  {item.factors.map((factor, idx) => {
-                                                    const factorScore = factors[factor.key] || null
-                                                    return (
-                                                      <div key={idx} className="flex items-center justify-between pl-2">
-                                                        <div className="flex items-center gap-2">
-                                                          <span className="text-green-500 text-sm">✓</span>
-                                                          <span className={`text-sm ${isDark ? 'text-gray-300' : 'text-gray-700'}`}>{factor.name}</span>
-                                                        </div>
-                                                        <div className="flex items-center gap-3">
-                                                          <div className={`w-32 h-1.5 rounded-full overflow-hidden ${isDark ? 'bg-dark-700' : 'bg-gray-200'}`}>
-                                                            <div 
-                                                              className={`h-full ${getScoreBg(factorScore)} rounded-full transition-all duration-1000`}
-                                                              style={{ width: factorScore !== null ? `${(factorScore / 10) * 100}%` : '0%' }}
-                                                            ></div>
-                                                          </div>
-                                                          <span className={`text-sm font-semibold ${getScoreColor(factorScore)}`}>
-                                                            {factorScore !== null ? factorScore.toFixed(1) : 'N/A'}
-                                                          </span>
-                                                        </div>
-                                                      </div>
-                                                    )
-                                                  })}
-                                                </div>
-                                              </div>
-                                            </motion.div>
-                                          )}
-                                        </AnimatePresence>
-                                      </div>
-                                    )
-                                  })}
-                                </div>
-                              </div>
-                            </div>
-                          </div>
-                        )}
-                      </motion.div>
-                    )
-                  })}
-                </AnimatePresence>
-              </div>
-
-              {/* Quick Summary Cards - UNCHANGED */}
-              <div className="mt-8 grid grid-cols-1 md:grid-cols-3 gap-4">
-                <div className={`p-4 rounded-xl border transition-colors duration-300 ${
-                  isDark ? 'bg-green-900/20 border-green-800/30' : 'bg-green-50 border-green-200'
-                }`}>
-                  <h4 className={`font-bold mb-2 text-sm ${isDark ? 'text-white' : 'text-gray-800'}`}>🏆 Overall Winner</h4>
-                  <p className={`font-bold ${isDark ? 'text-green-400' : 'text-green-600'}`}>
-                    {car1.overallScore > car2.overallScore 
-                      ? `${car1.brand} ${car1.model}`
-                      : car2.overallScore > car1.overallScore
-                      ? `${car2.brand} ${car2.model}`
-                      : 'Tie'}
-                  </p>
-                  <p className={`text-xs ${isDark ? 'text-gray-400' : 'text-gray-500'}`}>
-                    {car1.overallScore > car2.overallScore 
-                      ? `Score: ${car1.overallScore.toFixed(1)}/10`
-                      : car2.overallScore > car1.overallScore
-                      ? `Score: ${car2.overallScore.toFixed(1)}/10`
-                      : `Both: ${car1.overallScore.toFixed(1)}/10`}
-                  </p>
-                </div>
-                <div className={`p-4 rounded-xl border transition-colors duration-300 ${
-                  isDark ? 'bg-blue-900/20 border-blue-800/30' : 'bg-blue-50 border-blue-200'
-                }`}>
-                  <h4 className={`font-bold mb-2 text-sm ${isDark ? 'text-white' : 'text-gray-800'}`}>🛡️ Safety Winner</h4>
-                  <p className={`font-bold ${isDark ? 'text-blue-400' : 'text-blue-600'}`}>
-                    {car1.scores?.safetyScore > car2.scores?.safetyScore 
-                      ? `${car1.brand} ${car1.model}`
-                      : car2.scores?.safetyScore > car1.scores?.safetyScore
-                      ? `${car2.brand} ${car2.model}`
-                      : 'Similar Safety'}
-                  </p>
-                  <p className={`text-xs ${isDark ? 'text-gray-400' : 'text-gray-500'}`}>
-                    {car1.scores?.safetyScore > car2.scores?.safetyScore 
-                      ? `Score: ${car1.scores.safetyScore.toFixed(1)}/10`
-                      : car2.scores?.safetyScore > car1.scores?.safetyScore
-                      ? `Score: ${car2.scores.safetyScore.toFixed(1)}/10`
-                      : `Both: ${car1.scores?.safetyScore?.toFixed(1) || 'N/A'}/10`}
-                  </p>
-                </div>
-                <div className={`p-4 rounded-xl border transition-colors duration-300 ${
-                  isDark ? 'bg-purple-900/20 border-purple-800/30' : 'bg-purple-50 border-purple-200'
-                }`}>
-                  <h4 className={`font-bold mb-2 text-sm ${isDark ? 'text-white' : 'text-gray-800'}`}>💰 Value for Money</h4>
-                  <p className={`font-bold ${isDark ? 'text-purple-400' : 'text-purple-600'}`}>
-                    {car1.scores?.valueForMoneyScore > car2.scores?.valueForMoneyScore 
-                      ? `${car1.brand} ${car1.model}`
-                      : car2.scores?.valueForMoneyScore > car1.scores?.valueForMoneyScore
-                      ? `${car2.brand} ${car2.model}`
-                      : 'Similar Value'}
-                  </p>
-                  <p className={`text-xs ${isDark ? 'text-gray-400' : 'text-gray-500'}`}>
-                    {car1.scores?.valueForMoneyScore > car2.scores?.valueForMoneyScore 
-                      ? `Score: ${car1.scores.valueForMoneyScore.toFixed(1)}/10`
-                      : car2.scores?.valueForMoneyScore > car1.scores?.valueForMoneyScore
-                      ? `Score: ${car2.scores.valueForMoneyScore.toFixed(1)}/10`
-                      : `Both: ${car1.scores?.valueForMoneyScore?.toFixed(1) || 'N/A'}/10`}
-                  </p>
-                </div>
-              </div>
-
-              {/* Action Buttons - UNCHANGED */}
-              <div className="mt-8 flex flex-wrap gap-4 justify-center">
-                <button
-                  onClick={() => {
-                    setShowComparison(false)
-                    setShowLoadingModal(true)
-                    setTimeout(() => {
-                      setShowComparison(true)
-                      setShowLoadingModal(false)
-                    }, 1500)
-                  }}
-                  className="px-4 md:px-6 py-2 md:py-2.5 bg-yellow-500 text-gray-900 font-semibold rounded-lg hover:bg-yellow-600 transition-colors text-sm"
-                >
-                  🔄 Refresh Comparison
-                </button>
-                <button
-                  onClick={clearAll}
-                  className={`px-4 md:px-6 py-2 md:py-2.5 border rounded-lg font-semibold transition-colors text-sm ${
-                    isDark 
-                      ? 'border-dark-600 text-gray-400 hover:bg-dark-700' 
-                      : 'border-gray-300 text-gray-600 hover:bg-gray-50'
-                  }`}
-                >
-                  New Comparison
-                </button>
-                <Link
-                  to="/articles"
-                  className="px-4 md:px-6 py-2 md:py-2.5 bg-gray-900 text-white font-semibold rounded-lg hover:bg-gray-800 transition-colors text-sm"
-                >
-                  Read Reviews
-                </Link>
-              </div>
+              <ComparisonResults
+                comparisonData={comparisonData}
+                onClear={clearComparison}
+              />
             </div>
           </div>
         </section>
       )}
 
-      {/* Popular Comparisons - UNCHANGED */}
-      <section className={`py-12 md:py-16 transition-colors duration-300 ${
-        isComparing && showComparison 
+      {/* Popular Comparisons */}
+      <section className={`py-12 md:py-16 transition-colors duration-300 ${isComparing && comparisonData
           ? isDark ? 'bg-dark-900 border-t border-dark-700' : 'bg-white border-t border-gray-200'
           : isDark ? 'bg-dark-800' : 'bg-gray-50'
-      }`}>
+        }`}>
         <div className="container-custom">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -3046,11 +2330,10 @@ const CompareCars = () => {
                   whileHover={{ y: -4 }}
                   viewport={{ once: true }}
                   onClick={() => handlePopularCompare(car1Data.id, car2Data.id)}
-                  className={`rounded-xl p-3 md:p-4 shadow-md hover:shadow-xl transition-all duration-300 text-left border hover:border-yellow-300 ${
-                    isDark 
-                      ? 'bg-dark-800 border-dark-700 hover:bg-dark-700' 
+                  className={`rounded-xl p-3 md:p-4 shadow-md hover:shadow-xl transition-all duration-300 text-left border hover:border-yellow-300 ${isDark
+                      ? 'bg-dark-800 border-dark-700 hover:bg-dark-700'
                       : 'bg-white border-gray-100'
-                  }`}
+                    }`}
                 >
                   <div className="flex items-center justify-between">
                     <div className="flex-1">

@@ -5,6 +5,8 @@ const helmet = require('helmet');
 const rateLimit = require('express-rate-limit');
 const authRoutes = require('./routes/authRoutes');
 const articleRoutes = require('./routes/articleRoutes');
+const compareRoutes = require('./routes/compareRoutes');
+
 const carRoutes = require('./routes/carRoutes');
 const connectDB = require('./config/database');
 
@@ -56,6 +58,8 @@ app.use(express.urlencoded({ extended: true }));
 app.use('/api/auth', authRoutes);
 app.use('/api/articles', articleRoutes);
 app.use('/api/cars', carRoutes);
+app.use('/api/compare', compareRoutes);
+
 
 
 // Health check
