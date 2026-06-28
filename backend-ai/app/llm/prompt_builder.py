@@ -1,6 +1,6 @@
-def build_prompt(query: str, chunks: list[dict]) -> str:
+def build_prompt(query: str, chunks: list[dict], history: list = None) -> str:
     """
-    Build the RAG prompt from retrieved chunks and user query.
+    Build the RAG prompt from retrieved chunks and user query, including conversation history.
     Strict RAG, answer only from provided context.
     """
     if not chunks:
@@ -49,11 +49,33 @@ Respond with exactly this JSON and nothing else(STRICTLY):
 
     sources_json = str(sources).replace("'", '"')
 
+    # Format conversation history if available
+    history_text = ""
+    if history:
+        history_parts = []
+        for msg in history:
+            if msg["sender"] == "user":
+                history_parts.append(f"User: {msg.get('text', '')}")
+            else:
+                res = msg.get("result") or {}
+                verdict = res.get("verdict", "")
+                reasoning = res.get("reasoning", "")
+                history_parts.append(f"AI: Verdict: {verdict}. Reasoning: {reasoning}")
+        history_text = "\n".join(history_parts)
+
     prompt = f"""You are VAHAN, a highly knowledgeable and expert automotive advisor for Indian car buyers.
 Your goal is to answer the user's question accurately, with deep understanding, using ONLY the provided context. Make the response highly engaging to read and keep the user's attention.
 
 CONTEXT FROM VAAHAN KNOWLEDGE BASE:
-{context}
+{context}"""
+
+    if history_text:
+        prompt += f"""
+
+CONVERSATION HISTORY (Use this to resolve pronouns like 'it', 'they', or follow-up references to previous questions):
+{history_text}"""
+
+    prompt += f"""
 
 USER QUESTION: {query}
 
@@ -74,6 +96,7 @@ INSTRUCTIONS:
 
 2. STABILITY & TRUTH:
    - Answer ONLY using the provided context. Do NOT make up facts or use external internet knowledge.
+   - Use the CONVERSATION HISTORY to understand the context of follow-up questions (e.g., if the user asks "is it safe?", "it" refers to the topic of the previous question).
    - If the context does not contain the answer or the query is completely irrelevant:
      - Set "verdict" to "I couldn't find relevant information in Vaahan's knowledge base."
      - Set "has_answer" to false.
@@ -90,4 +113,116 @@ Respond STRICTLY in JSON format (do not wrap in markdown or backticks, do not in
   "has_answer": true
 }}"""
 
+    return prompt
+
+
+def build_rewrite_prompt(query: str, history: list) -> str:
+    """
+    Build the prompt to rewrite a follow-up query into a standalone search query.
+    """
+    history_parts = []
+    for msg in history:
+        if msg["sender"] == "user":
+            history_parts.append(f"User: {msg.get('text', '')}")
+        else:
+            res = msg.get("result") or {}
+            verdict = res.get("verdict", "")
+            history_parts.append(f"AI: {verdict}")
+    history_text = "\n".join(history_parts)
+
+    prompt = f"""You are an expert search query generator.
+Given a conversation history between a User and an AI, and a new follow-up question from the User, rewrite the follow-up question to be a standalone, search-friendly query.
+The standalone query should contain all the necessary context from the history so it can be used for search and document retrieval.
+
+RULES:
+1. If the follow-up question refers to a topic or pronoun in the history (e.g. "why?", "is it safe?", "in short?", "explain more", "compared to what?"), rewrite it to be fully self-contained and descriptive (e.g., "why are hydrogen fuel cell trucks not widely adopted?", "is hydrogen fuel cell truck safe?", "hydrogen fuel cell truck summary").
+2. If the follow-up question is already standalone and does not need any context from the history, output the original question exactly.
+3. Output ONLY the standalone query. Do not add any introduction, explanations, quotes, markdown formatting, or notes.
+
+CONVERSATION HISTORY:
+{history_text}
+
+FOLLOW-UP QUESTION: {query}
+
+STANDALONE QUERY:"""
+    return prompt
+
+
+def check_small_talk(query: str) -> bool:
+    """
+    Check if the user query is a simple greeting, capability inquiry, or small talk.
+    """
+    q = query.lower().strip("?!. \t,")
+    
+    greetings = {
+        "hi", "hello", "hey", "greetings", "hola", "namaste", "wassup", "what's up",
+        "good morning", "good afternoon", "good evening", "how are you", "how's it going",
+        "nice to meet you", "hello vahan", "hello vaahan", "hi vahan", "hi vaahan", "hey vahan", "hey vaahan"
+    }
+    
+    capabilities = {
+        "who are you", "what is your name", "what is vahan", "what is vaahan",
+        "what are you", "tell me about yourself", "what can you do", "help",
+        "help me", "how can you help", "is this working", "are you online", "test",
+        "how do i use this", "what is this"
+    }
+    
+    # Check for exact matches
+    if q in greetings or q in capabilities:
+        return True
+        
+    # Check for common substring matches for greetings
+    if any(greet in q for greet in ["hello vahan", "hello vaahan", "hi vahan", "hi vaahan"]):
+        return True
+        
+    return False
+
+
+def build_small_talk_prompt(query: str, history: list = None) -> str:
+    """
+    Build a friendly conversational prompt for small talk or greetings.
+    """
+    history_text = ""
+    if history:
+        history_parts = []
+        for msg in history:
+            if msg["sender"] == "user":
+                history_parts.append(f"User: {msg.get('text', '')}")
+            else:
+                res = msg.get("result") or {}
+                verdict = res.get("verdict", "")
+                history_parts.append(f"AI: {verdict}")
+        history_text = "\n".join(history_parts)
+
+    prompt = f"""You are VAHAN, a highly knowledgeable and friendly automotive assistant for Indian car buyers.
+The user is saying a greeting, small talk, or asking about your capabilities (e.g. "hi", "who are you", "what can you do").
+
+Respond in a warm, welcoming, and professional conversational manner. 
+Introduce yourself as VAHAN, explain that you are an expert automotive advisor for Indian cars, and briefly describe what you can help them with:
+- Comparing features (e.g. AWD vs FWD, ADAS usefulness)
+- Tech insights (e.g. LFP vs NMC batteries, E20 ethanol compatibility)
+- Purchase advice and service costs
+
+IMPORTANT:
+1. Respond with actual conversational text. Do NOT output descriptions of what you should say or placeholder instructions.
+2. Keep the greeting friendly, natural, and engaging (e.g., "Hello! I am VAHAN, your automotive assistant...").
+3. Set the "is_small_talk" key to true.
+4. Set the "verdict" key to your generated friendly paragraph.
+5. Set the "reasoning" key to "" (empty string).
+
+CONVERSATION HISTORY:
+{history_text}
+
+USER GREETING: {query}
+
+Respond STRICTLY in JSON format (do not wrap in markdown or backticks, do not include any text before or after the JSON):
+{{
+  "reasoning": "",
+  "pros": [],
+  "cons": [],
+  "verdict": "Hello! I am VAHAN, your automotive knowledge assistant. I am here to help you compare cars, understand specifications, check fuel/battery compatibility, or analyze ownership costs for the Indian car market. How can I help you today?",
+  "sources": [],
+  "has_answer": true,
+  "is_small_talk": true
+}}"""
     return prompt

@@ -58,8 +58,10 @@ const AiModePage = () => {
     if (trimmedQuery && processedQueryRef.current !== trimmedQuery) {
       processedQueryRef.current = trimmedQuery
       handleSendMessage(trimmedQuery)
+      // Clear URL query parameter to avoid duplicate triggering on tab-focus, mount, or reload
+      setSearchParams({}, { replace: true })
     }
-  }, [queryParam])
+  }, [queryParam, setSearchParams])
 
   // Auto-scroll to the bottom 
   useEffect(() => {
@@ -83,7 +85,14 @@ const AiModePage = () => {
       const response = await fetch(`${API_URL}/api/ai-mode`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ query: text.trim() })
+        body: JSON.stringify({ 
+          query: text.trim(),
+          history: messages.map(msg => ({
+            sender: msg.sender,
+            text: msg.text || '',
+            result: msg.result || null
+          }))
+        })
       })
 
       if (!response.ok) {
@@ -108,8 +117,9 @@ const AiModePage = () => {
 
   const handleSearchSubmit = (e) => {
     e.preventDefault()
-    if (inputVal.trim()) {
-      setSearchParams({ q: inputVal.trim() })
+    const text = inputVal.trim()
+    if (text) {
+      handleSendMessage(text)
       setInputVal('')
     }
   }
@@ -161,7 +171,7 @@ const AiModePage = () => {
                 {suggestions.map((suggestion) => (
                   <button
                     key={suggestion}
-                    onClick={() => setSearchParams({ q: suggestion })}
+                    onClick={() => handleSendMessage(suggestion)}
                     className="text-left text-xs p-4 bg-white dark:bg-[#1e1f20] hover:bg-slate-100 dark:hover:bg-[#2f3032] border border-slate-200 dark:border-[#2f3032] rounded-xl text-slate-700 dark:text-[#c4c7c5] hover:text-slate-900 dark:hover:text-white transition-all font-medium flex items-center justify-between group shadow-sm"
                   >
                     <span>{suggestion}</span>
@@ -200,6 +210,18 @@ const AiModePage = () => {
                   )
                 } else {
                   const result = msg.result
+                  const isSmallTalk = result && result.is_small_talk === true;
+
+                  if (isSmallTalk) {
+                    return (
+                      <div key={index} className="flex justify-start animate-fade-in">
+                        <div className="bg-slate-100 dark:bg-[#202124] text-slate-800 dark:text-[#e3e3e3] px-5 py-3.5 rounded-2xl max-w-lg shadow-sm text-sm leading-relaxed border border-slate-200 dark:border-[#2f3032]">
+                          {result.verdict}
+                        </div>
+                      </div>
+                    )
+                  }
+
                   const msgRelevant = result && result.has_answer !== false && 
                     !result.verdict?.toLowerCase().includes("couldn't find relevant") &&
                     !result.verdict?.toLowerCase().includes("please try searching")

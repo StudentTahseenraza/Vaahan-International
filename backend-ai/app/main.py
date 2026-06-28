@@ -6,12 +6,13 @@ import json
 sys.path.append(os.path.dirname(os.path.abspath(__file__)))
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
+from typing import Optional, List
 from rag.retriever import retrieve
 
 from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
-from llm.prompt_builder import build_prompt
+from llm.prompt_builder import build_prompt, build_rewrite_prompt, check_small_talk, build_small_talk_prompt
 from llm.llm_service import generate
 
 app = FastAPI(
@@ -30,8 +31,15 @@ app.add_middleware(
 )
 
 
+class ChatMessage(BaseModel):
+    sender: str
+    text: Optional[str] = ""
+    result: Optional[dict] = None
+
+
 class QueryRequest(BaseModel):
     query: str
+    history: List[ChatMessage] = []
 
 
 class Source(BaseModel):
@@ -48,6 +56,7 @@ class AIResponse(BaseModel):
     verdict: str
     sources: list[dict]
     has_answer: bool
+    is_small_talk: Optional[bool] = False
 
 
 @app.get("/")
@@ -70,94 +79,122 @@ async def ai_mode(request: QueryRequest):
     if len(query) > 500:
         raise HTTPException(status_code=400, detail="Query too long")
 
-    # Step 1: Retrieve relevant chunks
-    chunks = retrieve(query, top_k=5)
+    # Step 1: Slice history to keep last 6 messages (3 turns) to prevent prompt bloat
+    sliced_history = request.history[-6:]
+    history_list = [
+        {
+            "sender": h.sender,
+            "text": h.text or "",
+            "result": h.result
+        }
+        for h in sliced_history
+    ]
 
-    # Step 2: Build prompt
-    prompt = build_prompt(query, chunks)
+    # Check for general small talk / greetings (bypasses RAG retrieval)
+    if check_small_talk(query):
+        print(f"[INFO] Detected small talk query: '{query}'. Bypassing retrieval.")
+        prompt = build_small_talk_prompt(query, history=history_list)
+        try:
+            raw_response = generate(prompt)
+        except Exception as e:
+            raise HTTPException(status_code=503, detail=f"AI service unavailable: {str(e)}")
+    else:
+        # Step 2: Query rewriting for conversational follow-ups
+        search_query = query
+        if history_list:
+            try:
+                rewrite_prompt = build_rewrite_prompt(query, history_list)
+                raw_rewrite = generate(rewrite_prompt, max_tokens=80)
+                cleaned_rewrite = raw_rewrite.strip().strip('"').strip("'").strip()
+                if cleaned_rewrite and len(cleaned_rewrite) < 150:
+                    search_query = cleaned_rewrite
+                    print(f"[INFO] Conversational query '{query}' rewritten to: '{search_query}'")
+            except Exception as e:
+                print(f"[WARNING] Query rewriting failed: {e}. Falling back to original query.")
 
-    # Step 3: Generate answer
-    try:
-        raw_response = generate(prompt)
-    except Exception as e:
-        raise HTTPException(status_code=503, detail=f"AI service unavailable: {str(e)}")
+        # Step 3: Retrieve relevant chunks using the (possibly rewritten) search query
+        chunks = retrieve(search_query, top_k=5)
+
+        # Step 4: Build prompt with original query and conversation history
+        prompt = build_prompt(query, chunks, history=history_list)
+
+        # Step 5: Generate answer
+        try:
+            raw_response = generate(prompt)
+        except Exception as e:
+            raise HTTPException(status_code=503, detail=f"AI service unavailable: {str(e)}")
 
     # Step 4: Parse JSON response
     try:
         cleaned = raw_response.replace("```json", "").replace("```", "").strip()
         result = json.loads(cleaned)
+        # Ensure is_small_talk is set if we detected small talk
+        if "is_small_talk" not in result:
+            result["is_small_talk"] = check_small_talk(query)
     except Exception:
         raise HTTPException(status_code=500, detail="Failed to parse AI response")
 
     # Step 5: Background Evaluation (prints to terminal)
-    try:
-        def compress_score(score):
-            if score >= 4.5:
-                return 4
-            elif score <= 1.5:
-                return 2
-            else:
-                return round(score)
-
-        retrieved_texts = "\n".join([f"- {c['title']}: {c['chunk_text']}" for c in chunks])
-        eval_prompt = f"""You are an objective auditor. Evaluate the RAG response on a 0-5 scale.
-        
-        USER QUERY: {query}
-        
-        RETRIEVED CONTEXT CHUNKS:
-        {retrieved_texts}
-        
-        GENERATED RESPONSE:
-        {json.dumps(result, indent=2)}
-        
-        EVALUATION RUBRIC:
-        1. Retrieval: Were correct chunks retrieved?
-        2. Accuracy: Factually supported by chunks?
-        3. Completeness: Covers important points?
-        4. Hallucination: Avoids unsupported claims?
-        
-        INSTRUCTIONS:
-        - Assign score from 0-5 for each metric.
-        - COMPRESS SCORES: Map extreme scores toward the center. Map 5 to 4, and 1 to 2. Avoid assigning 0, 1, or 5.
-        - Provide a short 1-sentence rationale for each score.
-        
-        Respond in JSON format:
-        {{
-          "retrieval": {{ "score": 2-4, "rationale": "Short summary" }},
-          "accuracy": {{ "score": 2-4, "rationale": "Short summary" }},
-          "completeness": {{ "score": 2-4, "rationale": "Short summary" }},
-          "hallucination": {{ "score": 2-4, "rationale": "Short summary" }}
-        }}"""
-        
-        eval_raw = generate(eval_prompt)
-        eval_clean = eval_raw.replace("```json", "").replace("```", "").strip()
-        eval_data = json.loads(eval_clean)
-        
-        total_score = 0
-        score_lines = []
-        for metric in ["retrieval", "accuracy", "completeness", "hallucination"]:
-            m_data = eval_data.get(metric, {"score": 3, "rationale": "N/A"})
-            comp = compress_score(float(m_data.get("score", 3)))
-            total_score += comp
-            score_lines.append(f"  {metric.capitalize()}: {comp}/5 - {m_data.get('rationale', '')[:100]}")
+    if not result.get("is_small_talk"):
+        try:
+            def compress_score(score):
+                if score >= 4.5:
+                    return 4
+                elif score <= 1.5:
+                    return 2
+                else:
+                    return round(score)
+    
+            retrieved_texts = "\n".join([f"- {c['title']}: {c['chunk_text']}" for c in chunks])
+            eval_prompt = f"""You are an objective auditor. Evaluate the RAG response on a 0-5 scale.
             
-        ratings = {18: "Excellent", 15: "Good", 12: "Acceptable, but needs improvement"}
-        rating = "Retrieval or answer quality needs work"
-        for thresh, label in sorted(ratings.items(), reverse=True):
-            if total_score >= thresh:
-                rating = label
-                break
+            Retrieved Context:
+            {retrieved_texts}
+            
+            User Query: {query}
+            
+            Response to audit:
+            {result.get('verdict')}
+            
+            Assess four metrics:
+            1. retrieval: Relevance of retrieved chunks (0 if completely irrelevant, 5 if highly relevant).
+            2. accuracy: Factual support from chunks (0 if fabricated, 5 if fully supported).
+            3. completeness: Answered all parts of the user request (0 if completely missed, 5 if fully answered).
+            4. hallucination: Groundedness in the chunks (0 if highly hallucinated, 5 if 100% grounded).
+            
+            Respond STRICTLY in JSON:
+            {{
+              "retrieval": {{"score": float, "rationale": "reasoning"}},
+              "accuracy": {{"score": float, "rationale": "reasoning"}},
+              "completeness": {{"score": float, "rationale": "reasoning"}},
+              "hallucination": {{"score": float, "rationale": "reasoning"}}
+            }}"""
+            
+            eval_response = generate(eval_prompt, max_tokens=1000)
+            eval_clean = eval_response.replace("```json", "").replace("```", "").strip()
+            eval_data = json.loads(eval_clean)
+            
+            total_score = 0
+            score_lines = []
+            for metric in ["retrieval", "accuracy", "completeness", "hallucination"]:
+                m_data = eval_data.get(metric, {"score": 3, "rationale": "N/A"})
+                comp = compress_score(float(m_data.get("score", 3)))
+                total_score += comp
+                score_lines.append(f"  {metric.capitalize()}: {comp}/5 - {m_data.get('rationale', '')[:100]}")
                 
-        print("\n" + "="*50)
-        print("            ONLINE QUERY EVALUATION")
-        print("="*50)
-        print(f"Query: {query}")
-        print("\n".join(score_lines))
-        print("-"*50)
-        print(f"TOTAL SCORE: {total_score}/20 ({rating})")
-        print("="*50 + "\n")
-    except Exception as e:
-        print(f"[WARNING] Evaluation audit failed: {e}")
+            ratings = {18: "Excellent", 15: "Good", 12: "Acceptable, but needs improvement"}
+            rating = "Retrieval or answer quality needs work"
+            for thresh, label in sorted(ratings.items(), reverse=True):
+                if total_score >= thresh:
+                    rating = label
+                    break
+                    
+            print("ONLINE QUERY EVALUATION\n")
+            print(f"Query: {query}\n")
+            print("\n".join(score_lines))
+            print(f"\nTOTAL SCORE: {total_score}/20 ({rating})\n")
+        except Exception as e:
+            print(f"[WARNING] Evaluation audit failed: {e}")
 
     return AIResponse(
         reasoning=result.get("reasoning", ""),
@@ -165,5 +202,6 @@ async def ai_mode(request: QueryRequest):
         cons=result.get("cons", []),
         verdict=result.get("verdict", ""),
         sources=result.get("sources", []),
-        has_answer=result.get("has_answer", True)
+        has_answer=result.get("has_answer", True),
+        is_small_talk=result.get("is_small_talk", False)
     )
