@@ -30,7 +30,7 @@ const AiModePage = () => {
   //(localStorage)
   const [messages, setMessages] = useState(() => {
     try {
-      const saved = localStorage.getItem('vaahan_chat_history')
+      const saved = localStorage.getItem('dryvsquad_chat_history')
       if (saved) {
         const parsed = JSON.parse(saved)
         return Array.isArray(parsed) ? parsed : []
@@ -43,7 +43,7 @@ const AiModePage = () => {
 
   // Sync messages to localStorage
   useEffect(() => {
-    localStorage.setItem('vaahan_chat_history', JSON.stringify(messages))
+    localStorage.setItem('dryvsquad_chat_history', JSON.stringify(messages))
   }, [messages])
 
   // Rotate loading messages to decrease perceived latency
@@ -53,7 +53,7 @@ const AiModePage = () => {
 
     const steps = [
       "Analyzing your query...",
-      "Searching Vaahan's knowledge base...",
+      "Searching DryvSquad's knowledge base...",
       "Retrieving automotive articles...",
       "Synthesizing specifications...",
       "Formulating verdict..."
@@ -134,7 +134,7 @@ const AiModePage = () => {
       
       setMessages(prev => [...prev, aiMsg])
     } catch (err) {
-      setError('Could not connect to the Vaahan AI service. Please make sure the backend is running.')
+      setError('Could not connect to the DryvSquad AI service. Please make sure the backend is running.')
     } finally {
       setLoading(false)
     }
@@ -155,7 +155,7 @@ const AiModePage = () => {
     setError(null)
     setSearchParams({})
     processedQueryRef.current = ''
-    localStorage.removeItem('vaahan_chat_history')
+    localStorage.removeItem('dryvsquad_chat_history')
   }
 
   const latestUserMsg = [...messages].reverse().find(msg => msg.sender === 'user')
@@ -185,7 +185,7 @@ const AiModePage = () => {
               <div className="space-y-3">
                 <h2 className="text-3xl font-extrabold text-slate-900 dark:text-white tracking-tight flex items-center justify-center gap-2">
                   <Sparkles className="w-8 h-8 text-yellow-600 dark:text-yellow-500 animate-pulse" />
-                  Vaahan AI Advisor
+                  DryvSquad AI
                 </h2>
                 <p className="text-slate-500 dark:text-[#9ca3af] text-sm max-w-md mx-auto leading-relaxed">
                   Ask anything about Indian cars, maintenance, or specifications. I will search our articles and synthesize a direct verdict.
@@ -313,7 +313,7 @@ const AiModePage = () => {
                       {!msgRelevant && (
                         <div className="bg-slate-100 dark:bg-[#1e1f20] rounded-xl p-4 text-center border border-slate-200 dark:border-[#2f3032] space-y-3">
                           <p className="text-xs text-slate-500 dark:text-gray-400">
-                            No specific matching articles were found in the Vaahan Knowledge base.
+                            No specific matching articles were found in the DryvSquad Knowledge base.
                           </p>
                           <Link 
                             to={`/articles?search=${encodeURIComponent(messages[index-1]?.text || '')}`}

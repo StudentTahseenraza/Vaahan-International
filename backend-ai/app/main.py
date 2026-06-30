@@ -19,7 +19,7 @@ from db.mongodb import cache_collection, articles_collection
 from datetime import datetime
 
 app = FastAPI(
-    title="Vaahan AI Mode API",
+    title="DryvSquad AI Mode API",
     description="RAG-powered automotive knowledge assistant",
     version="1.0.0"
 )
@@ -69,12 +69,12 @@ class AIResponse(BaseModel):
 
 @app.get("/")
 def root():
-    return {"status": "Vaahan AI Mode API is running"}
+    return {"status": "DryvSquad AI Mode API is running"}
 
 
 @app.get("/health")
 def health():
-    return {"status": "ok", "service": "vaahan-ai"}
+    return {"status": "ok", "service": "dryvsquad-ai"}
 
 
 @app.post("/api/ai-mode", response_model=AIResponse)

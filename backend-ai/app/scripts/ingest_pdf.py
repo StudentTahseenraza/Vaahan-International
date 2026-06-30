@@ -55,13 +55,13 @@ def parse_pdf(pdf_path):
         sys.exit(1)
 
 def main():
-    parser = argparse.ArgumentParser(description="Ingest articles from a PDF file into Vaahan RAG Database.")
+    parser = argparse.ArgumentParser(description="Ingest articles from a PDF file into DryvSquad RAG Database.")
     parser.add_argument("--pdf", required=True, help="Path to the PDF file")
     parser.add_argument("--title", required=True, help="Title of the article")
     parser.add_argument("--category", default="Tech Insights", 
                         choices=["Feature Reviews", "New Launches", "Tech Insights"],
                         help="Article category")
-    parser.add_argument("--author", default="Vaahan PDF Ingest", help="Author name")
+    parser.add_argument("--author", default="DryvSquad PDF Ingest", help="Author name")
     
     args = parser.parse_args()
     

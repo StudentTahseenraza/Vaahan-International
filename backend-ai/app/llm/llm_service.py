@@ -13,10 +13,10 @@ gemini_client = genai.Client(api_key=os.getenv("GEMINI_API_KEY"))
 def generate(prompt: str, max_tokens: int = 800) -> str:
     if MOCK_MODE:
         return '''{
-          "reasoning": "Based on Vaahan knowledge base analysis of Indian driving conditions.",
+          "reasoning": "Based on DryvSquad knowledge base analysis of Indian driving conditions.",
           "pros": ["Relevant pro from knowledge base"],
           "cons": ["Relevant con from knowledge base"],
-          "verdict": "Mock verdict. Set MOCK MODE=false for real answers.",
+          "verdict": "Mock verdict. Set MOCK_MODE=false for real answers.",
           "sources": [],
           "has_answer": true
         }'''

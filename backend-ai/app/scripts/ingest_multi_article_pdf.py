@@ -108,7 +108,7 @@ def main():
     group = parser.add_mutually_exclusive_group(required=True)
     group.add_argument("--pdf", help="Path to a single PDF file")
     group.add_argument("--dir", help="Path to a directory containing multiple PDF files")
-    parser.add_argument("--author", default="Vaahan PDF Splitter", help="Author name")
+    parser.add_argument("--author", default="DryvSquad PDF Splitter", help="Author name")
     
     args = parser.parse_args()
     
