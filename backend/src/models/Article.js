@@ -1,17 +1,5 @@
 // backend/src/models/Article.js
 /*
-================================================================================
-File Name : Article.js
-Author : Tahseen Raza
-Created Date : 2026-06-22
-Description : Article schema for storing articles with categories
-Company : Vaahan International
-Copyright : (c) 2026 Vaahan International. All rights reserved.
-================================================================================
-*/
-
-const mongoose = require('mongoose');
-
 const ArticleSchema = new mongoose.Schema({
   title: {
     type: String,
@@ -76,6 +64,10 @@ const ArticleSchema = new mongoose.Schema({
     type: String,
     trim: true,
   },
+  seoKeywords: {     // SEO keywords for the article
+    type: [String],
+    default: [],
+  },
   createdAt: {
     type: Date,
     default: Date.now,
@@ -95,6 +87,10 @@ ArticleSchema.pre('save', function(next) {
   next();
 });
 
+// Update updatedAt on save
+ArticleSchema.pre('save', function() {
+  this.updatedAt = new Date();
+});
 // Indexes for search
 ArticleSchema.index({ title: 'text', excerpt: 'text', tags: 'text' });
 ArticleSchema.index({ slug: 1 });
@@ -105,14 +101,12 @@ module.exports = mongoose.model('Article', ArticleSchema);
 
 // backend/src/models/Article.js
 /*
-================================================================================
 File Name : Article.js
 Author : Tahseen Raza
 Created Date : 2026-06-23
 Description : Article schema - Lean version without embeddings
 Company : Vaahan International
 Copyright : (c) 2026 Vaahan International. All rights reserved.
-================================================================================
 */
 
 // const mongoose = require('mongoose');
@@ -221,3 +215,4 @@ Copyright : (c) 2026 Vaahan International. All rights reserved.
 // });
 
 // module.exports = mongoose.model('Article', ArticleSchema);
+module.exports = mongoose.model('Article', ArticleSchema);

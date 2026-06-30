@@ -26,6 +26,7 @@ import FeatureDetail from './pages/FeatureDetail'
 import Profile from './pages/Profile' 
 import Travelogues from './pages/Travelogues';
 import TravelogueDetail from './pages/TravelogueDetail';
+import AiModePage from './pages/AiModePage'
 
 // ScrollToTop component
 const ScrollToTop = () => {
@@ -39,6 +40,9 @@ const ScrollToTop = () => {
 }
 
 function App() {
+  const location = useLocation()
+  const isAiModePage = location.pathname === '/ai-mode'
+
   return (
     <ThemeProvider>
       <div className="flex flex-col min-h-screen bg-white dark:bg-dark-950 transition-colors duration-100">
@@ -57,9 +61,10 @@ function App() {
             <Route path="/profile" element={<Profile />} /> 
             <Route path="/travelogues" element={<Travelogues />} />
             <Route path="/travelogue/:slug" element={<TravelogueDetail />} />
+            <Route path="/ai-mode" element={<AiModePage />} />
           </Routes>
         </main>
-        <CommonFooter />
+        {!isAiModePage && <CommonFooter />}
       </div>
     </ThemeProvider>
   )
