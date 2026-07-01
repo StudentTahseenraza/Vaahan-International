@@ -35,7 +35,7 @@ const allowedOrigins = [
   'http://localhost:3000',
   'http://localhost:5173',
   'http://localhost:5000',
-  'https://your-production-domain.com'
+  'https://vaahan-international-obbc.vercel.app'
 ];
 
 app.use(cors({
