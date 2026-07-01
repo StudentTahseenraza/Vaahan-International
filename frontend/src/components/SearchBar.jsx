@@ -90,10 +90,8 @@ const SearchBar = () => {
             type="text"
             value={query}
             onChange={(e) => setQuery(e.target.value)}
-            placeholder="Search articles, technology, features..."
-            className="w-full px-5 py-4 pl-12 pr-16 rounded-xl border border-gray-200 bg-white shadow-sm focus:outline-none focus:ring-2 focus:ring-yellow-500 focus:border-transparent text-gray-800 placeholder-gray-400"
-            placeholder="Search automotive articles (ABS, ADAS, AWD, Spiti, Tyres)..."
             className="w-full px-5 py-4 pl-12 pr-36 rounded-xl border border-gray-200 bg-white shadow-sm focus:outline-none focus:ring-2 focus:ring-yellow-500 focus:border-transparent text-gray-800 placeholder-gray-400 transition-all"
+            placeholder="Search automotive articles (ABS, ADAS, AWD, Spiti, Tyres)..."
           />
 
           <svg
@@ -122,8 +120,6 @@ const SearchBar = () => {
       {/* Search Results Dropdown */}
       {isOpen && totalResults > 0 && (
         <div className="absolute top-full left-0 right-0 mt-2 bg-white rounded-xl shadow-xl border border-gray-100 z-50 overflow-hidden max-h-[500px] overflow-y-auto">
-      {isOpen && results.length > 0 && (
-        <div className="absolute top-full left-0 right-0 mt-2 bg-white rounded-xl shadow-xl border border-gray-100 z-50 overflow-hidden">
           <div className="py-2">
             <div className="px-4 py-2 bg-gray-50 border-b border-gray-100 flex items-center justify-between">
               <span className="text-xs font-semibold text-gray-500">
@@ -180,7 +176,6 @@ const SearchBar = () => {
 
       {/* No Results */}
       {isOpen && query.length >= 2 && totalResults === 0 && (
-      {isOpen && query.length >= 2 && results.length === 0 && (
         <div className="absolute top-full left-0 right-0 mt-2 bg-white rounded-xl shadow-xl border border-gray-100 z-50 p-8 text-center">
           <div className="text-4xl mb-3">🔍</div>
           <h4 className="font-semibold text-gray-800 mb-1">No articles found</h4>
@@ -195,6 +190,7 @@ const SearchBar = () => {
             className="mt-3 text-sm text-yellow-600 hover:text-yellow-700 font-medium"
           >
             Browse all articles →
+          </button>
           <button
             onClick={() => {
               navigate(`/ai-mode?q=${encodeURIComponent(query)}`)
